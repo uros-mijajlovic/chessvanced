@@ -4,14 +4,16 @@ var stockfish = new Worker(wasmSupported ? 'stockfish.wasm.js' : 'stockfish.js')
 
 stockfish.addEventListener('message', function (e) {
   var bestMoveRegex = /^bestmove ([a-h][1-8][a-h][1-8])/;
+  
   var message=e.data;
+  console.log(message);
   var match = message.match(bestMoveRegex);
   if (match && match.length > 1) {
+    
     var bestMove = match[1];
-    console.log('Best move:', bestMove);
+    var h2Element = document.getElementById('bestMoveSpot');
+    h2Element.textContent = bestMove;
   }
 });
 
-stockfish.postMessage('uci');
-stockfish.postMessage('position fen rnbqkbnr/pp2pppp/3p4/2p5/4P3/4B2N/PPPP1PPP/RN1QKB1R b KQkq - 0 1');
-stockfish.postMessage('go depth 10');
+
