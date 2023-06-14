@@ -30,7 +30,9 @@ function onChange (oldPos, newPos) {
   console.log('Old position: ' + Chessboard.objToFen(oldPos))
   console.log('New position: ' + Chessboard.objToFen(newPos))
   console.log('~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~')
+  //console.log('position fen '+Chessboard.objToFen(newPos))
   console.log('position fen '+Chessboard.objToFen(newPos))
+  
   stockfish.postMessage('position fen '+Chessboard.objToFen(newPos));
   stockfish.postMessage('go depth 10');
 }
@@ -43,7 +45,7 @@ var config = {
 var board = Chessboard('myBoard', config)
 
 $('#ruyLopezBtn').on('click', function () {
-  var ruyLopez = 'r1bqkbnr/pppp1ppp/2n5/1B2p3/4P3/5N2/PPPP1PPP/RNBQK2R'
+  var ruyLopez = 'rnbqkbnr/ppppp2p/5pp1/7Q/4P3/8/PPPP1PPP/RNB1KBNR'
   board.position(ruyLopez)
 })
 $('#startPositionBtn').on('click', board.start)
