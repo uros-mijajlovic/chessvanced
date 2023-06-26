@@ -1,27 +1,8 @@
 
 import {Chess} from './chess.js';
 import {pgn_string_1, fen_string_1} from './constGames.js';
-import {stockfish} from './connectStockfish.js'
-
+import {stockfish, analysisWorker} from './connectStockfish.js'
 const globalAnalysisDepth=10;
-stockfish.addEventListener('message', function (e) {
-  
-  const pattern = new RegExp(`^info depth ${globalAnalysisDepth}\\b.*`);
-  const message=e.data;
-  if (pattern.test(message)){
-    console.log(message);
-  }
-
-
-  // var match = message.match(pattern);
-  // if (match && match.length > 1) {
-    
-  //   var bestMove = match[1];
-  //   var h2Element = document.getElementById('bestMoveSpot');
-  //   h2Element.textContent = bestMove;
-  // }
-});
-
 
 const figureValues = {
     'Q': 9,     // Queen
@@ -44,10 +25,18 @@ function PgnToFenArr(pgnString){
   return fenMoves;
 }
 
-function analyze(pgnString){
+async function analyze (pgnString){
   const fenMoves=PgnToFenArr(pgnString);
-  fenMoves.forEach((fenMove, index) => {
-    console.log(`Move ${index + 1}: ${fenMove}`);
+  fenMoves.forEach(async (fenMove, index) => {
+    
+    console.log(fenMove);
+    stockfish.postMessage('position fen '+ fenMove);
+    stockfish.postMessage('go depth 10');
+    //analysisWorker.postMessage()
+    //console.log(item+'k');
+    
+    
+    //console.log(`Move ${index + 1}: ${fenMove},eval`);
   });
 }
 
@@ -87,8 +76,6 @@ const playerColor='w'
 
 
 
-findMaxAdvantage(fen_string_1);
-analyze(pgn_string_1);
+await analyze(pgn_string_1);
 
-stockfish.postMessage('position fen '+ fen_string_1);
-stockfish.postMessage('go depth 16');
+

@@ -30,43 +30,18 @@
       right: 20px;
     }
   </style>
-  <script type="module" src="js/sacrifice.js"></script>
+  
 </head>
 <body>
+  
   <h1>Chess Vanced</h1>
   <div class="output-container"></div>
 
+
+  <button class="dark-mode">Load from stockfish</button>
+  <script type="module" src="js/mainscript.js"></script>
+  <script type="module" src="js/sacrifice.js"></script>
   
-
-  <button onclick="toggleDarkMode()" class="dark-mode">fd Dark Mode</button>
-
-
-
-  <script>
-    var originalLog = console.log;
-
-    console.log = function(message) {
-      logToConsole(message);
-      originalLog.apply(console, arguments);
-    };
-
-    function logToConsole(message) {
-      var outputContainer = document.querySelector('.output-container');
-      var outputLine = document.createElement('div');
-      outputLine.classList.add('output-line');
-      outputLine.textContent = message;
-      outputContainer.appendChild(outputLine);
-    }
-
-    function toggleDarkMode() {
-      var body = document.querySelector('body');
-      body.classList.toggle('dark-mode');
-    }
-    // Sample console output
-    console.log('This is a test message.');
-    console.log('Another message.');
-
-    // You can add more console.log statements here to see the output
-  </script>
+  
 </body>
 </html>
