@@ -1,7 +1,7 @@
 
-import {Chess} from './chess.js';
-import {pgn_string_1, fen_string_1} from './constGames.js';
-import {stockfish, analysisWorker} from './connectStockfish.js'
+import {Chess} from './dependencies/chess.js';
+import {pgn_string_1, fen_string_1} from './const/constGames.js';
+import {stockfish, stockfishOrchestratorInst} from './connectStockfish.js'
 const globalAnalysisDepth=10;
 
 const figureValues = {
@@ -76,6 +76,6 @@ const playerColor='w'
 
 
 
-await analyze(pgn_string_1);
+//await analyze(pgn_string_1);
 
 

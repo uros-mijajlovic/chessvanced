@@ -1,35 +1,65 @@
 class stockfishOrchestrator {
-    constructor(stockfishWorker) {
-        this.stockfishWorker = stockfishWorker;
+    constructor(stockfishWorkerArg) {
+        this.stockfishWorker = stockfishWorkerArg;
+        
         this.waiting=false;
-        this.mutex=true;
+
+        this.isCurrentlyWorking=null;
+
+        this.currentFEN=null;
+
         self.onmessage = this.handleMainMessage.bind(this);
     }
-    
-    getAnalsysForFenPosition(fenPosition) {
-        return new Promise((resolve, reject) => {
-          const interval = setInterval(() => {
-            if (!this.waiting) {
-                this.waiting=false;
-                resolve("rac");
-            }
-          }, 1000); // Adjust the interval as needed
-      
-          // Timeout to reject the promise if the boolean doesn't become true within a certain time
-          setTimeout(() => {
-            clearInterval(interval);
-            reject(new Error('Timeout: Boolean did not become true.'));
-          }, 5000); // Adjust the timeout duration as needed
-        });
+    getDepthFromString(str){
+      const depthPattern = /depth (\d+)/;
+      const depthMatch = str.match(depthPattern);
+
+      if (depthMatch) {
+        const depth = parseInt(depthMatch[1], 10);
+        return depth
+      } else {
+        return -1
       }
-    
-    handleMainMessage(event) {
-      // Process the message received from the main thread
-      const message = event.data;
-      console.log('Received message from main thread:', message);
     }
 
+    async getAnalsysForFenPosition(fenPosition) {
+        this.isCurrentlyWorking=true;
+        this.currentFEN=fenPosition;
+        console.log(`position fen ${fenPosition}`);
+
+        this.stockfishWorker.postMessage(`position fen ${fenPosition}`)
+        this.stockfishWorker.postMessage('go depth 18')    
+      }
+
+    async waitForRun(fenPosition) {
+      while (this.isCurrentlyWorking) {
+        await new Promise((resolve) => setTimeout(resolve, 100)); // Wait for 100ms
+      }
+      await new Promise((resolve) => setTimeout(resolve, 2000))
+      await this.getAnalsysForFenPosition(fenPosition);
+    }
+    handleMainMessage(message) {
+
+      const from=message.from;
+      const text=message.message;
+      if(from=='stockfish' && this.getDepthFromString(text)==18){
+
+
+        const regex = /cp\s(-?\d+)/;
+        const match = text.match(regex);
+
+        if (match) {
+          const cpValue = parseInt(match[1]);
+          console.log("CP value:", cpValue);
+        }
+
+
+        console.log(text);
+      }else if (text.startsWith('bestmove')) {
+        this.isCurrentlyWorking=false;
+      }
+    }
   }
 
 
-const SO=new stockfishOrchestrator();
+export {stockfishOrchestrator};

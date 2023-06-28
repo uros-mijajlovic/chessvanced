@@ -1,16 +1,18 @@
+import {stockfishOrchestrator} from './stockfishOrchestator.js'
+import { analysisOrchestrator } from './analysisOrchestrator.js';
+import {pgn_string_1, fen_string_1} from './const/constGames.js';
+
 
 var wasmSupported = typeof WebAssembly === 'object' && WebAssembly.validate(Uint8Array.of(0x0, 0x61, 0x73, 0x6d, 0x01, 0x00, 0x00, 0x00));
 var stockfish = new Worker(wasmSupported ? 'js/dependencies/stockfish.wasm.js' : 'js/dependencies/stockfish.js');
 
-var stockfishOrchestrator=new Worker('js/stockfishOrchestator.js')
-
 stockfish.addEventListener('message', function (e) {
     var message=e.data;
-    console.log(message);
-    stockfishOrchestrator.postMessage({from:'stockfish', message:message})
-  });
-stockfish.postMessage('position fen rnbqkbnr/pppppppp/8/8/8/8/PPPPPPPP/RNBQKBNR w KQkq - 0 1')
-stockfish.postMessage('go depth 10')
+    stockfishOrchestratorInst.handleMainMessage({from:'stockfish', message:message})
+});
 
+const stockfishOrchestratorInst=new stockfishOrchestrator(stockfish);
+const analsysOrchestratorInst=new analysisOrchestrator(stockfishOrchestratorInst);
 
-export {stockfish, stockfishOrchestrator};
+analsysOrchestratorInst.analyzePgnGame(pgn_string_1);
+export {stockfish, stockfishOrchestratorInst};
