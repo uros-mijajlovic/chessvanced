@@ -28,7 +28,7 @@ class stockfishOrchestrator {
         console.log(`position fen ${fenPosition}`);
 
         this.stockfishWorker.postMessage(`position fen ${fenPosition}`)
-        this.stockfishWorker.postMessage('go depth 18')    
+        this.stockfishWorker.postMessage('go depth 10')    
       }
 
     async waitForRun(fenPosition) {
@@ -42,7 +42,7 @@ class stockfishOrchestrator {
 
       const from=message.from;
       const text=message.message;
-      if(from=='stockfish' && this.getDepthFromString(text)==18){
+      if(from=='stockfish' && this.getDepthFromString(text)==10){
 
 
         const regex = /cp\s(-?\d+)/;
@@ -51,7 +51,7 @@ class stockfishOrchestrator {
         if (match) {
           const cpValue = parseInt(match[1]);
           console.log("CP value:", cpValue);
-        }
+        }``
 
 
         console.log(text);
