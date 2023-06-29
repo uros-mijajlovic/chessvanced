@@ -3,21 +3,32 @@
 <html>
 <head>
   <title>Frontend</title>
-  <script src="https://cdn.jsdelivr.net/npm/chart.js@3.5.1"></script>
+  <script src="
+https://cdn.jsdelivr.net/npm/chart.js@4.3.0/dist/chart.umd.min.js
+"></script>
+<style>
+  body {
+      background-color: rgb(69, 69, 69);
+  }
+
+  #chartContainer {
+      width: 30%;
+  }
+</style>
+
 </head>
 <body>
   
-  <h1>Chess Vanced</h1>
-  <div class="output-container"></div>
 
-  <canvas id="analysisGraph"></canvas>
+  <div id="chartContainer">
+    <canvas id="myChart"></canvas>
+  </div>
+  
+  <script type="module" src="main.js"></script>
 
-  <button class="dark-mode">Load from stockfish</button>
-  
-  <script src="main.js"></script>
-  
-
-  
-  
+  <div>
+    <input type="number" id="dataInput" placeholder="Enter data point">
+    <button id="dataInputButton" onclick="graph.addDataPoint()">Add</button>
+  </div>
 </body>
 </html>

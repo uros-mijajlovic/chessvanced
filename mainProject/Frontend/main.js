@@ -1,75 +1,41 @@
-// Data for the graph (example data)
-const labels = ["Move 1", "Move 2", "Move 3", "Move 4", "Move 5"];
-const evaluationData = [0, -0.5, 1, -1, 0.5];
+import { evaluationGraph } from "./evaluationGraph.js";
 
-// Create the chart
-const ctx = document.getElementById("analysisGraph").getContext("2d");
+function getRandomNumber(lastNumber) {
 
-// Custom plugin to draw the connecting lines
-Chart.plugins.register({
-  afterDraw: function(chart) {
-    const { ctx, scales } = chart;
+  let randomNumber;
+  const chance = Math.random(); // Generate a random chance value between 0 and 1
 
-    const dataset = chart.data.datasets[0];
-    const points = dataset.data;
-
-    ctx.save();
-    ctx.strokeStyle = dataset.borderColor || "black";
-    ctx.lineWidth = dataset.borderWidth || 1;
-    ctx.beginPath();
-
-    for (let i = 0; i < points.length; i++) {
-      const point = points[i];
-      const x = scales["x"].getPixelForValue(i);
-      const y = scales["y"].getPixelForValue(point);
-
-      if (i === 0) {
-        ctx.moveTo(x, y);
-      } else {
-        ctx.lineTo(x, y);
-      }
-    }
-
-    ctx.stroke();
-    ctx.restore();
+  if (chance < 0.8) {
+    // 80% chance of ±2
+    const offset = (Math.random() < 0.5) ? -2 : 2; // Determine whether to add or subtract 2
+    randomNumber = lastNumber + offset;
+  } else {
+    // 20% chance of ±6
+    const offset = (Math.random() < 0.5) ? -6 : 6; // Determine whether to add or subtract 6
+    randomNumber = lastNumber + offset;
   }
-});
 
-new Chart(ctx, {
-  type: "scatter",
-  data: {
-    labels: labels,
-    datasets: [{
-      data: evaluationData,
-      borderColor: "blue",
-      backgroundColor: "blue",
-      pointRadius: 4,
-      pointHoverRadius: 6,
-      showLine: false
-    }]
-  },
-  options: {
-    responsive: true,
-    maintainAspectRatio: false,
-    legend: {
-      display: false
-    },
-    scales: {
-      x: {
-        grid: {
-          display: false
-        }
-      },
-      y: {
-        grid: {
-          display: true,
-          color: "rgba(0, 0, 0, 0.1)"
-        },
-        ticks: {
-          suggestedMin: -1,
-          suggestedMax: 1
-        }
-      }
-    }
+  // Ensure the random number is within the range of -10 and 10
+  randomNumber = Math.max(-10, Math.min(10, randomNumber));
+
+  return randomNumber;
+}
+
+const graph=new evaluationGraph('myChart');
+var analysisData=[]
+for (let i = 0; i < 50; i++) {
+  const randomEvaluation = getRandomNumber(0);
+  analysisData.push({"evaluation":randomEvaluation});
+}
+
+for (let i = 1; i < 50; i++) {
+  if(analysisData[i]["evaluation"]>analysisData[i-1]["evaluation"]+6){
+    analysisData[i]["moveRating"]="brilliant";
+  }else if(analysisData[i]["evaluation"]<analysisData[i-1]["evaluation"]-6){
+    analysisData[i]["moveRating"]="mistake";
+  }else{
+    analysisData[i]["moveRating"]="good";
   }
-});
+}
+
+graph.updateGraph(analysisData);
