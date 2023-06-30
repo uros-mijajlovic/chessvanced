@@ -1,1 +1,1 @@
-import {stockfish, stockfishOrchestratorInst} from './connectStockfish.js'
+import {stockfish, stockfishOrchestratorInst, evaluationGraphInst} from './connectStockfish.js'

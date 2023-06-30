@@ -16,9 +16,15 @@ function pgnToFenArr(pgnString){
   }
 
 class analysisOrchestrator {
-  constructor(stockfishOrchestratorInst){
+  constructor(stockfishOrchestratorInst, evaluationGraph){
+      this.evaluationGraph=evaluationGraph;
       this.stockfishOrchestrator=stockfishOrchestratorInst;
+      this.gameAnalysis=[]
     }
+  sendEval(cpScore){
+    this.gameAnalysis.push({"evaluation":cpScore/100,"moveRating":"grey"})
+    this.evaluationGraph.updateGraph(this.gameAnalysis);
+  }
   async analyzePgnGame(pgnString){
       const fenMoves=pgnToFenArr(pgnString);
       for (const fenMove of fenMoves) {

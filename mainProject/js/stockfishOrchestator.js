@@ -8,6 +8,10 @@ class stockfishOrchestrator {
 
         this.currentFEN=null;
 
+        this.analysisOrchestrator=null;
+
+        this.whiteMove=false;
+
         self.onmessage = this.handleMainMessage.bind(this);
     }
     getDepthFromString(str){
@@ -35,7 +39,6 @@ class stockfishOrchestrator {
       while (this.isCurrentlyWorking) {
         await new Promise((resolve) => setTimeout(resolve, 100)); // Wait for 100ms
       }
-      await new Promise((resolve) => setTimeout(resolve, 2000))
       await this.getAnalsysForFenPosition(fenPosition);
     }
     handleMainMessage(message) {
@@ -49,9 +52,15 @@ class stockfishOrchestrator {
         const match = text.match(regex);
 
         if (match) {
-          const cpValue = parseInt(match[1]);
+          var cpValue = parseInt(match[1]);
           console.log("CP value:", cpValue);
-        }``
+
+          if(!this.whiteMove){
+            cpValue=-cpValue;
+          }
+          this.whiteMove=!this.whiteMove;
+          this.analysisOrchestrator.sendEval(cpValue)
+        }
 
 
         console.log(text);
