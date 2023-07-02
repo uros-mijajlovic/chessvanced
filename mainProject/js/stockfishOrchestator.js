@@ -59,7 +59,7 @@ class stockfishOrchestrator {
             cpValue=-cpValue;
           }
           this.whiteMove=!this.whiteMove;
-          this.analysisOrchestrator.sendEval(cpValue)
+          this.analysisOrchestrator.sendEval(cpValue, this.currentFEN)
         }
 
 

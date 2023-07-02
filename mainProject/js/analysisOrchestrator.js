@@ -21,10 +21,11 @@ class analysisOrchestrator {
       this.stockfishOrchestrator=stockfishOrchestratorInst;
       this.gameAnalysis=[]
     }
-  sendEval(cpScore){
+  sendEval(cpScore, FENstring){
     this.gameAnalysis.push({"evaluation":cpScore/100,"moveRating":"grey"})
     this.evaluationGraph.updateGraph(this.gameAnalysis);
   }
+  
   async analyzePgnGame(pgnString){
       const fenMoves=pgnToFenArr(pgnString);
       for (const fenMove of fenMoves) {
