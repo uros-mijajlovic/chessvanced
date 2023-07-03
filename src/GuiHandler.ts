@@ -1,5 +1,5 @@
-import {Chessground} from "/dependencies/chessground.js";
-
+import {Chessground} from "../dependencies/chessground.js";
+import { AnalysisOrchestrator } from "./AnalysisOrchestrator.js";
 
 
 const glyphToSvg = {
@@ -29,6 +29,9 @@ const glyphToSvg = {
 };
 
 class GuiHandler {
+  private chessBoard: any;
+  private currentPgn:string;
+  private analysisOrchestrator:AnalysisOrchestrator;
   constructor(analysisOrchestratorInst){
     this.chessBoard=Chessground(document.getElementById('chessground'), {});
     this.currentPgn=null;
@@ -36,11 +39,11 @@ class GuiHandler {
     // this.chessBoard.setAutoShapes([{ orig: 'e4', brush: 'green', customSvg: glyphToSvg['??'] }]);
     // this.chessBoard.move('e7', 'e5');
   }
-  setPgn(pgnString){
+  public setPgn(pgnString){
     this.currentPgn=pgnString;
     this.startAnalysis();
   }
-  startAnalysis(){
+  public startAnalysis(){
     this.analysisOrchestrator.analyzePgnGame(this.currentPgn);
   }
 

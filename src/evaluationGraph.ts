@@ -1,3 +1,4 @@
+declare var Chart: any;
 var chartData = {
     labels: [],
     datasets: [{
@@ -16,6 +17,10 @@ var chartData = {
   };
 
 export class evaluationGraph {
+    private chartData:Record<string, any>;
+    private canvasId:string
+    private gameAnalysis:any;
+    private graph:any;
     constructor(canvasId){
         this.chartData=chartData;
         this.canvasId=canvasId;

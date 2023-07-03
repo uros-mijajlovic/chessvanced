@@ -15,7 +15,7 @@ function pgnToFenArr(pgnString){
     return fenMoves;
   }
 
-class analysisOrchestrator {
+class AnalysisOrchestrator {
   constructor(stockfishOrchestratorInst, evaluationGraph){
       this.evaluationGraph=evaluationGraph;
       this.stockfishOrchestrator=stockfishOrchestratorInst;
@@ -34,4 +34,4 @@ class analysisOrchestrator {
       }
   }
 }
-export {analysisOrchestrator};
+export {AnalysisOrchestrator};

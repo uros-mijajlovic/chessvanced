@@ -1,5 +1,5 @@
 import {stockfishOrchestrator} from './stockfishOrchestator.js'
-import { analysisOrchestrator } from './analysisOrchestrator.js';
+import { AnalysisOrchestrator } from './AnalysisOrchestrator.js';
 import {pgn_string_1, fen_string_1} from './const/constGames.js';
 import { evaluationGraph } from './evaluationGraph.js';
 import { GuiHandler } from './GuiHandler.js';
@@ -57,7 +57,7 @@ const stockfishOrchestratorInst=new stockfishOrchestrator(stockfish);
 
 
 
-var analsysOrchestratorInst=new analysisOrchestrator(stockfishOrchestratorInst, evaluationGraphInst);
+var analsysOrchestratorInst=new AnalysisOrchestrator(stockfishOrchestratorInst, evaluationGraphInst);
 
 const guiHandlerInst=new GuiHandler(analsysOrchestratorInst);
 
