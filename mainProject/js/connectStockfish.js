@@ -2,7 +2,7 @@ import {stockfishOrchestrator} from './stockfishOrchestator.js'
 import { analysisOrchestrator } from './analysisOrchestrator.js';
 import {pgn_string_1, fen_string_1} from './const/constGames.js';
 import { evaluationGraph } from './evaluationGraph.js';
-
+import { GuiHandler } from './guiHandler.js';
 function getRandomNumber(lastNumber) {
 
     let randomNumber;
@@ -55,11 +55,16 @@ const evaluationGraphInst=new evaluationGraph("myChart");
 
 const stockfishOrchestratorInst=new stockfishOrchestrator(stockfish);
 
+
+
 var analsysOrchestratorInst=new analysisOrchestrator(stockfishOrchestratorInst, evaluationGraphInst);
+
+const guiHandlerInst=new GuiHandler(analsysOrchestratorInst);
+
 
 stockfishOrchestratorInst.analysisOrchestrator=analsysOrchestratorInst;
 
+guiHandlerInst.setPgn(pgn_string_1);
 
-evaluationGraphInst.updateGraph(analysisData);
-analsysOrchestratorInst.analyzePgnGame(pgn_string_1);
+
 export {stockfish, stockfishOrchestratorInst, evaluationGraphInst};
