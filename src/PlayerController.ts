@@ -35,6 +35,7 @@ class PlayerController {
     console.log(`tryna go to move ${index}`)
     console.log(this.currentFenArray[index]);
     console.log(this.currentMoveArray[index]);
+    this.guiHandler.setBoardAndMove(this.currentFenArray[index], this.currentMoveArray[index].substring(0, 2), this.currentMoveArray[index].substring(2, 4))
   }
 }
 export {PlayerController};

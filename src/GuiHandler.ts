@@ -32,8 +32,9 @@ class GuiHandler {
     this.chessBoard=Chessground(document.getElementById('chessground'), {});
 
   }
-  public setBoardAndMove(fenString:string, lastMove:string){
-
+  public setBoardAndMove(fenString:string, from:string, to:string){
+    this.chessBoard.set({fen:fenString});
+    this.chessBoard.move(from, to);
     // this.chessBoard.setAutoShapes([{ orig: 'e4', brush: 'green', customSvg: glyphToSvg['??'] }]);
     // this.chessBoard.move('e7', 'e5');
   }

@@ -17,8 +17,10 @@ export function PgnToFenArr(pgnString: string){
   chessjs.load_pgn(pgnString);
   const moves = chessjs.history();
   var fenMoves=[];
+  
 
   const newChessjs=Chess()
+  fenMoves.push(newChessjs.fen());
   moves.forEach((move, index) => {
     newChessjs.move(move);
     fenMoves.push(newChessjs.fen());
@@ -29,11 +31,11 @@ export function PgnToMoveArr(pgnString:string){
 
   const chessjs=Chess();
   chessjs.load_pgn(pgnString);
-  const moves = chessjs.history();
+  const moves = chessjs.history({ verbose: true });
   var strMoves=[];
 
   moves.forEach((move, index) => {
-    strMoves.push(move);
+    strMoves.push(move.from + move.to);
   });
 
   return strMoves;
