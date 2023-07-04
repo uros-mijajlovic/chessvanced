@@ -1,6 +1,4 @@
 import {Chessground} from "../dependencies/chessground.js";
-import { AnalysisOrchestrator } from "./AnalysisOrchestrator.js";
-
 
 const glyphToSvg = {
   // Inaccuracy
@@ -30,22 +28,16 @@ const glyphToSvg = {
 
 class GuiHandler {
   private chessBoard: any;
-  private currentPgn:string;
-  private analysisOrchestrator:AnalysisOrchestrator;
-  constructor(analysisOrchestratorInst){
+  constructor(){
     this.chessBoard=Chessground(document.getElementById('chessground'), {});
-    this.currentPgn=null;
-    this.analysisOrchestrator=analysisOrchestratorInst;
+
+  }
+  public setBoardAndMove(fenString:string, lastMove:string){
+
     // this.chessBoard.setAutoShapes([{ orig: 'e4', brush: 'green', customSvg: glyphToSvg['??'] }]);
     // this.chessBoard.move('e7', 'e5');
   }
-  public setPgn(pgnString){
-    this.currentPgn=pgnString;
-    this.startAnalysis();
-  }
-  public startAnalysis(){
-    this.analysisOrchestrator.analyzePgnGame(this.currentPgn);
-  }
+
 
 }
 export {GuiHandler};

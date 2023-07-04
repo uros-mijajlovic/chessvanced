@@ -1,7 +1,8 @@
 
-import {Chess} from './dependencies/chess.js';
+import {Chess} from '../dependencies/chess.js';
 import {pgn_string_1, fen_string_1} from './const/constGames.js';
 import {stockfish, stockfishOrchestratorInst} from './connectStockfish.js'
+
 const globalAnalysisDepth=10;
 
 const figureValues = {
@@ -11,33 +12,32 @@ const figureValues = {
     'N': 3,     // Knight
     'P': 1      // Pawn
   };
-function PgnToFenArr(pgnString){
-  const chessjs=new Chess();
+export function PgnToFenArr(pgnString: string){
+  const chessjs=Chess();
   chessjs.load_pgn(pgnString);
   const moves = chessjs.history();
   var fenMoves=[];
 
-  const newChessjs=new Chess()
+  const newChessjs=Chess()
   moves.forEach((move, index) => {
     newChessjs.move(move);
     fenMoves.push(newChessjs.fen());
   });
   return fenMoves;
 }
+export function PgnToMoveArr(pgnString:string){
 
-async function analyze (pgnString){
-  const fenMoves=PgnToFenArr(pgnString);
-  fenMoves.forEach(async (fenMove, index) => {
-    
-    console.log(fenMove);
-    stockfish.postMessage('position fen '+ fenMove);
-    stockfish.postMessage('go depth 10');
-    //analysisWorker.postMessage()
-    //console.log(item+'k');
-    
-    
-    //console.log(`Move ${index + 1}: ${fenMove},eval`);
+  const chessjs=Chess();
+  chessjs.load_pgn(pgnString);
+  const moves = chessjs.history();
+  var strMoves=[];
+
+  moves.forEach((move, index) => {
+    strMoves.push(move);
   });
+
+  return strMoves;
+
 }
 
 function isMoveEinstein(fenBefore, fenAfter){
@@ -46,8 +46,8 @@ function isMoveEinstein(fenBefore, fenAfter){
 
 function findMaxAdvantage(fen) {
     var maxAdvantage=0
-    var bestMove=0
-    const chess = new Chess();
+    var bestMove=null
+    const chess = Chess();
     chess.load(fen);
     const moves=chess.moves()
 
@@ -60,7 +60,7 @@ function findMaxAdvantage(fen) {
             
             if(figureValues[piece]>maxAdvantage){
                 maxAdvantage=figureValues[piece]
-                bestMove=moves[i]
+                bestMove= moves[i]
             }
         }
         chess.undo();
@@ -74,8 +74,5 @@ function findMaxAdvantage(fen) {
 const playerColor='w'
 
 
-
-
-//await analyze(pgn_string_1);
 
 

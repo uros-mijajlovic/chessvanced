@@ -1,3 +1,4 @@
+import { PlayerController } from "./PlayerController";
 declare var Chart: any;
 var chartData = {
     labels: [],
@@ -21,10 +22,12 @@ export class evaluationGraph {
     private canvasId:string
     private gameAnalysis:any;
     private graph:any;
-    constructor(canvasId){
+    public playerControllerInst:PlayerController;
+    constructor(canvasId : string, playerController:PlayerController){
         this.chartData=chartData;
         this.canvasId=canvasId;
         this.gameAnalysis=null;
+        this.playerControllerInst=playerController;
         
         const ctx = document.getElementById(canvasId);
         this.graph=new Chart(ctx, {
@@ -77,6 +80,7 @@ export class evaluationGraph {
                 const dataX = this.graph.scales.x.getValueForPixel(canvasPosition.x);
                 const dataY = this.graph.scales.y.getValueForPixel(canvasPosition.y);
                 console.log(dataX, dataY);
+                this.playerControllerInst.gotoMove(dataX);
         }
         }
         });
