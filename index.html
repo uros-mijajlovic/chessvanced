@@ -42,7 +42,17 @@
       right: 20px;
     }
     #chartContainer {
-      width: 30%;
+      width: 50vw; /* Set the width to 50% of the viewport width */
+      padding-top: 15%;/* Position the canvas absolutely inside the div */
+      top: 0;
+      left: 0;
+    }
+    #myChart {
+      width: 100%; /* Set the canvas width to 100% of the parent div */
+      height: 100%; /* Set the canvas height to 100% of the parent div */
+      position: absolute; /* Position the canvas absolutely inside the div */
+      top: 0;
+      left: 0;
     }
   </style>
   <script src="https://cdn.jsdelivr.net/npm/chart.js@4.3.0/dist/chart.umd.min.js"></script>
@@ -62,6 +72,7 @@
 
   <div class="output-container"></div>
   <div id="chessground"></div>
+  <div id="sidebar"></div>
 
 
   <button class="dark-mode">Load from stockfish</button>

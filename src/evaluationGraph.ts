@@ -1,6 +1,8 @@
 import { PlayerController } from "./PlayerController";
+import { verticalLinePlugin, hoverLinePlugin,changeBarForCurrentMove } from "./chartPlugins.js";
 declare var Chart: any;
 var chartData = {
+    lineAtIndex: [2,4,8],
     labels: [],
     datasets: [{
         label: 'Data',
@@ -13,17 +15,23 @@ var chartData = {
         pointRadius: 3,
         hoverRadius:5,
         hoverBorderWidth:0,
-        borderColor:'purple',
+        borderColor:"rgba(170, 252, 255, 0.8)",
     }]
   };
 
-export class evaluationGraph {
+
+
+
+
+export class EvaluationGraph {
+    
     private chartData:Record<string, any>;
     private canvasId:string
     private gameAnalysis:any;
     private graph:any;
     public playerControllerInst:PlayerController;
     constructor(canvasId : string, playerController:PlayerController){
+
         this.chartData=chartData;
         this.canvasId=canvasId;
         this.gameAnalysis=null;
@@ -31,8 +39,10 @@ export class evaluationGraph {
         
         const ctx = document.getElementById(canvasId);
         this.graph=new Chart(ctx, {
+        
         type: 'line',
         data: this.chartData,
+        plugins:[verticalLinePlugin, hoverLinePlugin],
         options: {
 
             pointBackgroundColor: (context) => {
@@ -52,9 +62,15 @@ export class evaluationGraph {
             plugins: {
                 legend: {
                     display: false,
+                },
+                verticalLinePlugin:{
+                  lineColor:"cyan",
+                  xPosition:3,
                 }
+                
             },
             responsive: true,
+            maintainAspectRatio:false,
             interaction: {
             mode: 'index',
             intersect: false,
@@ -96,6 +112,11 @@ export class evaluationGraph {
         data.push(moveData["evaluation"]);
 
       }
+      this.graph.update();
+
+    } 
+    updateGraphSelectedMove(index){
+      changeBarForCurrentMove(index);
       this.graph.update();
 
     } 

@@ -1,7 +1,7 @@
 import {stockfishOrchestrator} from './stockfishOrchestator.js'
 import { AnalysisOrchestrator } from './AnalysisOrchestrator.js';
 import {pgn_string_1, fen_string_1} from './const/constGames.js';
-import { evaluationGraph } from './evaluationGraph.js';
+import { EvaluationGraph } from './EvaluationGraph.js';
 import { GuiHandler } from './GuiHandler.js';
 import { PlayerController } from './PlayerController.js';
 function getRandomNumber(lastNumber) {
@@ -56,12 +56,27 @@ stockfish.addEventListener('message', function (e) {
 const stockfishOrchestratorInst=new stockfishOrchestrator(stockfish);
 
 
-const evaluationGraphInst=new evaluationGraph("myChart");
+const evaluationGraphInst=new EvaluationGraph("myChart");
+
 
 var analsysOrchestratorInst=new AnalysisOrchestrator(stockfishOrchestratorInst, evaluationGraphInst);
 
-const guiHandlerInst=new GuiHandler();
+const guiHandlerInst=new GuiHandler(evaluationGraphInst);
 const playerControllerInst=new PlayerController(guiHandlerInst, analsysOrchestratorInst);
+
+document.addEventListener('keydown', function(event) {
+  if (event.keyCode === 37) {
+    // Left arrow key is pressed
+    playerControllerInst.goBackwards();
+    // Your code for left cursor event handling goes here
+  } else if (event.keyCode === 39) {
+    // Right arrow key is pressed
+    playerControllerInst.goForwards();
+    // Your code for right cursor event handling goes here
+  }
+});
+
+
 evaluationGraphInst.playerControllerInst=playerControllerInst;
 
 
