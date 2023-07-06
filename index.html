@@ -2,59 +2,10 @@
 <html>
 <head>
   <title>Console Output</title>
-  <link rel="stylesheet" type="text/css" href="assets/chessground.base.css">
-  <link rel="stylesheet" type="text/css" href="assets/chessground.brown.css">
-  <link rel="stylesheet" type="text/css" href="assets/chessground.cburnett.css">
-  <style>
-    #chessground {
-      width: 500px;
-      height: 500px;
-    }
-
-    cg-board {
-        background-color: #bfcfdd;
-    }
-
-    body {
-      background-color: #222;
-      color: #fff;
-      font-family: Arial, sans-serif;
-      padding: 20px;
-    }
-
-    h1 {
-      color: #fff;
-    }
-
-    .output-container {
-      background-color: #333;
-      padding: 10px;
-      margin-bottom: 10px;
-    }
-
-    .output-line {
-      color: #fff;
-    }
-
-    .dark-mode {
-      position: absolute;
-      top: 20px;
-      right: 20px;
-    }
-    #chartContainer {
-      width: 50vw; /* Set the width to 50% of the viewport width */
-      padding-top: 15%;/* Position the canvas absolutely inside the div */
-      top: 0;
-      left: 0;
-    }
-    #myChart {
-      width: 100%; /* Set the canvas width to 100% of the parent div */
-      height: 100%; /* Set the canvas height to 100% of the parent div */
-      position: absolute; /* Position the canvas absolutely inside the div */
-      top: 0;
-      left: 0;
-    }
-  </style>
+  <link rel="stylesheet" type="text/css" href="styles/chessground.base.css">
+  <link rel="stylesheet" type="text/css" href="styles/chessground.brown.css">
+  <link rel="stylesheet" type="text/css" href="styles/chessground.cburnett.css">
+  <link rel="stylesheet" type="text/css" href="styles/main.css">
   <script src="https://cdn.jsdelivr.net/npm/chart.js@4.3.0/dist/chart.umd.min.js"></script>
   <script type="module">
     import chessground from 'https://cdn.jsdelivr.net/npm/chessground@8.3.12/+esm'
@@ -62,20 +13,21 @@
   
 </head>
 <body>
-  <div id="chartContainer">
-    <canvas id="myChart"></canvas>
-  </div>
+  
   
   <h1>Chess Vanced</h1>
-
   
 
-  <div class="output-container"></div>
-  <div id="chessground"></div>
-  <div id="sidebar"></div>
+  <div id="analysisAll">
+    <div id="chessgroundParentDiv">
+      <div id="chessground"></div>
+    </div>
 
-
-  <button class="dark-mode">Load from stockfish</button>
+    <div id="chartContainer">
+      <canvas id="myChart"></canvas>
+    </div>
+  </div>
+  
   <script type="module" src="dist/src/connectStockfish.js"></script>
   
   

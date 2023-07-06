@@ -40,7 +40,7 @@ class PlayerController {
   public gotoMove(index : number){
     
     if(index<0)index=0; // finxing bug with index=-1
-    if (index>=this.currentFenArray.length)index=this.currentFenArray.length-1
+    if (index>=this.currentMoveArray.length)index=this.currentMoveArray.length-1
     this.currentMove=index;
     console.log(`tryna go to move ${index}`)
     console.log(this.currentFenArray[index]);

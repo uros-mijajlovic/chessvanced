@@ -41,6 +41,9 @@ class GuiHandler {
     // this.chessBoard.setAutoShapes([{ orig: 'e4', brush: 'green', customSvg: glyphToSvg['??'] }]);
     // this.chessBoard.move('e7', 'e5');
   }
+  public updateGraph(gameAnalysis){
+    this.evaluationGraph.updateGraph(gameAnalysis);
+  }
 
 
 }

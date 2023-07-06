@@ -4,6 +4,7 @@ import {pgn_string_1, fen_string_1} from './const/constGames.js';
 import { EvaluationGraph } from './EvaluationGraph.js';
 import { GuiHandler } from './GuiHandler.js';
 import { PlayerController } from './PlayerController.js';
+import {Sidebar} from "./Sidebar.js"
 function getRandomNumber(lastNumber) {
 
     let randomNumber;
@@ -58,10 +59,10 @@ const stockfishOrchestratorInst=new stockfishOrchestrator(stockfish);
 
 const evaluationGraphInst=new EvaluationGraph("myChart");
 
-
-var analsysOrchestratorInst=new AnalysisOrchestrator(stockfishOrchestratorInst, evaluationGraphInst);
-
 const guiHandlerInst=new GuiHandler(evaluationGraphInst);
+var analsysOrchestratorInst=new AnalysisOrchestrator(stockfishOrchestratorInst, guiHandlerInst);
+
+
 const playerControllerInst=new PlayerController(guiHandlerInst, analsysOrchestratorInst);
 
 document.addEventListener('keydown', function(event) {
@@ -84,7 +85,17 @@ evaluationGraphInst.playerControllerInst=playerControllerInst;
 
 stockfishOrchestratorInst.analysisOrchestrator=analsysOrchestratorInst;
 
+
+
+
+//INICIALIZATION
+
+
+
+
 playerControllerInst.setPgn(pgn_string_1);
+
+new Sidebar(document.getElementById("sidebarDiv"))
 
 
 export {stockfish, stockfishOrchestratorInst, evaluationGraphInst};
