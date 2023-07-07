@@ -28,6 +28,8 @@ const glyphToSvg = {
 `,
 };
 
+
+
 class GuiHandler {
   private chessBoard: any;
   private evaluationGraph:EvaluationGraph;
@@ -45,9 +47,13 @@ class GuiHandler {
     // this.chessBoard.setAutoShapes([{ orig: 'e4', brush: 'green', customSvg: glyphToSvg['??'] }]);
     // this.chessBoard.move('e7', 'e5');
   }
-  public updateGUI(gameAnalysis){
+  public updateGraph(gameAnalysis){
     //this.sidebar.setAnalysisData(gameAnalysis);
     this.evaluationGraph.updateGraph(gameAnalysis);
+  }
+
+  public updateSidebar(pgnString){
+    this.sidebar.setAnalysisData(pgnString);
   }
 
 

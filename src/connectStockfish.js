@@ -53,7 +53,7 @@ stockfish.addEventListener('message', function (e) {
     stockfishOrchestratorInst.handleMainMessage({from:'stockfish', message:message})
 });
 const stockfishOrchestratorInst=new stockfishOrchestrator(stockfish);
-var sidebarInst=null;
+const sidebarInst=new Sidebar(document.getElementById("sidebarComponent"));
 
 const evaluationGraphInst=new EvaluationGraph("myChart");
 

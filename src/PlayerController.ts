@@ -24,7 +24,9 @@ class PlayerController {
     this.currentPgn=pgnString;
     this.currentFenArray=PgnToFenArr(this.currentPgn);
     this.currentMoveArray=PgnToMoveArr(this.currentPgn);
+    this.guiHandler.updateSidebar(pgnString);
     this.startAnalysis();
+
   }
   public startAnalysis(){
     this.analysisOrchestrator.analyzePgnGame(this.currentPgn);
@@ -35,7 +37,6 @@ class PlayerController {
   public goForwards(){
     this.gotoMove(this.currentMove+1);
   }
-
 
   public gotoMove(index : number){
     
