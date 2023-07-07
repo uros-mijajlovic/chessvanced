@@ -1,5 +1,7 @@
 import {Chessground} from "../dependencies/chessground.js";
 import { EvaluationGraph } from "./EvaluationGraph.js";
+
+import { Sidebar } from "./Sidebar.js";
 const glyphToSvg = {
   // Inaccuracy
   '?!': `
@@ -29,9 +31,11 @@ const glyphToSvg = {
 class GuiHandler {
   private chessBoard: any;
   private evaluationGraph:EvaluationGraph;
-  constructor(evaluationGraphInst:EvaluationGraph){
+  private sidebar: Sidebar;
+  constructor(evaluationGraphInst:EvaluationGraph, sidebar:Sidebar){
     this.evaluationGraph=evaluationGraphInst;
     this.chessBoard=Chessground(document.getElementById('chessground'), {});
+    this.sidebar=sidebar;
     
   }
   public setBoardAndMove(fenString:string, from:string, to:string, moveIndex:number){
@@ -41,7 +45,8 @@ class GuiHandler {
     // this.chessBoard.setAutoShapes([{ orig: 'e4', brush: 'green', customSvg: glyphToSvg['??'] }]);
     // this.chessBoard.move('e7', 'e5');
   }
-  public updateGraph(gameAnalysis){
+  public updateGUI(gameAnalysis){
+    //this.sidebar.setAnalysisData(gameAnalysis);
     this.evaluationGraph.updateGraph(gameAnalysis);
   }
 

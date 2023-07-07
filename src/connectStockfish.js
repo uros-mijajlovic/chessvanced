@@ -52,14 +52,12 @@ stockfish.addEventListener('message', function (e) {
     var message=e.data;
     stockfishOrchestratorInst.handleMainMessage({from:'stockfish', message:message})
 });
-
-
 const stockfishOrchestratorInst=new stockfishOrchestrator(stockfish);
-
+var sidebarInst=null;
 
 const evaluationGraphInst=new EvaluationGraph("myChart");
 
-const guiHandlerInst=new GuiHandler(evaluationGraphInst);
+const guiHandlerInst=new GuiHandler(evaluationGraphInst, sidebarInst);
 var analsysOrchestratorInst=new AnalysisOrchestrator(stockfishOrchestratorInst, guiHandlerInst);
 
 
@@ -90,26 +88,11 @@ stockfishOrchestratorInst.analysisOrchestrator=analsysOrchestratorInst;
 
 //INICIALIZATION
 
-const numDivs = 5;
 
-// Create a div with a unique ID and attach a click event listener
-for (let i = 0; i < numDivs; i++) {
-  const div = document.createElement('div');
-  div.id = `div${i + 1}`;
-  div.textContent = `Div ${i + 1}`;
-  div.addEventListener('click', handleClick);
-  document.body.appendChild(div);
-}
-
-// Event handler for div click
-function handleClick(event) {
-  console.log(event.target.id);
-}
 
 
 playerControllerInst.setPgn(pgn_string_1);
 
-new Sidebar(document.getElementById("sidebarDiv"))
 
 
 export {stockfish, stockfishOrchestratorInst, evaluationGraphInst};

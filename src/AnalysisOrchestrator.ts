@@ -27,7 +27,7 @@ class AnalysisOrchestrator {
     }
   sendEval(cpScore, FENstring){
     this.gameAnalysis.push({"evaluation":cpScore/100,"moveRating":"grey"})
-    this.guiHandler.updateGraph(this.gameAnalysis);
+    this.guiHandler.updateGUI(this.gameAnalysis);
   }
   
   async analyzePgnGame(pgnString){
