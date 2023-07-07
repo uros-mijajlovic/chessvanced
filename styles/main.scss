@@ -1,114 +1,200 @@
+@use 'navbar';
 body {
-  background-color: #25262d;
+  background-color: #33353f;
   color: #fff;
   font-family: Arial, sans-serif;
   padding: 20px;
 }
-#chartContainer{
-  background-color: #0d0d0e;
+#analysisAll {
+  height:100%;
+  gap: 20px;
+
+}
+#chartContainer {
+  background-color: #222227;
   border-radius: 2%;
 }
-#sidebarComponent{
-  width:100%;
-  height:100%;
-  padding:5px;
+#sidebar{
+  overflow: hidden;
+  height:100vh;
 }
-.move-notation{
-  padding-left: 10px;
-  padding-right:10px;
+#sidebarComponent {
+  width: 100%;
+  height: 100%;
   padding-top: 5px;
-  padding-bottom:5px;
+  overflow: auto;
+  scrollbar-width: thin;
+  scrollbar-color: black;
+}
+
+#sidebarComponent::-webkit-scrollbar {
+  width: 8px; /* Adjust the width as needed */
+}
+
+#sidebarComponent::-webkit-scrollbar-track {
+  background: #343434;
+  border-radius: 10px;
+}
+
+#sidebarComponent::-webkit-scrollbar-thumb {
+  background: rgb(19, 19, 19);
+  border-radius: 10px;
+}
+
+
+.moveOverview {
+  display: flex;
+  justify-content: space-between;
+  padding-left:20%;
+  padding-right:20%;
+}
+
+.moveOverview > div {
+  font-weight: bolder;
+  font-size:0.9rem;
+}
+
+.stellar > div {
+  color: #7c20c3;
+}
+
+.great > div {
+  color: #5c8bb0;
+}
+
+.best > div {
+  color: #95bb4a;
+}
+
+.excellent > div {
+  color: rgb(0, 172, 6);
+}
+
+.good > div {
+  color: rgb(98, 164, 140);
+}
+
+.book > div {
+  color: rgb(112, 60, 0);
+}
+
+.inaccuracy > div {
+  color: rgb(255, 240, 101);
+}
+
+.mistake > div {
+  color: rgb(197, 126, 33);
+}
+
+.miss > div {
+  color: rgb(226, 65, 65);
+}
+
+.blunder > div {
+  color: rgb(167, 0, 0);
+}
+
+.move-notation {
+  padding-left: 10px;
+  padding-right: 10px;
+  padding-top: 5px;
+  padding-bottom: 5px;
   font-weight: bold;
 }
 
-
-.clickable{
-  cursor:pointer;
+.clickable {
+  cursor: pointer;
   transition: background-color 0.2s;
 }
-
-
 
 .clickable:hover {
   background-color: lightblue;
 }
 
-.move-element{
-  display:flex;
-  border-radius: 5%;
+.move-element {
+  display: grid;
+  grid-template-columns: repeat(3, 0.5fr);
+  
+  justify-items:start;
+  grid-gap: 10px;
+
+  
+  padding:2%;
 }
-.even{
+
+.move-element:nth-child(even) {
   background-color: #303030;
 }
-.odd{
-  background-color: #121212;
+
+.move-element:nth-child(odd) {
+  background-color: #222227;
 }
+
 @media (max-width: 700px) {
-  #analysisAll{
+  #analysisAll {
     display: block;
   }
-
   #chartContainer {
-    
     width: 100%;
-    height:60vh;/* Set the width to 50% of the viewport width *//* Position the canvas absolutely inside the div */
-    top: 0;
-    left: 0;
-    flex-grow:1;
-  
+    height: 60vh; /* Set the width to 50% of the viewport width */ /* Position the canvas absolutely inside the div */
+    display: flex;
+    flex-direction: column;
   }
   #chessgroundParentDiv {
-    aspect-ratio : 1 / 1;
+    aspect-ratio: 1/1;
     width: 100%;
-    flex-grow:2;
+    flex-grow: 2;
+  }
+  #chessground {
+    width:100%;
+    height:100%;
   }
 }
-@media (min-width: 701px) and (max-width:1280px) {
-  #analysisAll{
+@media (min-width: 701px) and (max-width: 1280px) {
+  #analysisAll {
     display: flex;
   }
-
   #chartContainer {
-    width:200px;
-    height: 80vw;
-    flex-basis: auto;
-    flex-grow:1;
+    display: flex;
+    flex-direction: column;
+    width: 30%;
+    height: 80vh;
   }
-
   #chessgroundParentDiv {
-    width:500px;
-    height:500px;
+    width:80vh;
+    height: 80vh;
+  }
+  #chessground {
+    height: 0; width:100%;
+    padding-bottom:100%
   }
 }
-
-@media (min-width: 1281px) and (max-width:3000px) {
-  #analysisAll{
+@media (min-width: 1281px) and (max-width: 3000px) {
+  #analysisAll {
     display: flex;
-    width:1280px;
+    width: 1280px;
   }
-
   #chartContainer {
-    display: flex; flex-direction: column;
+    display: flex;
+    flex-direction: column;
     width: 500px;
-    height:80vh;
+    height: 80vh;
   }
-
   #chessgroundParentDiv {
-    aspect-ratio : 1 / 1;
-    height:80%;
-    flex-grow:6;
+    height: 80vh;
+    width:80vh;
   }
   #myChart {
-
-    height:100px;
+    
+    height: 100px;
+  }
+  #chessground {
+    height: 0; width:100%;
+    padding-bottom:100%
   }
 }
 
 
-#chessground {
-  width: 100%;
-  height: 100%;
-}
 
 cg-board {
   background-color: #bfcfdd;
