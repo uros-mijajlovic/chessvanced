@@ -53,6 +53,7 @@ stockfish.addEventListener('message', function (e) {
     stockfishOrchestratorInst.handleMainMessage({from:'stockfish', message:message})
 });
 const stockfishOrchestratorInst=new stockfishOrchestrator(stockfish);
+
 const sidebarInst=new Sidebar(document.getElementById("sidebarComponent"));
 
 const evaluationGraphInst=new EvaluationGraph("myChart");
@@ -62,6 +63,9 @@ var analsysOrchestratorInst=new AnalysisOrchestrator(stockfishOrchestratorInst, 
 
 
 const playerControllerInst=new PlayerController(guiHandlerInst, analsysOrchestratorInst);
+
+sidebarInst.playerController=playerControllerInst;
+console.log("playerControllerSet");
 
 document.addEventListener('keydown', function(event) {
   if (event.keyCode === 37) {

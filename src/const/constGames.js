@@ -13,7 +13,7 @@ const pgn_string_1=`[Event "Live Chess"]
 [Termination "urke-37 won by resignation"]
 
 1. e4 d5 2. exd5 Qxd5 3. Nc3 Qa5 4. d3 c6 5. Bd2 Nf6 6. h3 e5 7. Qe2 Be6 8. Nf3
-Bd6 9. Ne4 Nxe4 10. Bxa5 b6 1-0`
+Bd6 9. Ne4 Nxe4 10. Bxa5 b6 11. Qxe4 1-0 `
 
 // const pgn_string_1=`[Event "Live Chess"]
 // [Site "Chess.com"]
