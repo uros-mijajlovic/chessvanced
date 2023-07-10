@@ -12,19 +12,27 @@ class stockfishOrchestrator {
 
         this.whiteMove=false;
 
+
+        this.stockfishWorker.postMessage(`setoption name Hash value 32`);
+        this.stockfishWorker.postMessage(`setoption name Threads value 1`);
+        //this.stockfishWorker.postMessage(`setoption name MultiPV value 2`);
+        this.stockfishWorker.postMessage(`setoption name UCI_AnalyseMode value true`);
+        this.stockfishWorker.postMessage(`uci`);
+
+
         self.onmessage = this.handleMainMessage.bind(this);
         //setoption name Use NNUE value true
         
-        this.stockfishWorker.postMessage(`uci`);
-        this.stockfishWorker.postMessage(`setoption name Threads value 7`);
-        console.log("uci sent")
+        
+        
+        //this.stockfishWorker.postMessage(`bench`);
     }
     getDepthFromString(str){
       const depthPattern = /depth (\d+)/;
       const depthMatch = str.match(depthPattern);
 
       if (depthMatch) {
-        const depth = parseInt(depthMatch[1], 10);
+        const depth = parseInt(depthMatch[1]);
         return depth
       } else {
         return -1
@@ -34,15 +42,15 @@ class stockfishOrchestrator {
     async getAnalsysForFenPosition(fenPosition) {
         this.isCurrentlyWorking=true;
         this.currentFEN=fenPosition;
-        console.log(`position fen ${fenPosition}`);
+        //console.log(`position fen ${fenPosition}`);
 
         this.stockfishWorker.postMessage(`position fen ${fenPosition}`)
-        this.stockfishWorker.postMessage('go depth 14')    
+        this.stockfishWorker.postMessage('go depth 15')    
       }
 
     async waitForRun(fenPosition) {
       while (this.isCurrentlyWorking) {
-        await new Promise((resolve) => setTimeout(resolve, 100)); // Wait for 100ms
+        await new Promise((resolve) => setTimeout(resolve, 10)); // Wait for 100ms
       }
       await this.getAnalsysForFenPosition(fenPosition);
     }
@@ -51,7 +59,7 @@ class stockfishOrchestrator {
       const from=message.from;
       const text=message.message;
       console.log(message.message)
-      if(from=='stockfish' && this.getDepthFromString(text)==14){
+      if(from=='stockfish' && this.getDepthFromString(text)==15){
 
 
         const regex = /cp\s(-?\d+)/;

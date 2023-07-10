@@ -31,38 +31,70 @@ const glyphToSvg = {
 
 const sleep = (ms) => new Promise(r => setTimeout(r, ms));
 
-function colorTile(tile:string){
-  var chessgroundElement = document.getElementById("chessground");
-  const indexRow=8-parseInt(tile[1]);
-  const indexColumn=tile[0].charCodeAt(0)-"a".charCodeAt(0);
-  if(indexRow>=0 && indexRow<8 && indexColumn>=0 && indexColumn<8){
-    var sixthChild = chessgroundElement.firstElementChild.firstElementChild.children[1].children[indexRow].children[indexColumn];
-    sixthChild.classList.remove(sixthChild.classList[sixthChild.classList.length - 1]);
+enum TILE_COLORS {
+  ACTIVE,
+  INACTIVE
+};
 
-    // Add the class name "kurac" to the sixth child
-    sixthChild.classList.add("kurac");
-    console.log("donzo");
-  }
-}
+
+
 
 class GuiHandler {
   private chessBoard: any;
   private evaluationGraph:EvaluationGraph;
   private sidebar: Sidebar;
+  private activeTiles: string[];
+
   constructor(evaluationGraphInst:EvaluationGraph, sidebar:Sidebar){
     this.evaluationGraph=evaluationGraphInst;
     
     this.chessBoard=Chessboard2('chessground', "start");
     this.sidebar=sidebar;
+    this.activeTiles=[]
     
+  }
+  private colorTile(tile:string, TILE_COLOR: TILE_COLORS){
+    
+    var chessgroundElement = document.getElementById("chessground");
+    const indexRow=8-parseInt(tile[1]);
+    const indexColumn=tile[0].charCodeAt(0)-"a".charCodeAt(0);
+    if(indexRow>=0 && indexRow<8 && indexColumn>=0 && indexColumn<8){
+      var selectedTile = chessgroundElement.firstElementChild.firstElementChild.children[1].children[indexRow].children[indexColumn];
+  
+      if(TILE_COLOR==TILE_COLORS.ACTIVE){
+        const lastClassOfTile=selectedTile.classList[selectedTile.classList.length - 1];
+        if(lastClassOfTile!="active"){
+          this.activeTiles.push(tile)
+          if(lastClassOfTile=="inactive"){
+            selectedTile.classList.remove(lastClassOfTile);
+            selectedTile.classList.add("active");
+          }else{
+            selectedTile.classList.add("active");
+          }
+        }
+      }else if(TILE_COLOR==TILE_COLORS.INACTIVE){
+        selectedTile.classList.remove(selectedTile.classList[selectedTile.classList.length - 1]);
+        selectedTile.classList.add("kurac");
+      
+      }
+    }
+  }
+  private deactivateTiles(){
+    while(this.activeTiles.length>0){
+      this.colorTile(this.activeTiles[this.activeTiles.length-1], TILE_COLORS.INACTIVE);
+      this.activeTiles.pop();
+    }
+
   }
   public async setBoardAndMove(fenString:string, from:string, to:string, moveIndex:number){
     this.evaluationGraph.updateGraphSelectedMove(moveIndex);
     this.chessBoard.position(fenString, false);
-    colorTile("c8");
 
-    
-
+    this.deactivateTiles();
+    if(from!="" && to!=""){
+      this.colorTile(from, TILE_COLORS.ACTIVE);
+      this.colorTile(to, TILE_COLORS.ACTIVE);
+    }
   }
   public updateGraph(gameAnalysis){
     //this.sidebar.setAnalysisData(gameAnalysis);
