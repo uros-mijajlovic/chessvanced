@@ -47,8 +47,8 @@ if(analysisData[i]["evaluation"]>analysisData[i-1]["evaluation"]+6){
 
 var wasmSupported = typeof WebAssembly === 'object' && WebAssembly.validate(Uint8Array.of(0x0, 0x61, 0x73, 0x6d, 0x01, 0x00, 0x00, 0x00));
 if(wasmSupported)console.log("wasmSupported");
-//var stockfish = new Worker(wasmSupported ? '/dependencies/stockfish.wasm' : '/dependencies/stockfish.js');
-var stockfish = new Worker('/dependencies/stockfish.js');
+var stockfish = new Worker(wasmSupported ? '/dependencies/stockfish.wasm.js' : '/dependencies/stockfish.js');
+//var stockfish = new Worker('/dependencies/stockfish.js');
 
 stockfish.postMessage("go depth 15");
 //var stockfish = new Worker('/dependencies/stockfish.wasm.js');
