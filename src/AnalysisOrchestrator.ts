@@ -32,6 +32,8 @@ class AnalysisOrchestrator {
   
   async analyzePgnGame(pgnString){
       const fenMoves=pgnToFenArr(pgnString);
+      this.gameAnalysis=[]
+      this.gameAnalysis.push({"evaluation":0,"moveRating":"grey"})
       for (const fenMove of fenMoves) {
         await this.stockfishOrchestrator.waitForRun(fenMove);
         console.log(fenMove);

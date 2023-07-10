@@ -39,15 +39,14 @@ class PlayerController {
   }
 
   public gotoMove(index : number){
-    
     if(index<0)index=0; // finxing bug with index=-1
-    if (index>=this.currentMoveArray.length)index=this.currentMoveArray.length-1
+    if (index>this.currentMoveArray.length)index=this.currentMoveArray.length
     this.currentMove=index;
-    console.log(`tryna go to move ${index}`)
-    console.log(this.currentFenArray[index]);
-    console.log(this.currentMoveArray[index]);
-    
-    this.guiHandler.setBoardAndMove(this.currentFenArray[index], this.currentMoveArray[index].substring(0, 2), this.currentMoveArray[index].substring(2, 4), index)
+    if(index>0){
+      this.guiHandler.setBoardAndMove(this.currentFenArray[index], this.currentMoveArray[index-1].substring(0, 2), this.currentMoveArray[index-1].substring(2, 4), index)
+    }else{
+      this.guiHandler.setBoardAndMove(this.currentFenArray[index], "", "", index)
+    }
   }
 }
 export {PlayerController};

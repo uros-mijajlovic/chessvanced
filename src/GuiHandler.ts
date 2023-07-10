@@ -1,7 +1,8 @@
 import {Chessground} from "../dependencies/chessground.js";
 import { EvaluationGraph } from "./EvaluationGraph.js";
-
 import { Sidebar } from "./Sidebar.js";
+declare var Chessboard2: any;
+
 const glyphToSvg = {
   // Inaccuracy
   '?!': `
@@ -28,7 +29,21 @@ const glyphToSvg = {
 `,
 };
 
+const sleep = (ms) => new Promise(r => setTimeout(r, ms));
 
+function colorTile(tile:string){
+  var chessgroundElement = document.getElementById("chessground");
+  const indexRow=8-parseInt(tile[1]);
+  const indexColumn=tile[0].charCodeAt(0)-"a".charCodeAt(0);
+  if(indexRow>=0 && indexRow<8 && indexColumn>=0 && indexColumn<8){
+    var sixthChild = chessgroundElement.firstElementChild.firstElementChild.children[1].children[indexRow].children[indexColumn];
+    sixthChild.classList.remove(sixthChild.classList[sixthChild.classList.length - 1]);
+
+    // Add the class name "kurac" to the sixth child
+    sixthChild.classList.add("kurac");
+    console.log("donzo");
+  }
+}
 
 class GuiHandler {
   private chessBoard: any;
@@ -36,16 +51,18 @@ class GuiHandler {
   private sidebar: Sidebar;
   constructor(evaluationGraphInst:EvaluationGraph, sidebar:Sidebar){
     this.evaluationGraph=evaluationGraphInst;
-    this.chessBoard=Chessground(document.getElementById('chessground'), {});
+    
+    this.chessBoard=Chessboard2('chessground', "start");
     this.sidebar=sidebar;
     
   }
-  public setBoardAndMove(fenString:string, from:string, to:string, moveIndex:number){
-    this.chessBoard.set({fen:fenString});
-    this.chessBoard.move(from, to);
+  public async setBoardAndMove(fenString:string, from:string, to:string, moveIndex:number){
     this.evaluationGraph.updateGraphSelectedMove(moveIndex);
-    // this.chessBoard.setAutoShapes([{ orig: 'e4', brush: 'green', customSvg: glyphToSvg['??'] }]);
-    // this.chessBoard.move('e7', 'e5');
+    this.chessBoard.position(fenString, false);
+    colorTile("c8");
+
+    
+
   }
   public updateGraph(gameAnalysis){
     //this.sidebar.setAnalysisData(gameAnalysis);

@@ -25,7 +25,7 @@ export class Sidebar{
 
     setAnalysisData(gameAnalysis){
         const handleClick = (event) => {
-            this.playerController.gotoMove(parseInt(event.target.id));
+            this.playerController.gotoMove(parseInt(event.target.id)+1);
         };
         const getMoveElementDiv = (index:number, move1Str:string, move2Str:string) =>{
             const move_container = document.createElement('div');

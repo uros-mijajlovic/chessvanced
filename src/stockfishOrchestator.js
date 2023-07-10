@@ -13,6 +13,10 @@ class stockfishOrchestrator {
         this.whiteMove=false;
 
         self.onmessage = this.handleMainMessage.bind(this);
+        //setoption name Use NNUE value true
+        
+        this.stockfishWorker.postMessage(`uci`);
+        console.log("uci sent")
     }
     getDepthFromString(str){
       const depthPattern = /depth (\d+)/;
@@ -32,7 +36,7 @@ class stockfishOrchestrator {
         console.log(`position fen ${fenPosition}`);
 
         this.stockfishWorker.postMessage(`position fen ${fenPosition}`)
-        this.stockfishWorker.postMessage('go depth 10')    
+        this.stockfishWorker.postMessage('go depth 4')    
       }
 
     async waitForRun(fenPosition) {
@@ -45,7 +49,8 @@ class stockfishOrchestrator {
 
       const from=message.from;
       const text=message.message;
-      if(from=='stockfish' && this.getDepthFromString(text)==10){
+      console.log(message.message)
+      if(from=='stockfish' && this.getDepthFromString(text)==4){
 
 
         const regex = /cp\s(-?\d+)/;
