@@ -36,6 +36,14 @@ body {
   padding: 20px;
 }
 
+.white-3b784.active {
+  background-color: #dce179;
+}
+
+.black-b7cb6.active {
+  background-color: #c7ca61;
+}
+
 #analysisAll {
   height: 100%;
   gap: 20px;

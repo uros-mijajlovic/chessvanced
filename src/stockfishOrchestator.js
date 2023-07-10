@@ -13,9 +13,9 @@ class stockfishOrchestrator {
         this.whiteMove=false;
 
 
-        this.stockfishWorker.postMessage(`setoption name Hash value 32`);
-        this.stockfishWorker.postMessage(`setoption name Threads value 1`);
-        //this.stockfishWorker.postMessage(`setoption name MultiPV value 2`);
+        this.stockfishWorker.postMessage(`setoption name Hash value 128`);
+        this.stockfishWorker.postMessage(`setoption name Threads value 4`);
+        this.stockfishWorker.postMessage(`setoption name MultiPV value 2`);
         this.stockfishWorker.postMessage(`setoption name UCI_AnalyseMode value true`);
         this.stockfishWorker.postMessage(`uci`);
 
