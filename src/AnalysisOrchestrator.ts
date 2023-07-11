@@ -20,6 +20,7 @@ class AnalysisOrchestrator {
   private stockfishOrchestrator:stockfishOrchestrator;
   private gameAnalysis:Record<string, any>;
   private guiHandler:GuiHandler;
+  private moveArray:any[];
   constructor(stockfishOrchestratorInst, guiHandler){
       this.stockfishOrchestrator=stockfishOrchestratorInst;
       this.gameAnalysis=[]
@@ -30,22 +31,25 @@ class AnalysisOrchestrator {
     const evalScore=dataForFen[0]/100;
     moveAnalysis["evaluation"]=evalScore;
     
+
     if (1 in dataForFen && dataForFen[1]+200<dataForFen[0]){
       console.log(dataForFen);
       moveAnalysis["moveRating"]="brilliant";
     }else{
       moveAnalysis["moveRating"]="grey";
     }
+
     this.gameAnalysis.push(moveAnalysis);
     this.guiHandler.updateGraph(this.gameAnalysis);
   }
   
-  async analyzePgnGame(fenMoves, regularMoves){
+  async analyzePgnGame(fenMoves, moveArray){
       this.gameAnalysis=[]
+      this.moveArray=moveArray;
       this.gameAnalysis.push({"evaluation":0,"moveRating":"grey"})
       for (let i=1; i<fenMoves.length; i++) {
         const fenMove=fenMoves[i];
-        await this.stockfishOrchestrator.waitForRun(fenMove, regularMoves[i-1]);
+        await this.stockfishOrchestrator.waitForRun(fenMove, moveArray[i-1].fromto);
         console.log(fenMove);
       }
   }

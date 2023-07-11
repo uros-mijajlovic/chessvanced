@@ -5,6 +5,8 @@ import { EvaluationGraph } from './EvaluationGraph.js';
 import { GuiHandler } from './GuiHandler.js';
 import { PlayerController } from './PlayerController.js';
 import {Sidebar} from "./Sidebar.js"
+
+declare var Stockfish:any;
 function getRandomNumber(lastNumber) {
 
     let randomNumber;

@@ -30,12 +30,12 @@ export class EvaluationGraph {
     private gameAnalysis:any;
     private graph:any;
     public playerControllerInst:PlayerController;
-    constructor(canvasId : string, playerController:PlayerController){
+    constructor(canvasId : string){
 
         this.chartData=chartData;
         this.canvasId=canvasId;
         this.gameAnalysis=null;
-        this.playerControllerInst=playerController;
+        
         
         const ctx = document.getElementById(canvasId);
         this.graph=new Chart(ctx, {

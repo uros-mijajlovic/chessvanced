@@ -6,7 +6,7 @@ class stockfishOrchestrator {
     private waiting:boolean;
     private isCurrentlyWorking:boolean;
     private currentFEN:string;
-    private analysisOrchestrator:AnalysisOrchestrator;
+    public analysisOrchestrator:AnalysisOrchestrator;
     private whiteMove:boolean;
     private timeWhenSentToStockfish:Date;
     private lastMessageFromStockfish:string;

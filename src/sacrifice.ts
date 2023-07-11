@@ -32,13 +32,12 @@ export function PgnToMoveArr(pgnString:string){
   const chessjs=Chess();
   chessjs.load_pgn(pgnString);
   const moves = chessjs.history({ verbose: true });
-  var strMoves=[];
 
   moves.forEach((move, index) => {
-    strMoves.push(move.from + move.to);
+    move.fromto=move.from + move.to;
   });
 
-  return strMoves;
+  return moves;
 
 }
 

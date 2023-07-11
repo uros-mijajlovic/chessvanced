@@ -1,6 +1,8 @@
 import {Chessground} from "../dependencies/chessground.js";
 import { EvaluationGraph } from "./EvaluationGraph.js";
 import { Sidebar } from "./Sidebar.js";
+import { SoundHandler } from "./SoundHandler.js";
+import {Config} from "./config/config.js"
 declare var Chessboard2: any;
 
 const glyphToSvg = {
@@ -44,6 +46,7 @@ class GuiHandler {
   private evaluationGraph:EvaluationGraph;
   private sidebar: Sidebar;
   private activeTiles: string[];
+  private soundHandler:SoundHandler;
 
   constructor(evaluationGraphInst:EvaluationGraph, sidebar:Sidebar){
     this.evaluationGraph=evaluationGraphInst;
@@ -51,7 +54,12 @@ class GuiHandler {
     this.chessBoard=Chessboard2('chessground', "start");
     this.sidebar=sidebar;
     this.activeTiles=[]
+    this.soundHandler=new SoundHandler();
+    this.flipBoard();
     
+  }
+  public flipBoard(){
+    this.chessBoard.flip();
   }
   private colorTile(tile:string, TILE_COLOR: TILE_COLORS){
     
@@ -86,9 +94,15 @@ class GuiHandler {
     }
 
   }
-  public async setBoardAndMove(fenString:string, from:string, to:string, moveIndex:number){
+  public async setBoardAndMove(fenString:string, from:string, to:string, moveIndex:number, moveType:Config.MOVE_TYPE = Config.MOVE_TYPE.MOVE_NONE){
+    
+    //this.soundHandler.playSound(this.soundHandler.SOUND_TYPE.SOUND_MOVE);
+
+    this.soundHandler.playSound(moveType);
     this.evaluationGraph.updateGraphSelectedMove(moveIndex);
     this.chessBoard.position(fenString, false);
+
+    
 
     this.deactivateTiles();
     if(from!="" && to!=""){
