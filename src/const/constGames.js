@@ -17,37 +17,39 @@ Bd6 9. Ne4 Nxe4 10. Bxa5 b6 11. Qxe4 1-0 `
 
 const pgn_string_black=`[Event "Live Chess"]
 [Site "Chess.com"]
-[Date "2023.06.23"]
+[Date "2023.06.29"]
 [Round "-"]
-[White "Crini"]
+[White "Raimrai"]
 [Black "urke-37"]
-[Result "1-0"]
-[CurrentPosition "1k1r3r/pbq2p2/1p2pn2/3p2B1/3P2Pp/1P3Pb1/P3P1B1/RN1Q2KR b - -"]
+[Result "0-1"]
+[CurrentPosition "r6k/ppp3pp/2np4/1q6/8/2P5/PP3P1R/5RK1 w - -"]
 [Timezone "UTC"]
-[ECO "D02"]
-[ECOUrl "https://www.chess.com/openings/Queens-Pawn-Opening-Zukertort-Variation-2...e6"]
-[UTCDate "2023.06.23"]
-[UTCTime "18:09:59"]
-[WhiteElo "990"]
-[BlackElo "984"]
-[TimeControl "300"]
-[Termination "Crini won - game abandoned"]
-[StartTime "18:09:59"]
-[EndDate "2023.06.23"]
-[EndTime "18:13:08"]
-[Link "https://www.chess.com/game/live/81282779099"]
-[WhiteUrl "https://images.chesscomfiles.com/uploads/v1/user/81810616.9a654fcf.50x50o.78c147cfe4d2.jpeg"]
-[WhiteCountry "2"]
+[ECO "C44"]
+[ECOUrl "https://www.chess.com/openings/Ponziani-Opening-3...d6"]
+[UTCDate "2023.06.29"]
+[UTCTime "11:06:51"]
+[WhiteElo "1691"]
+[BlackElo "1638"]
+[TimeControl "900+10"]
+[Termination "urke-37 won by resignation"]
+[StartTime "11:06:51"]
+[EndDate "2023.06.29"]
+[EndTime "11:34:48"]
+[Link "https://www.chess.com/game/live/81775983589"]
+[WhiteUrl "https://www.chess.com/bundles/web/images/noavatar_l.84a92436.gif"]
+[WhiteCountry "158"]
 [WhiteTitle ""]
 [BlackUrl "https://images.chesscomfiles.com/uploads/v1/user/49908860.6e139a99.50x50o.906cfd1f5469.jpeg"]
 [BlackCountry "231"]
 [BlackTitle ""]
 
-1. d4 d5 2. Nf3 e6 3. b3 c5 4. Bb2 cxd4 5. Bxd4 Nc6 6. Bb2 Nf6 7. g3 b6 8. Bg2
-Bb7 9. O-O Bb4 10. c3 Bd6 11. Nd4 Nxd4 12. cxd4 h5 13. f3 h4 14. g4 Qc7 15. Kf2
-Bxh2 16. Rh1 Bg3+ 17. Kg1 g5 18. Bc3 O-O-O 19. Bd2 Kb8 20. Bxg5 $6 {<br /><br
-/>Game may have continued...} (20. Bxg5 Nxg4 21. fxg4 Rdg8 22. Bd2 Rxg4 23. Qf1
-Rhg8 24. Nc3 {-3.30}) 1-0`
+1. e4 e5 2. Nf3 Nc6 3. c3 d6 4. h3 $6 f5 5. d3 $2 Be7 $6 6. Na3 $6 Nf6 7. Bg5 $2 fxe4
+8. Bxf6 $6 Bxf6 $9 9. dxe4 O-O 10. Be2 Qe8 11. O-O $6 Qg6 12. Kh2 $6 Qxe4 13. Qd2
+Qg6 14. Nb5 e4 15. Bc4+ $6 Kh8 16. Ne1 $6 Be5+ 17. Kh1 $6 Qh5 $2 18. Be2 $6 Qh4 19.
+Qe3 $6 Bf4 20. Qxe4 Bxh3 $3 21. Nf3 Bxg2+ 22. Kxg2 Qg4+ $1 23. Kh1 Rf6 $6 24. Nh2 Qh4
+25. Qg2 Rg6 26. Rg1 Rxg2 27. Rxg2 Bxh2 28. Rxh2 Qe4+ 29. Kg1 $6 Qxe2 30. Rf1 Qxb5
+{<br /><br />Game may have continued...} (30... Qxb5 31. Re1 Qg5+ 32. Rg2 Qxg2+
+33. Kxg2 g5 34. Kg3 Ne5 {-6.29}) 0-1`
 
 const pgn_string_1=pgn_string_black;
 

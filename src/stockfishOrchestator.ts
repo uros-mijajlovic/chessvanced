@@ -13,7 +13,7 @@ class stockfishOrchestrator {
     private stockfishParser:StockfishParser;
     private moveTimeLengthMs:number;
     private currentRegularMove:string;
-
+    
     constructor(stockfishWorkerArg) {
         this.stockfishWorker = stockfishWorkerArg;
 
@@ -40,7 +40,6 @@ class stockfishOrchestrator {
         this.stockfishWorker.postMessage(`setoption name Threads value 1`);
         this.stockfishWorker.postMessage(`setoption name MultiPV value 2`);
         this.stockfishWorker.postMessage(`setoption name UCI_AnalyseMode value true`);
-        this.stockfishWorker.postMessage(`uci`);
 
 
         self.onmessage = this.handleMainMessage.bind(this);

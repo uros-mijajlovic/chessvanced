@@ -31,11 +31,20 @@ function getMultiPVvalueFromString(message:string){
     }
 }
 
+function getBestMoveFromString(message:string){
+
+    
+    const regex = /pv\s(\w{4})/;
+    const match = message.match(regex);
+    return match[1];
+
+}
+
 
   
 
 export class StockfishParser{
-    private data:Record<number, number>; 
+    private data:Record<number, any>; 
     private maxDepthReached:number;
     constructor(){
         this.data={};
@@ -44,12 +53,14 @@ export class StockfishParser{
     getEval(){
         console.log(`max depth reached is ${this.maxDepthReached}`);
         this.maxDepthReached=0;
-        return this.data[0];
+        return this.data[0]["CP"];
     }
     sendMessage(message:string, isWhiteMove:boolean){
         this.maxDepthReached=Math.max(this.maxDepthReached, getDepthFromString(message));
         const moveOrder=getMultiPVvalueFromString(message);
-        this.data[moveOrder-1]=getCPvalueFromString(message) * (isWhiteMove ? 1:-1);
+        const bestMove=getBestMoveFromString(message);
+
+        this.data[moveOrder-1]={"move":bestMove, "CP":getCPvalueFromString(message) * (isWhiteMove ? 1:-1)};
     }
     getAllData(){
         return this.data;

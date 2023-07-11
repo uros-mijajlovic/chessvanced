@@ -6,4 +6,9 @@ export namespace Config{
         MOVE_MATE,
         MOVE_NONE,
     };
+    export enum ANALYSIS_FOR{
+        WHITE,
+        BLACK, 
+        BOTH
+    }
 }
