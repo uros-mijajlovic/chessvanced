@@ -25,17 +25,27 @@ class AnalysisOrchestrator {
       this.gameAnalysis=[]
       this.guiHandler=guiHandler;
     }
-  sendEval(cpScore, FENstring){
-    this.gameAnalysis.push({"evaluation":cpScore/100,"moveRating":"grey"})
+  sendEval(dataForFen:Record<number, number>, FENstring:string, regularMove:string){
+    const moveAnalysis={}
+    const evalScore=dataForFen[0]/100;
+    moveAnalysis["evaluation"]=evalScore;
+    
+    if (1 in dataForFen && dataForFen[1]+200<dataForFen[0]){
+      console.log(dataForFen);
+      moveAnalysis["moveRating"]="brilliant";
+    }else{
+      moveAnalysis["moveRating"]="grey";
+    }
+    this.gameAnalysis.push(moveAnalysis);
     this.guiHandler.updateGraph(this.gameAnalysis);
   }
   
-  async analyzePgnGame(pgnString){
-      const fenMoves=pgnToFenArr(pgnString);
+  async analyzePgnGame(fenMoves, regularMoves){
       this.gameAnalysis=[]
       this.gameAnalysis.push({"evaluation":0,"moveRating":"grey"})
-      for (const fenMove of fenMoves) {
-        await this.stockfishOrchestrator.waitForRun(fenMove);
+      for (let i=1; i<fenMoves.length; i++) {
+        const fenMove=fenMoves[i];
+        await this.stockfishOrchestrator.waitForRun(fenMove, regularMoves[i-1]);
         console.log(fenMove);
       }
   }

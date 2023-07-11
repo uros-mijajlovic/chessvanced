@@ -26,10 +26,9 @@ class PlayerController {
     this.currentMoveArray=PgnToMoveArr(this.currentPgn);
     this.guiHandler.updateSidebar(pgnString);
     this.startAnalysis();
-
   }
   public startAnalysis(){
-    this.analysisOrchestrator.analyzePgnGame(this.currentPgn);
+    this.analysisOrchestrator.analyzePgnGame(this.currentFenArray, this.currentMoveArray);
   }
   public goBackwards(){
     this.gotoMove(this.currentMove-1);
