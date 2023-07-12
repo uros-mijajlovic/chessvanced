@@ -2,6 +2,10 @@ import {Chess} from '../dependencies/chess.js';
 import { GuiHandler } from './GuiHandler.js';
 import { EvaluationGraph } from './EvaluationGraph.js';
 import { stockfishOrchestrator } from './stockfishOrchestator.js';
+
+// ti za potez treba da gledas info od prethodnog, a ne od trenutnog !!!
+
+
 function pgnToFenArr(pgnString){
     const chessjs=Chess();
     chessjs.load_pgn(pgnString);
@@ -22,40 +26,63 @@ class AnalysisOrchestrator {
   private guiHandler:GuiHandler;
   private moveArray:any[];
   private fenArray:string[];
+  private fromPerspective:string;
   constructor(stockfishOrchestratorInst, guiHandler){
       this.stockfishOrchestrator=stockfishOrchestratorInst;
       this.gameAnalysis=[]
       this.guiHandler=guiHandler;
     }
+  private calculateMoveBrilliance(dataForFen, regularMove, moveIndex){
+      if(moveIndex%2==0 && this.fromPerspective=="black"){
+        return "gray";
+      }else if(moveIndex%2==1 && this.fromPerspective=="white"){
+        return "gray";
+      }
+      console.log(`i think the move ${this.moveArray[moveIndex-1].fromto}, ${moveIndex-1}`)
+      console.log(dataForFen);
+      if (1 in dataForFen && (Math.abs(dataForFen[0]["CP"])-Math.abs(dataForFen[1]["CP"])) > 200 ){
+        return "brilliant";
+      }
 
 
-  sendEval(dataForFen:Record<number, number>, FENstring:string, regularMove:string){
+
+
+      return "gray";
+  }
+
+
+  sendEval(dataForFen:Record<number, number>, FENstring:string, regularMove:string, moveIndex:number){
     const moveAnalysis={}
     const evalScore=dataForFen[0]["CP"]/100;
     moveAnalysis["evaluation"]=evalScore;
     
-    console.log(`player played ${regularMove}, but the best move was ${dataForFen[0]["move"]}`);
-    console.log(dataForFen);
-    if (dataForFen[0]["move"]==regularMove && 1 in dataForFen && dataForFen[1]["CP"]-300>dataForFen[0]["CP"]){
+    //console.log(`player played ${regularMove}, but the best move was ${dataForFen[0]["move"]}`);
+    //console.log(dataForFen);
+    moveAnalysis["moveRating"]=this.calculateMoveBrilliance(dataForFen, regularMove, moveIndex);
+
+    // if (dataForFen[0]["move"]==regularMove && 1 in dataForFen && dataForFen[1]["CP"]-300>dataForFen[0]["CP"]){
       
-      moveAnalysis["moveRating"]="brilliant";
-    }else{
-      moveAnalysis["moveRating"]="grey";
-    }
+    //   moveAnalysis["moveRating"]="brilliant";
+    // }else{
+    //   moveAnalysis["moveRating"]="grey";
+    // }
 
     this.gameAnalysis.push(moveAnalysis);
     this.guiHandler.updateGraph(this.gameAnalysis);
   }
   
-  async analyzePgnGame(fenMoves, moveArray){
+  async analyzePgnGame(fenMoves, moveArray, fromPerspective="black"){
       this.gameAnalysis=[]
       this.moveArray=moveArray;
+      this.fromPerspective=fromPerspective;
       this.gameAnalysis.push({"evaluation":0,"moveRating":"grey"})
       this.fenArray=fenMoves;
-      for (let i=1; i<fenMoves.length; i++) {
+      
+      for (let i=0; i<fenMoves.length; i++) {
         const fenMove=fenMoves[i];
-
-        await this.stockfishOrchestrator.waitForRun(fenMove, moveArray[i].fromto);
+        
+        console.log(`BABOVIC RETARD ${moveArray[i].fromto}, ${fenMove}`);
+        await this.stockfishOrchestrator.waitForRun(fenMove, moveArray[i].fromto, i);
         console.log(fenMove);
       }
   }

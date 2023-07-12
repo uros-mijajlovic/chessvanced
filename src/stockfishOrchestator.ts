@@ -13,12 +13,13 @@ class stockfishOrchestrator {
     private stockfishParser:StockfishParser;
     private moveTimeLengthMs:number;
     private currentRegularMove:string;
+    private moveIndex:number;
     
     constructor(stockfishWorkerArg) {
         this.stockfishWorker = stockfishWorkerArg;
 
         this.stockfishParser= new StockfishParser();
-        this.moveTimeLengthMs=700;
+        this.moveTimeLengthMs=1000;
         this.waiting=false;
 
         this.isCurrentlyWorking=null;
@@ -27,7 +28,7 @@ class stockfishOrchestrator {
 
         this.analysisOrchestrator=null;
 
-        this.whiteMove=false;
+        this.whiteMove=true;
 
         this.timeWhenSentToStockfish=null;
 
@@ -37,7 +38,7 @@ class stockfishOrchestrator {
 
 
         this.stockfishWorker.postMessage(`setoption name Hash value 128`);
-        this.stockfishWorker.postMessage(`setoption name Threads value 1`);
+        this.stockfishWorker.postMessage(`setoption name Threads value 4`);
         this.stockfishWorker.postMessage(`setoption name MultiPV value 2`);
         this.stockfishWorker.postMessage(`setoption name UCI_AnalyseMode value true`);
 
@@ -50,10 +51,11 @@ class stockfishOrchestrator {
         //this.stockfishWorker.postMessage(`bench`);
     }
 
-    async getAnalsysForFenPosition(fenPosition, regularMove) {
+    async getAnalsysForFenPosition(fenPosition, regularMove, moveIndex) {
         this.isCurrentlyWorking=true;
         this.currentFEN=fenPosition;
         this.currentRegularMove=regularMove;
+        this.moveIndex=moveIndex;
         //console.log(`position fen ${fenPosition}`);
 
         this.stockfishWorker.postMessage(`position fen ${fenPosition}`)
@@ -61,11 +63,11 @@ class stockfishOrchestrator {
         this.stockfishWorker.postMessage(`go movetime ${this.moveTimeLengthMs}`)    
       }
 
-    async waitForRun(fenPosition, regularMove) {
+    async waitForRun(fenPosition, regularMove, moveIndex) {
       while (this.isCurrentlyWorking) {
         await new Promise((resolve) => setTimeout(resolve, 100)); // Wait for 100ms
       }
-      await this.getAnalsysForFenPosition(fenPosition, regularMove);
+      await this.getAnalsysForFenPosition(fenPosition, regularMove, moveIndex);
     }
     handleMainMessage(message) {
 
@@ -77,7 +79,7 @@ class stockfishOrchestrator {
         this.isCurrentlyWorking=false;
         this.whiteMove=!this.whiteMove;
         const currentEval=this.stockfishParser.getAllData();
-        this.analysisOrchestrator.sendEval(currentEval, this.currentFEN, this.currentRegularMove);
+        this.analysisOrchestrator.sendEval(currentEval, this.currentFEN, this.currentRegularMove, this.moveIndex);
         this.stockfishParser.cleanData();
       }else{
         this.stockfishParser.sendMessage(text, this.whiteMove);
