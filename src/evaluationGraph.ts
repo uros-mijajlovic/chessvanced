@@ -12,12 +12,14 @@ var chartData = {
         pointHitRadius: 50,
         usePointStyle: true,
         pointStyle: 'circle',
-        pointRadius: 3,
+        pointRadius: (ctx) => Math.random()*10,
         hoverRadius:5,
         hoverBorderWidth:0,
         borderColor:"rgba(170, 252, 255, 0.8)",
     }]
   };
+
+var globalGameAnalysis=[]
 
 
 
@@ -66,6 +68,23 @@ export class EvaluationGraph {
                 verticalLinePlugin:{
                   lineColor:"cyan",
                   xPosition:3,
+                },
+                tooltip:{
+                  bodySpacing:0,
+                  displayColors: false,
+                  callbacks: {
+                    title: function(tooltipItem, data) {
+                      return "";
+                    },
+                    body:function(tooltipItem) {
+                      return "k";
+                    },
+                    label:function(tooltipItem) {
+                      return globalGameAnalysis[tooltipItem.dataIndex]["CP"].toString();
+                    }
+
+                  },
+
                 }
                 
             },
@@ -77,8 +96,8 @@ export class EvaluationGraph {
             },
             scales: {
                 y: {
-                  min: -10,
-                  max: 10,
+                  min: -50,
+                  max: 50,
                   ticks: {
                     display: false
                   }
@@ -103,12 +122,14 @@ export class EvaluationGraph {
     }
     updateGraph(newGameAnalysis){
       this.gameAnalysis=newGameAnalysis
+      globalGameAnalysis=newGameAnalysis;
       var labels = this.chartData.labels=[];
       var data = this.chartData.datasets[0].data=[];
 
       for(const moveData of this.gameAnalysis){
 
-        labels.push(labels.length + 1);
+        labels.push(moveData["CP"].toString());
+        
         data.push(moveData["evaluation"]);
 
       }

@@ -27,20 +27,30 @@ class AnalysisOrchestrator {
   private moveArray:any[];
   private fenArray:string[];
   private fromPerspective:string;
+  private analysisArray:Record<number, any>[];
+
   constructor(stockfishOrchestratorInst, guiHandler){
       this.stockfishOrchestrator=stockfishOrchestratorInst;
-      this.gameAnalysis=[]
+      this.gameAnalysis=[];
       this.guiHandler=guiHandler;
+      this.analysisArray=[];
+
     }
   private calculateMoveBrilliance(dataForFen, regularMove, moveIndex){
+      if(moveIndex==1){
+        return "gray"
+      }
       if(moveIndex%2==0 && this.fromPerspective=="black"){
         return "gray";
       }else if(moveIndex%2==1 && this.fromPerspective=="white"){
         return "gray";
       }
-      console.log(`i think the move ${this.moveArray[moveIndex-1].fromto}, ${moveIndex-1}`)
-      console.log(dataForFen);
-      if (1 in dataForFen && (Math.abs(dataForFen[0]["CP"])-Math.abs(dataForFen[1]["CP"])) > 200 ){
+      
+      const beforeMoveAnalysis=this.analysisArray[this.analysisArray.length-2];
+      console.log("CALCULATING BRILLIANCE", beforeMoveAnalysis, regularMove);
+      //console.log(`i think the move ${this.moveArray[moveIndex-1].fromto}, ${moveIndex-1}`)
+      //console.log(dataForFen);
+      if (1 in dataForFen && regularMove==beforeMoveAnalysis[0]["move"] && Math.abs((Math.abs(beforeMoveAnalysis[0]["CP"])-Math.abs(beforeMoveAnalysis[1]["CP"]))) > 100 ){
         return "brilliant";
       }
 
@@ -52,22 +62,27 @@ class AnalysisOrchestrator {
 
 
   sendEval(dataForFen:Record<number, number>, FENstring:string, regularMove:string, moveIndex:number){
-    const moveAnalysis={}
-    const evalScore=dataForFen[0]["CP"]/100;
-    moveAnalysis["evaluation"]=evalScore;
     
-    //console.log(`player played ${regularMove}, but the best move was ${dataForFen[0]["move"]}`);
-    //console.log(dataForFen);
+    this.analysisArray.push(dataForFen);
+    const moveAnalysis={}
+    const centipawns=dataForFen[0]["CP"];
+
+    if (dataForFen[0]["cpOrMate"]=="mate"){
+      
+      moveAnalysis["CP"]="M"+centipawns.toString();
+      moveAnalysis["evaluation"]=49*(dataForFen[0]["isWhiteMove"]==true ? 1:-1);
+
+    }else{
+      var evalScoreForGraph = 50 * (2 / (1 + Math.exp(-0.004 * centipawns)) - 1)
+      moveAnalysis["evaluation"]=evalScoreForGraph;
+      moveAnalysis["CP"]=centipawns;
+      
+    }
+
     moveAnalysis["moveRating"]=this.calculateMoveBrilliance(dataForFen, regularMove, moveIndex);
 
-    // if (dataForFen[0]["move"]==regularMove && 1 in dataForFen && dataForFen[1]["CP"]-300>dataForFen[0]["CP"]){
-      
-    //   moveAnalysis["moveRating"]="brilliant";
-    // }else{
-    //   moveAnalysis["moveRating"]="grey";
-    // }
-
     this.gameAnalysis.push(moveAnalysis);
+    
     this.guiHandler.updateGraph(this.gameAnalysis);
   }
   
@@ -75,15 +90,18 @@ class AnalysisOrchestrator {
       this.gameAnalysis=[]
       this.moveArray=moveArray;
       this.fromPerspective=fromPerspective;
-      this.gameAnalysis.push({"evaluation":0,"moveRating":"grey"})
+      
       this.fenArray=fenMoves;
       
       for (let i=0; i<fenMoves.length; i++) {
         const fenMove=fenMoves[i];
         
-        console.log(`BABOVIC RETARD ${moveArray[i].fromto}, ${fenMove}`);
-        await this.stockfishOrchestrator.waitForRun(fenMove, moveArray[i].fromto, i);
-        console.log(fenMove);
+        if(i==0){
+          await this.stockfishOrchestrator.waitForRun(fenMove, "", i);
+        }else{
+          await this.stockfishOrchestrator.waitForRun(fenMove, moveArray[i-1].fromto, i);
+        }
+        //console.log(fenMove);
       }
   }
 }

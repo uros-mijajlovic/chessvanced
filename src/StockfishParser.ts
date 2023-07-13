@@ -10,14 +10,20 @@ function getDepthFromString(message:string){
     }
   }
 
-function getCPvalueFromString(message:string){
-    const regex = /cp\s(-?\d+)/;
-    const match = message.match(regex);
-    if (match) {
-        var cpValue = parseInt(match[1]);
-        //console.log("CP value:", cpValue);
-        return cpValue;
-        
+function getScorevalueFromString(message:string, isWhiteMove:boolean){
+    const cpRegex = /score cp (-?\d+)/;
+    const mateRegex = /score mate (-?\d+)/;
+
+    const cpMatch = message.match(cpRegex);
+    const mateMatch = message.match(mateRegex);
+
+    if (cpMatch) {
+        var cpValue = parseInt(cpMatch[1]);
+        return {"value" : cpValue, "cpOrMate":"cp", "isWhiteMove":isWhiteMove}
+    }
+    if (mateMatch) {
+        const movesToMate = parseInt(mateMatch[1]);
+        return {"value" : movesToMate, "cpOrMate":"mate", "isWhiteMove":isWhiteMove}
     }
   }
 
@@ -59,8 +65,10 @@ export class StockfishParser{
         this.maxDepthReached=Math.max(this.maxDepthReached, getDepthFromString(message));
         const moveOrder=getMultiPVvalueFromString(message);
         const bestMove=getBestMoveFromString(message);
+        
+        const score=getScorevalueFromString(message, isWhiteMove)
+        this.data[moveOrder-1]={"move":bestMove, "CP":score["value"] * (isWhiteMove ? 1:-1), "cpOrMate":score["cpOrMate"]};
 
-        this.data[moveOrder-1]={"move":bestMove, "CP":getCPvalueFromString(message) * (isWhiteMove ? 1:-1)};
     }
     getAllData(){
         return this.data;

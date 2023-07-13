@@ -51,7 +51,77 @@ Qe3 $6 Bf4 20. Qxe4 Bxh3 $3 21. Nf3 Bxg2+ 22. Kxg2 Qg4+ $1 23. Kh1 Rf6 $6 24. Nh
 {<br /><br />Game may have continued...} (30... Qxb5 31. Re1 Qg5+ 32. Rg2 Qxg2+
 33. Kxg2 g5 34. Kg3 Ne5 {-6.29}) 0-1`
 
-const pgn_string_1=pgn_string_black;
+const pgn_string_3=`[Event "Live Chess"]
+[Site "Chess.com"]
+[Date "2023.07.02"]
+[Round "-"]
+[White "urke-37"]
+[Black "endasan"]
+[Result "0-1"]
+[CurrentPosition "4r1k1/5pp1/Q1R4p/2p5/3p1q2/P2P3P/5PPK/8 w - -"]
+[Timezone "UTC"]
+[ECO "B23"]
+[ECOUrl "https://www.chess.com/openings/Closed-Sicilian-Defense-Traditional-Line-3.Bc4-e6"]
+[UTCDate "2023.07.02"]
+[UTCTime "10:11:08"]
+[WhiteElo "1619"]
+[BlackElo "1541"]
+[TimeControl "900+10"]
+[Termination "endasan won by resignation"]
+[StartTime "10:11:08"]
+[EndDate "2023.07.02"]
+[EndTime "10:37:37"]
+[Link "https://www.chess.com/game/live/82031525443"]
+[WhiteUrl "https://images.chesscomfiles.com/uploads/v1/user/49908860.6e139a99.50x50o.906cfd1f5469.jpeg"]
+[WhiteCountry "231"]
+[WhiteTitle ""]
+[BlackUrl "https://images.chesscomfiles.com/uploads/v1/user/11258728.272a8b03.50x50o.3646a9e0667f.jpeg"]
+[BlackCountry "116"]
+[BlackTitle ""]
+
+1. e4 c5 2. Bc4 e6 3. Nc3 Nc6 4. a3 Nf6 5. d3 Be7 6. Nf3 d5 7. exd5 exd5 8. Ba2
+Be6 9. O-O O-O 10. Re1 a6 11. Ng5 $6 Bf5 12. Nf3 d4 $6 13. Ne2 Re8 14. Ng3 Bg6 15.
+Bf4 $6 Nd5 16. Bxd5 $6 Qxd5 17. Ne5 Nxe5 18. Rxe5 Qd8 $6 19. Qe2 $2 Bf6 $9 20. Rxe8+ $1
+Qxe8 21. Re1 Qb5 22. h3 h6 23. Ne4 Bxe4 24. Qxe4 Qxb2 25. Bd6 $6 Qxc2 $6 26. Qxb7
+Rd8 27. Qxa6 $6 Qc3 28. Rb1 $2 Qc2 $9 29. Rb7 $9 Bg5 $9 30. Bg3 $1 Re8 31. Rc7 $2 Qc1+ $1
+32. Kh2 Bf4 $2 33. Rc6 $9 Bxg3+ 34. Kxg3 $6 Qg5+ 35. Kh2 $2 Qf4+ {<br /><br />Game may
+have continued...} (35... Qf4+ 36. g3 Qxf2+ 37. Kh1 Re1# {-M2}) 0-1`
+
+
+const pgn_string_great_brilliant=`[Event "Live Chess"]
+[Site "Chess.com"]
+[Date "2021.07.24"]
+[Round "-"]
+[White "Jaegeronin"]
+[Black "Chess_masters_LA"]
+[Result "1/2-1/2"]
+[CurrentPosition "7k/4R2P/6P1/3rK3/8/8/8/8 w - -"]
+[Timezone "UTC"]
+[ECO "C45"]
+[ECOUrl "https://www.chess.com/openings/Scotch-Game-Scotch-Gambit-Haxo-Gambit-5.c3"]
+[UTCDate "2021.07.24"]
+[UTCTime "13:58:14"]
+[WhiteElo "1430"]
+[BlackElo "1410"]
+[TimeControl "900+10"]
+[Termination "Game drawn by repetition"]
+[StartTime "13:58:14"]
+[EndDate "2021.07.24"]
+[EndTime "14:43:10"]
+[Link "https://www.chess.com/game/live/20874037197"]
+[WhiteUrl "https://images.chesscomfiles.com/uploads/v1/user/33594545.01731552.50x50o.d012a60078a5.jpeg"]
+[WhiteCountry "225"]
+[WhiteTitle ""]
+[BlackUrl "https://images.chesscomfiles.com/uploads/v1/user/92416168.84ac5955.50x50o.2099b95378b4.png"]
+[BlackCountry "69"]
+[BlackTitle ""]
+
+1. e4 e5 2. Nf3 Nc6 3. d4 exd4 4. Bc4 Bc5 5. c3 dxc3 $6 6. Bxf7+ $3 Kxf7 7. Qd5+ $1
+Ke8 8. Qh5+ Kf8 9. Qxc5+ Ke8 $2 10. Qxc3 $6 Nf6 $6 11. O-O d6 12. Bg5 Kf7 $6 13. Nbd2
+$9 Rf8 14. e5 dxe5 15. Nxe5+ Nxe5 16. Qxe5 h6 17. Bxf6 Qxf6 18. Qxc7+ Kg8 19.
+Ne4 $6 Qxb2 20. Nd6 Be6 21. Nc4 $9 Qc2 22. Rac1 $1 Qxa2 23. Nd6 $1 Bg4 $2 24. f3 Bc8 $6 {0.00}) 1/2-1/2`
+
+const pgn_string_1=pgn_string_great_brilliant;
 
 // const pgn_string_1=`[Event "Live Chess"]
 // [Site "Chess.com"]
