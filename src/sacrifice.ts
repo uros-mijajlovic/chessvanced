@@ -41,15 +41,35 @@ export function PgnToMoveArr(pgnString:string){
 
 }
 
-function isMoveEinstein(fenBefore, fenAfter){
-  return findMaxAdvantage(fenBefore)<findMaxAdvantage(fenAfter);
+export function didSacrificeIncrease(fenBefore, fenAfter){
+  const maxAdvantageBefore = findMaxAdvantage(fenBefore, true);
+  const maxAdvantageAfter = findMaxAdvantage(fenAfter, false)
+  console.log(`COMPARE ADVANTAGES ${maxAdvantageBefore}, ${maxAdvantageAfter}`);
+  return maxAdvantageBefore<maxAdvantageAfter;
 }
 
-function findMaxAdvantage(fen) {
+
+
+function findMaxAdvantage(fen:string, swapSide:boolean) {
+
+
     var maxAdvantage=0
     var bestMove=null
     const chess = Chess();
+
+    if(swapSide==true){
+      console.log(`i took da string${fen}`)
+      var splittedString=fen.split(" ");
+      if (splittedString[1]=="w"){
+        splittedString[1]="b";
+      }else{
+        splittedString[1]="w";
+      }
+      fen=splittedString.join(" ");
+      console.log(`and transformed it into${fen}`)
+    }
     chess.load(fen);
+    
     const moves=chess.moves()
 
     console.log(chess.ascii())
@@ -70,6 +90,8 @@ function findMaxAdvantage(fen) {
         console.log(maxAdvantage)
         console.log(bestMove)
     }
+
+    return maxAdvantage;
     
   }
 const playerColor='w'

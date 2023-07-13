@@ -1,5 +1,6 @@
 import { PlayerController } from "./PlayerController";
 import { verticalLinePlugin, hoverLinePlugin,changeBarForCurrentMove } from "./chartPlugins.js";
+import { Config } from "./config/config.js";
 declare var Chart: any;
 var chartData = {
     lineAtIndex: [2,4,8],
@@ -7,12 +8,13 @@ var chartData = {
     datasets: [{
         label: 'Data',
         data: [],
+        
         fill: {above: 'rgba(255, 255, 255, 0.8)', below: 'rgba(0, 0, 0, 0.8)', target: {value: 0}},
         borderWidth: 0,
         pointHitRadius: 50,
         usePointStyle: true,
         pointStyle: 'circle',
-        pointRadius: (ctx) => Math.random()*10,
+        pointRadius: [],
         hoverRadius:5,
         hoverBorderWidth:0,
         borderColor:"rgba(170, 252, 255, 0.8)",
@@ -50,13 +52,8 @@ export class EvaluationGraph {
             pointBackgroundColor: (context) => {
               const index = context.dataIndex;
               try{
-                if(this.gameAnalysis[index]["moveRating"]=="brilliant"){
-                  return "rgba(15, 255, 243, 1)"
-                }else if(this.gameAnalysis[index]["moveRating"]=="mistake"){
-                  return "red";
-                }else{
-                  return "gray";
-                }
+                return Config.Colors[this.gameAnalysis[index]["moveRating"]];
+                
               }catch{
                 return "gray";
               }
@@ -125,12 +122,15 @@ export class EvaluationGraph {
       globalGameAnalysis=newGameAnalysis;
       var labels = this.chartData.labels=[];
       var data = this.chartData.datasets[0].data=[];
+      var pointRadii= this.chartData.datasets[0].pointRadius=[];
 
       for(const moveData of this.gameAnalysis){
 
         labels.push(moveData["CP"].toString());
         
         data.push(moveData["evaluation"]);
+
+        pointRadii.push(moveData["moveRating"]=="gray" ? 1 : 3)
 
       }
       this.graph.update();

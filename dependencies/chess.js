@@ -301,6 +301,9 @@ export const Chess = function (fen) {
   var header = {}
   var comments = {}
 
+  
+  
+
   /* if the user passes in a fen string, load it, else default to
    * starting position
    */
@@ -1346,6 +1349,14 @@ export const Chess = function (fen) {
 
     reset: function () {
       return reset()
+    },
+
+    swapTurn : function () {
+      if(this.turn==WHITE){
+        this.turn = BLACK;
+      }else{
+        this.turn=WHITE;
+      }
     },
 
     moves: function (options) {

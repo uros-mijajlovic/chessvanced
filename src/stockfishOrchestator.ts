@@ -19,7 +19,7 @@ class stockfishOrchestrator {
         this.stockfishWorker = stockfishWorkerArg;
 
         this.stockfishParser= new StockfishParser();
-        this.moveTimeLengthMs=500;
+        this.moveTimeLengthMs=1000;
         this.waiting=false;
 
         this.isCurrentlyWorking=null;
@@ -79,15 +79,11 @@ class stockfishOrchestrator {
         this.whiteMove=!this.whiteMove;
         const currentEval=this.stockfishParser.getAllData();
         console.log("currentEval", currentEval);
-        console.log(`cp: ${currentEval[0]["CP"]}`)
-        if(Number.isNaN(currentEval[0]["CP"])){
-          console.log("YOOOOOOO");
-        }
         this.analysisOrchestrator.sendEval(currentEval, this.currentFEN, this.currentRegularMove, this.moveIndex);
         this.stockfishParser.cleanData();
         this.isCurrentlyWorking=false;
       }else{
-        this.stockfishParser.sendMessage(text, this.whiteMove);
+        this.stockfishParser.sendMessage(text, this.whiteMove, this.currentFEN);
 
       }
     }

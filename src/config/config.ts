@@ -11,4 +11,12 @@ export namespace Config{
         BLACK, 
         BOTH
     }
+    export const Colors = {
+        "brilliant":"rgba(15, 255, 243, 1)",
+        "great":"rgba(107, 111, 229, 1)",
+        "gray" : "gray",
+        "mistake" : "red",
+
+
+    }
 }

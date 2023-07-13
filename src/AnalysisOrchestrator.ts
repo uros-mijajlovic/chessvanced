@@ -2,7 +2,7 @@ import {Chess} from '../dependencies/chess.js';
 import { GuiHandler } from './GuiHandler.js';
 import { EvaluationGraph } from './EvaluationGraph.js';
 import { stockfishOrchestrator } from './stockfishOrchestator.js';
-
+import * as sacrifice from './sacrifice.js';
 // ti za potez treba da gledas info od prethodnog, a ne od trenutnog !!!
 
 
@@ -37,21 +37,27 @@ class AnalysisOrchestrator {
 
     }
   private calculateMoveBrilliance(dataForFen, regularMove, moveIndex){
-      if(moveIndex==1){
+      if(moveIndex==0){
         return "gray"
       }
-      if(moveIndex%2==0 && this.fromPerspective=="black"){
-        return "gray";
-      }else if(moveIndex%2==1 && this.fromPerspective=="white"){
-        return "gray";
-      }
+      //console.log(dataForFen, regularMove, moveIndex)
+      // if(moveIndex%2==0 && this.fromPerspective=="black"){
+      //   return "gray";
+      // }else if(moveIndex%2==1 && this.fromPerspective=="white"){
+      //   return "gray";
+      // }
       
       const beforeMoveAnalysis=this.analysisArray[this.analysisArray.length-2];
       console.log("CALCULATING BRILLIANCE", beforeMoveAnalysis, regularMove);
       //console.log(`i think the move ${this.moveArray[moveIndex-1].fromto}, ${moveIndex-1}`)
       //console.log(dataForFen);
       if (1 in dataForFen && regularMove==beforeMoveAnalysis[0]["move"] && Math.abs((Math.abs(beforeMoveAnalysis[0]["CP"])-Math.abs(beforeMoveAnalysis[1]["CP"]))) > 100 ){
-        return "brilliant";
+        if(sacrifice.didSacrificeIncrease(this.analysisArray[this.analysisArray.length-2][0]["FEN"], this.analysisArray[this.analysisArray.length-1][0]["FEN"])){
+          return "brilliant";
+        }else{
+          return "great"
+        }
+        
       }
 
 
