@@ -5,12 +5,54 @@ body {
   font-family: Arial, sans-serif;
   padding: 20px;
 }
-.white-3b784.active{
+.white-3b784.yellow_tile{
   background-color: #dce179;
 }
 
-.black-b7cb6.active{
+.black-b7cb6.yellow_tile{
   background-color: #c7ca61;
+}
+
+
+.white-3b784.brilliant_tile{
+  background-color: #7ddde0;
+}
+
+.black-b7cb6.brilliant_tile{
+  background-color: #66c4c5;
+}
+
+.white-3b784.great_tile{
+  background-color: #94a4dd;
+}
+
+.black-b7cb6.great_tile{
+  background-color: #7d8bc2;
+}
+
+.white-3b784.best_tile{
+  background-color: #83b991;
+}
+
+.black-b7cb6.best_tile{
+  background-color: #84b987;
+}
+
+.white-3b784.good_tile{
+  background-color: #6ca077;
+}
+
+.black-b7cb6.good_tile{
+  background-color: #60b864;
+}
+
+
+.white-3b784.mistake_tile{
+  background-color: #c595a6;
+}
+
+.black-b7cb6.mistake_tile{
+  background-color: #b38191;
 }
 #analysisAll {
   height:100%;

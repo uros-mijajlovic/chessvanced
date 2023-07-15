@@ -36,29 +36,38 @@ class AnalysisOrchestrator {
       this.analysisArray=[];
 
     }
-  private calculateMoveBrilliance(dataForFen, regularMove, moveIndex){
+  private calculateMoveBrilliance(dataForFen, playersMove, moveIndex){
       if(moveIndex==0){
         return "gray"
       }
-      //console.log(dataForFen, regularMove, moveIndex)
-      // if(moveIndex%2==0 && this.fromPerspective=="black"){
-      //   return "gray";
-      // }else if(moveIndex%2==1 && this.fromPerspective=="white"){
-      //   return "gray";
-      // }
-      
+
       const beforeMoveAnalysis=this.analysisArray[this.analysisArray.length-2];
-      console.log("CALCULATING BRILLIANCE", beforeMoveAnalysis, regularMove);
+
+      const afterMoveAnalysis=this.analysisArray[this.analysisArray.length-1];
+
+      console.log("CALCULATING BRILLIANCE", beforeMoveAnalysis, playersMove);
       //console.log(`i think the move ${this.moveArray[moveIndex-1].fromto}, ${moveIndex-1}`)
       //console.log(dataForFen);
-      if (1 in dataForFen && regularMove==beforeMoveAnalysis[0]["move"] && Math.abs((Math.abs(beforeMoveAnalysis[0]["CP"])-Math.abs(beforeMoveAnalysis[1]["CP"]))) > 100 ){
-        if(sacrifice.didSacrificeIncrease(this.analysisArray[this.analysisArray.length-2][0]["FEN"], this.analysisArray[this.analysisArray.length-1][0]["FEN"])){
-          return "brilliant";
+      if (playersMove==beforeMoveAnalysis[0]["move"]){
+        if(1 in dataForFen && Math.abs((Math.abs(beforeMoveAnalysis[0]["CP"])-Math.abs(beforeMoveAnalysis[1]["CP"]))) > 100){
+          if(sacrifice.didSacrificeIncrease(this.analysisArray[this.analysisArray.length-2][0]["FEN"], this.analysisArray[this.analysisArray.length-1][0]["FEN"])){
+            return "brilliant";
+          }else{
+            return "great"
+          }
         }else{
-          return "great"
+          return "best"
         }
-        
       }
+      if(1 in dataForFen){
+        if (playersMove == beforeMoveAnalysis[1]["move"] && Math.abs((Math.abs(beforeMoveAnalysis[0]["CP"])-Math.abs(beforeMoveAnalysis[1]["CP"]))) < 100){
+          return "good"
+        }
+      }
+      const afterMoveCpDiscrepancy = afterMoveAnalysis[0]["CP"] - beforeMoveAnalysis[0]["CP"];
+      // if(afterMoveCpDiscrepancy)
+      
+
 
 
 

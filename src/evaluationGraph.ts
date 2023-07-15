@@ -8,7 +8,7 @@ var chartData = {
     datasets: [{
         label: 'Data',
         data: [],
-        
+        lineTension: 0,
         fill: {above: 'rgba(255, 255, 255, 0.8)', below: 'rgba(0, 0, 0, 0.8)', target: {value: 0}},
         borderWidth: 0,
         pointHitRadius: 50,
@@ -130,7 +130,7 @@ export class EvaluationGraph {
         
         data.push(moveData["evaluation"]);
 
-        pointRadii.push(moveData["moveRating"]=="gray" ? 1 : 3)
+        pointRadii.push(Config.pointSizes[moveData["moveRating"]]);
 
       }
       this.graph.update();

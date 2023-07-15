@@ -19,7 +19,9 @@ class stockfishOrchestrator {
         this.stockfishWorker = stockfishWorkerArg;
 
         this.stockfishParser= new StockfishParser();
-        this.moveTimeLengthMs=1000;
+
+        this.moveTimeLengthMs=2000;
+
         this.waiting=false;
 
         this.isCurrentlyWorking=null;

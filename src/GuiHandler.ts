@@ -33,10 +33,7 @@ const glyphToSvg = {
 
 const sleep = (ms) => new Promise(r => setTimeout(r, ms));
 
-enum TILE_COLORS {
-  ACTIVE,
-  INACTIVE
-};
+
 
 
 
@@ -47,6 +44,7 @@ class GuiHandler {
   private sidebar: Sidebar;
   private activeTiles: string[];
   private soundHandler:SoundHandler;
+  private gameAnalysis:any[];
 
   constructor(evaluationGraphInst:EvaluationGraph, sidebar:Sidebar){
     this.evaluationGraph=evaluationGraphInst;
@@ -61,7 +59,7 @@ class GuiHandler {
   public flipBoard(){
     this.chessBoard.flip();
   }
-  private colorTile(tile:string, TILE_COLOR: TILE_COLORS){
+  private colorTile(tile:string, TILE_COLOR: Config.TILE_COLORS, tile_css="yellow_tile"){
     
     var chessgroundElement = document.getElementById("chessground");
     const indexRow=8-parseInt(tile[1]);
@@ -69,18 +67,18 @@ class GuiHandler {
     if(indexRow>=0 && indexRow<8 && indexColumn>=0 && indexColumn<8){
       var selectedTile = chessgroundElement.firstElementChild.firstElementChild.children[1].children[indexRow].children[indexColumn];
   
-      if(TILE_COLOR==TILE_COLORS.ACTIVE){
+      if(TILE_COLOR==Config.TILE_COLORS.ACTIVE){
         const lastClassOfTile=selectedTile.classList[selectedTile.classList.length - 1];
         if(lastClassOfTile!="active"){
           this.activeTiles.push(tile)
           if(lastClassOfTile=="inactive"){
             selectedTile.classList.remove(lastClassOfTile);
-            selectedTile.classList.add("active");
+            selectedTile.classList.add(tile_css);
           }else{
-            selectedTile.classList.add("active");
+            selectedTile.classList.add(tile_css);
           }
         }
-      }else if(TILE_COLOR==TILE_COLORS.INACTIVE){
+      }else if(TILE_COLOR==Config.TILE_COLORS.INACTIVE){
         selectedTile.classList.remove(selectedTile.classList[selectedTile.classList.length - 1]);
         selectedTile.classList.add("kurac");
       
@@ -89,8 +87,20 @@ class GuiHandler {
   }
   private deactivateTiles(){
     while(this.activeTiles.length>0){
-      this.colorTile(this.activeTiles[this.activeTiles.length-1], TILE_COLORS.INACTIVE);
+      this.colorTile(this.activeTiles[this.activeTiles.length-1], Config.TILE_COLORS.INACTIVE);
       this.activeTiles.pop();
+    }
+
+  }
+  private colorTilesForMove(from, to ,moveIndex){
+    this.deactivateTiles();
+
+    if(from!="" && to!=""){
+      const moveRating=this.gameAnalysis[moveIndex]["moveRating"];
+      const cssForTile=Config.CssDictForTiles[moveRating];
+      this.colorTile(from, Config.TILE_COLORS.ACTIVE, cssForTile);
+      this.colorTile(to, Config.TILE_COLORS.ACTIVE, cssForTile);
+
     }
 
   }
@@ -102,16 +112,15 @@ class GuiHandler {
     this.evaluationGraph.updateGraphSelectedMove(moveIndex);
     this.chessBoard.position(fenString, false);
 
+    this.colorTilesForMove(from, to, moveIndex);
+
     
 
-    this.deactivateTiles();
-    if(from!="" && to!=""){
-      this.colorTile(from, TILE_COLORS.ACTIVE);
-      this.colorTile(to, TILE_COLORS.ACTIVE);
-    }
+    
   }
   public updateGraph(gameAnalysis){
     //this.sidebar.setAnalysisData(gameAnalysis);
+    this.gameAnalysis=gameAnalysis;
     this.evaluationGraph.updateGraph(gameAnalysis);
   }
 

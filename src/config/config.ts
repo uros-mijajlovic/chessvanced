@@ -6,6 +6,10 @@ export namespace Config{
         MOVE_MATE,
         MOVE_NONE,
     };
+    export enum TILE_COLORS {
+        ACTIVE,
+        INACTIVE
+    };
     export enum ANALYSIS_FOR{
         WHITE,
         BLACK, 
@@ -14,9 +18,28 @@ export namespace Config{
     export const Colors = {
         "brilliant":"rgba(15, 255, 243, 1)",
         "great":"rgba(107, 111, 229, 1)",
+        "best" : "gray",
+        "good" :"gray",
         "gray" : "gray",
         "mistake" : "red",
-
-
     }
+    export const CssDictForTiles={
+        "brilliant":"brilliant_tile",
+        "great":"great_tile",
+        "best" : "best_tile",
+        "good" : "yellow_tile",
+        "gray" : "yellow_tile",
+        
+
+        "mistake" : "mistake_tile",
+    }
+    export const pointSizes={
+        "brilliant":3,
+        "great":3,
+        "best" : 1,
+        "good" : 1,
+        "gray" : 1,
+        "mistake" : 1,
+    }
+    
 }
