@@ -3,6 +3,7 @@ import { EvaluationGraph } from "./EvaluationGraph.js";
 import { Sidebar } from "./Sidebar.js";
 import { SoundHandler } from "./SoundHandler.js";
 import {Config} from "./config/config.js"
+import { boardConfig } from "./utils/ChessboardUtils.js";
 declare var Chessboard2: any;
 
 const glyphToSvg = {
@@ -49,12 +50,16 @@ class GuiHandler {
   constructor(evaluationGraphInst:EvaluationGraph, sidebar:Sidebar){
     this.evaluationGraph=evaluationGraphInst;
     
-    this.chessBoard=Chessboard2('chessground', "start");
+    this.chessBoard=Chessboard2('chessground', boardConfig);
     this.sidebar=sidebar;
     this.activeTiles=[]
     this.soundHandler=new SoundHandler();
     this.flipBoard();
     
+  }
+
+  public getChessboard(){
+    return this.chessBoard;
   }
   public flipBoard(){
     this.chessBoard.flip();

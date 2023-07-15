@@ -38,7 +38,11 @@ class PlayerController {
     this.currentFenArray=PgnToFenArr(this.currentPgn);
     this.currentMoveArray=PgnToMoveArr(this.currentPgn);
     this.guiHandler.updateSidebar(pgnString);
+    
     this.startAnalysis();
+  }
+  public getChessObject(){
+    return this.chessObject;
   }
   public startAnalysis(){
     this.analysisOrchestrator.analyzePgnGame(this.currentFenArray, this.currentMoveArray);
@@ -56,6 +60,7 @@ class PlayerController {
     if(index<0)index=0; // finxing bug with index=-1
     if (index>this.currentMoveArray.length)index=this.currentMoveArray.length
     this.currentMove=index;
+    this.chessObject.load(this.currentFenArray[index]);
     if(index>0){
       console.log(this.currentFenArray[index]);
       const moveFlag=this.currentMoveArray[index-1].flags;

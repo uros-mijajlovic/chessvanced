@@ -55,15 +55,7 @@ var stockfish=null;
 await Stockfish().then(sf => {
   stockfish = sf;
 });
-
-
-//stockfish.postMessage("go depth 15");
-//var stockfish = new Worker('/dependencies/stockfish.wasm.js');
-
-
 stockfish.addMessageListener(message => {
-    //console.log(event.data ? event.data : event);
-    
     stockfishOrchestratorInst.handleMainMessage({from:'stockfish', message:message})
 });
 
@@ -115,4 +107,4 @@ playerControllerInst.setPgn(pgn_string_1);
 
 
 
-export {stockfish, stockfishOrchestratorInst, evaluationGraphInst};
+export {stockfish, stockfishOrchestratorInst, evaluationGraphInst, playerControllerInst, guiHandlerInst};

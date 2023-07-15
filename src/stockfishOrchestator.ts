@@ -1,6 +1,6 @@
 import { AnalysisOrchestrator } from "./AnalysisOrchestrator";
 import { StockfishParser } from "./StockfishParser.js";
-
+import { Config } from "./config/config.js";
 class stockfishOrchestrator {
     private stockfishWorker:any;
     private waiting:boolean;
@@ -20,7 +20,7 @@ class stockfishOrchestrator {
 
         this.stockfishParser= new StockfishParser();
 
-        this.moveTimeLengthMs=2000;
+        this.moveTimeLengthMs=Config.STOCKFISH_MOVETIME;
 
         this.waiting=false;
 

@@ -36,20 +36,26 @@ class AnalysisOrchestrator {
       this.analysisArray=[];
 
     }
-  private calculateMoveBrilliance(dataForFen, playersMove, moveIndex){
+  private calculateMoveBrilliance(playersMove, moveIndex){
       if(moveIndex==0){
         return "gray"
       }
+      
+      const isWhiteMove=moveIndex%2;
 
       const beforeMoveAnalysis=this.analysisArray[this.analysisArray.length-2];
 
       const afterMoveAnalysis=this.analysisArray[this.analysisArray.length-1];
 
+      if (!(1 in beforeMoveAnalysis)){
+        return "gray";
+      }
+
       console.log("CALCULATING BRILLIANCE", beforeMoveAnalysis, playersMove);
       //console.log(`i think the move ${this.moveArray[moveIndex-1].fromto}, ${moveIndex-1}`)
       //console.log(dataForFen);
       if (playersMove==beforeMoveAnalysis[0]["move"]){
-        if(1 in dataForFen && Math.abs((Math.abs(beforeMoveAnalysis[0]["CP"])-Math.abs(beforeMoveAnalysis[1]["CP"]))) > 100){
+        if(Math.abs((Math.abs(beforeMoveAnalysis[0]["CP"])-Math.abs(beforeMoveAnalysis[1]["CP"]))) > 100){
           if(sacrifice.didSacrificeIncrease(this.analysisArray[this.analysisArray.length-2][0]["FEN"], this.analysisArray[this.analysisArray.length-1][0]["FEN"])){
             return "brilliant";
           }else{
@@ -59,12 +65,19 @@ class AnalysisOrchestrator {
           return "best"
         }
       }
-      if(1 in dataForFen){
-        if (playersMove == beforeMoveAnalysis[1]["move"] && Math.abs((Math.abs(beforeMoveAnalysis[0]["CP"])-Math.abs(beforeMoveAnalysis[1]["CP"]))) < 100){
-          return "good"
-        }
+      
+      const afterMoveCpDiscrepancy = (afterMoveAnalysis[0]["CP"] - beforeMoveAnalysis[0]["CP"]) * (isWhiteMove?1:-1);
+
+      if (playersMove == beforeMoveAnalysis[1]["move"] && Math.abs((Math.abs(beforeMoveAnalysis[0]["CP"])-Math.abs(beforeMoveAnalysis[1]["CP"]))) < 100){
+        return "good"
       }
-      const afterMoveCpDiscrepancy = afterMoveAnalysis[0]["CP"] - beforeMoveAnalysis[0]["CP"];
+
+      if (afterMoveCpDiscrepancy < -200 ){
+        return "mistake";
+      }  
+      
+
+      
       // if(afterMoveCpDiscrepancy)
       
 
@@ -94,7 +107,7 @@ class AnalysisOrchestrator {
       
     }
 
-    moveAnalysis["moveRating"]=this.calculateMoveBrilliance(dataForFen, regularMove, moveIndex);
+    moveAnalysis["moveRating"]=this.calculateMoveBrilliance(regularMove, moveIndex);
 
     this.gameAnalysis.push(moveAnalysis);
     

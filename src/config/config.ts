@@ -26,7 +26,7 @@ export namespace Config{
     export const CssDictForTiles={
         "brilliant":"brilliant_tile",
         "great":"great_tile",
-        "best" : "best_tile",
+        "best" : "yellow_tile",
         "good" : "yellow_tile",
         "gray" : "yellow_tile",
         
@@ -41,5 +41,6 @@ export namespace Config{
         "gray" : 1,
         "mistake" : 1,
     }
+    export const STOCKFISH_MOVETIME=500;
     
 }
