@@ -1,8 +1,8 @@
-import {Chessground} from "../dependencies/chessground.js";
+import { Chessground } from "../dependencies/chessground.js";
 import { EvaluationGraph } from "./EvaluationGraph.js";
 import { Sidebar } from "./Sidebar.js";
 import { SoundHandler } from "./SoundHandler.js";
-import {Config} from "./config/config.js"
+import { Config } from "./config/config.js"
 import { boardConfig } from "./utils/ChessboardUtils.js";
 declare var Chessboard2: any;
 
@@ -41,76 +41,105 @@ const sleep = (ms) => new Promise(r => setTimeout(r, ms));
 
 class GuiHandler {
   private chessBoard: any;
-  private evaluationGraph:EvaluationGraph;
+  private evaluationGraph: EvaluationGraph;
   private sidebar: Sidebar;
   private activeTiles: string[];
-  private soundHandler:SoundHandler;
-  private gameAnalysis:any[];
+  private soundHandler: SoundHandler;
+  private gameAnalysis: any[];
 
-  constructor(evaluationGraphInst:EvaluationGraph, sidebar:Sidebar){
-    this.evaluationGraph=evaluationGraphInst;
-    
-    this.chessBoard=Chessboard2('chessground', boardConfig);
-    this.sidebar=sidebar;
-    this.activeTiles=[]
-    this.soundHandler=new SoundHandler();
+  constructor(evaluationGraphInst: EvaluationGraph, sidebar: Sidebar) {
+    this.evaluationGraph = evaluationGraphInst;
+
+    this.chessBoard = Chessboard2('chessground', boardConfig);
+    this.sidebar = sidebar;
+    this.activeTiles = []
+    this.soundHandler = new SoundHandler();
     this.flipBoard();
-    
+
   }
 
-  public getChessboard(){
+  public getChessboard() {
     return this.chessBoard;
   }
-  public flipBoard(){
+  public flipBoard() {
     this.chessBoard.flip();
   }
-  private colorTile(tile:string, TILE_COLOR: Config.TILE_COLORS, tile_css="yellow_tile"){
-    
+  public createPromotionPopup(callback, sourceTile, targetTile) {
+    function createButton(id, callback, sourceTile, targetTile) {
+      const button = document.createElement('button');
+      button.textContent = `Button ${id}`;
+      button.id = `button-${id}`;
+      button.addEventListener('click', (event) => printButtonId(event, callback, sourceTile, targetTile, id));
+      return button;
+    }
+
+    function printButtonId(event,callback, sourceTile, targetTile, id) {
+      const buttonId = event.target.id;
+      console.log(`Button ID: ${buttonId}`);
+      const buttonContainer = document.getElementById('buttonContainer');
+
+      // Remove all buttons from the container
+      while (buttonContainer.firstChild) {
+        buttonContainer.removeChild(buttonContainer.firstChild);
+      }
+      callback(sourceTile, targetTile, id);
+    }
+
+    const buttonContainer = document.getElementById('buttonContainer');
+
+    // Create and add four buttons to the container
+    for (let i = 1; i <= 4; i++) {
+      const button = createButton(i, callback, sourceTile, targetTile);
+      buttonContainer.appendChild(button);
+    }
+  }
+  private colorTile(tile: string, TILE_COLOR: Config.TILE_COLORS, tile_css = "yellow_tile") {
+
     var chessgroundElement = document.getElementById("chessground");
-    const indexRow=8-parseInt(tile[1]);
-    const indexColumn=tile[0].charCodeAt(0)-"a".charCodeAt(0);
-    if(indexRow>=0 && indexRow<8 && indexColumn>=0 && indexColumn<8){
+    const indexRow = 8 - parseInt(tile[1]);
+    const indexColumn = tile[0].charCodeAt(0) - "a".charCodeAt(0);
+    if (indexRow >= 0 && indexRow < 8 && indexColumn >= 0 && indexColumn < 8) {
       var selectedTile = chessgroundElement.firstElementChild.firstElementChild.children[1].children[indexRow].children[indexColumn];
-  
-      if(TILE_COLOR==Config.TILE_COLORS.ACTIVE){
-        const lastClassOfTile=selectedTile.classList[selectedTile.classList.length - 1];
-        if(lastClassOfTile!="active"){
+
+      if (TILE_COLOR == Config.TILE_COLORS.ACTIVE) {
+        const lastClassOfTile = selectedTile.classList[selectedTile.classList.length - 1];
+        if (lastClassOfTile != "active") {
           this.activeTiles.push(tile)
-          if(lastClassOfTile=="inactive"){
+          if (lastClassOfTile == "inactive") {
             selectedTile.classList.remove(lastClassOfTile);
             selectedTile.classList.add(tile_css);
-          }else{
+          } else {
             selectedTile.classList.add(tile_css);
           }
         }
-      }else if(TILE_COLOR==Config.TILE_COLORS.INACTIVE){
+      } else if (TILE_COLOR == Config.TILE_COLORS.INACTIVE) {
         selectedTile.classList.remove(selectedTile.classList[selectedTile.classList.length - 1]);
         selectedTile.classList.add("kurac");
-      
+
       }
     }
   }
-  private deactivateTiles(){
-    while(this.activeTiles.length>0){
-      this.colorTile(this.activeTiles[this.activeTiles.length-1], Config.TILE_COLORS.INACTIVE);
+  private deactivateTiles() {
+    while (this.activeTiles.length > 0) {
+      this.colorTile(this.activeTiles[this.activeTiles.length - 1], Config.TILE_COLORS.INACTIVE);
       this.activeTiles.pop();
     }
 
   }
-  private colorTilesForMove(from, to ,moveIndex){
+  private colorTilesForMove(from, to, moveIndex) {
     this.deactivateTiles();
 
-    if(from!="" && to!=""){
-      const moveRating=this.gameAnalysis[moveIndex]["moveRating"];
-      const cssForTile=Config.CssDictForTiles[moveRating];
+    if (from != "" && to != "") {
+      const moveRating = this.gameAnalysis[moveIndex]["moveRating"];
+      const cssForTile = Config.CssDictForTiles[moveRating];
       this.colorTile(from, Config.TILE_COLORS.ACTIVE, cssForTile);
       this.colorTile(to, Config.TILE_COLORS.ACTIVE, cssForTile);
 
     }
 
   }
-  public async setBoardAndMove(fenString:string, from:string, to:string, moveIndex:number, moveType:Config.MOVE_TYPE = Config.MOVE_TYPE.MOVE_NONE){
-    
+  public async setBoardAndMove(fenString: string, from: string, to: string, moveIndex: number, moveType: Config.MOVE_TYPE = Config.MOVE_TYPE.MOVE_NONE) {
+
     //this.soundHandler.playSound(this.soundHandler.SOUND_TYPE.SOUND_MOVE);
 
     this.soundHandler.playSound(moveType);
@@ -119,20 +148,20 @@ class GuiHandler {
 
     this.colorTilesForMove(from, to, moveIndex);
 
-    
 
-    
+
+
   }
-  public updateGraph(gameAnalysis){
+  public updateGraph(gameAnalysis) {
     //this.sidebar.setAnalysisData(gameAnalysis);
-    this.gameAnalysis=gameAnalysis;
+    this.gameAnalysis = gameAnalysis;
     this.evaluationGraph.updateGraph(gameAnalysis);
   }
 
-  public updateSidebar(pgnString){
+  public updateSidebar(pgnString) {
     this.sidebar.setAnalysisData(pgnString);
   }
 
 
 }
-export {GuiHandler};
+export { GuiHandler };

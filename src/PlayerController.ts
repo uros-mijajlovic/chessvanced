@@ -12,13 +12,18 @@ class PlayerController {
   private currentFenArray:string[];
   private analysisOrchestrator:AnalysisOrchestrator;
   private currentMoveArray:any[];
-  private chessObject: any;
+  private mainChessObject: any;
+  private alternativeChessObject:any;
+  private alternativePathArray:string[];
+
   constructor(guiHandler:GuiHandler, analysisOrchestratorInst:AnalysisOrchestrator){
     this.currentPgn=null;
     this.analysisOrchestrator=analysisOrchestratorInst;
     this.guiHandler=guiHandler;
     this.currentMove=0;
-    this.chessObject=Chess();
+    this.mainChessObject=Chess();
+    this.alternativeChessObject=Chess();
+    this.alternativePathArray=[]
     //console.log(this.currentMoveArray);
     //console.log(this.currentFenArray);
   }
@@ -41,16 +46,30 @@ class PlayerController {
     
     this.startAnalysis();
   }
+
+
+
   public getChessObject(){
-    return this.chessObject;
+    return this.mainChessObject;
   }
   public startAnalysis(){
     this.analysisOrchestrator.analyzePgnGame(this.currentFenArray, this.currentMoveArray);
   }
+  public makeAlternativeMove(moveString:string){
+    this.guiHandler.getChessboard().clearCircles();
+    const lastMainMoveString=this.currentMoveArray[this.currentMove].from+this.currentMoveArray[this.currentMove].to;
+    if(moveString==lastMainMoveString){
+      this.gotoMove(this.currentMove+1);
+    }else{
+      return "snapback";
+    }
+  }
   public goBackwards(){
+    //todo: ubaci proveru da li je alternative == main
     this.gotoMove(this.currentMove-1);
   }
   public goForwards(){
+    //todo: ubaci proveru da li je alternative == main
     this.gotoMove(this.currentMove+1);
   }
 
@@ -60,7 +79,7 @@ class PlayerController {
     if(index<0)index=0; // finxing bug with index=-1
     if (index>this.currentMoveArray.length)index=this.currentMoveArray.length
     this.currentMove=index;
-    this.chessObject.load(this.currentFenArray[index]);
+    this.mainChessObject.load(this.currentFenArray[index]);
     if(index>0){
       console.log(this.currentFenArray[index]);
       const moveFlag=this.currentMoveArray[index-1].flags;

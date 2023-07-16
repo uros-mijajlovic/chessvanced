@@ -41,6 +41,6 @@ export namespace Config{
         "gray" : 1,
         "mistake" : 1,
     }
-    export const STOCKFISH_MOVETIME=500;
+    export const STOCKFISH_MOVETIME=50;
     
 }

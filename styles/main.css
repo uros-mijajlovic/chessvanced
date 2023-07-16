@@ -221,6 +221,7 @@ body {
     aspect-ratio: 1/1;
     width: 100%;
     flex-grow: 2;
+    position: relative;
   }
   #chessground {
     width: 100%;
@@ -240,6 +241,7 @@ body {
   #chessgroundParentDiv {
     width: 80vh;
     height: 80vh;
+    position: relative;
   }
   #chessground {
     height: 0;
@@ -261,6 +263,14 @@ body {
   #chessgroundParentDiv {
     height: 80vh;
     width: 80vh;
+    position: relative;
+  }
+  #buttonContainer {
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
   }
   #myChart {
     height: 100px;

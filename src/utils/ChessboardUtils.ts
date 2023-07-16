@@ -35,23 +35,40 @@ function onDragStart(dragStartEvt) {
 function isWhitePiece(piece) { return /^w/.test(piece) }
 function isBlackPiece(piece) { return /^b/.test(piece) }
 
-function onDrop(dropEvt) {
+function onDrop(dropEvent) {
+    if ((dropEvent.piece == "wP" && dropEvent.target[1] == "8") || (dropEvent.piece == "bP" && dropEvent.target[1] == "1")) {
+        const game = playerControllerInst.getChessObject();
+        const move=game.move({
+            from: dropEvent.source,
+            to: dropEvent.target,
+            promotion: 'q'
+        })
+        if(move){
+            guiHandlerInst.createPromotionPopup(promotionCallback, dropEvent.source, dropEvent.target);
+        }else{
+            return "snapback";
+        }
+    } else {
+        return promotionCallback(dropEvent.source, dropEvent.target, 'q');
+    }
+}
+
+function promotionCallback(source, target, promotion) {
     const board = guiHandlerInst.getChessboard();
     const game = playerControllerInst.getChessObject();
+    return playerControllerInst.makeAlternativeMove(source+target);
     const move = game.move({
-        from: dropEvt.source,
-        to: dropEvt.target,
-        promotion: 'q' // NOTE: always promote to a queen for example simplicity
+        from: source,
+        to: target,
+        promotion: 'q'
     })
-
-    // remove all Circles from the board
     board.clearCircles()
-
-    // make the move if it is legal
+    console.log(move);
     if (move) {
         board.fen(game.fen());
     } else {
         return 'snapback'
     }
+
 }
 
