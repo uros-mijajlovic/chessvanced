@@ -3,6 +3,7 @@ import { GuiHandler } from "./GuiHandler";
 import { PgnToFenArr, PgnToMoveArr } from "./sacrifice.js";
 import { Chess } from "../dependencies/chess.js";
 import { Config } from "./config/config.js";
+import { LiveBoardEvaluation } from "./LiveBoardEvaluation";
 //import { PgnToFenArr, PgnToMoveArr } from "./sacrifice";
 
 class PlayerController {
@@ -16,8 +17,9 @@ class PlayerController {
   private alternativeChessObject:any;
   private alternativePathArray:string[];
   private inAlternativePath:boolean;
-
-  constructor(guiHandler:GuiHandler, analysisOrchestratorInst:AnalysisOrchestrator){
+  private liveBoardEvaluation:LiveBoardEvaluation;
+  constructor(guiHandler:GuiHandler, analysisOrchestratorInst:AnalysisOrchestrator, liveBoardEvaluationInst:LiveBoardEvaluation){
+    this.liveBoardEvaluation=liveBoardEvaluationInst;
     this.currentPgn=null;
     this.analysisOrchestrator=analysisOrchestratorInst;
     this.guiHandler=guiHandler;
@@ -64,6 +66,10 @@ class PlayerController {
   public startAnalysis(){
     this.analysisOrchestrator.analyzePgnGame(this.currentFenArray, this.currentMoveArray);
   }
+  private updateBoardGUI(currentFen, from, to, currentMove, MOVE_TYPE){
+
+    this.guiHandler.setBoardAndMove(currentFen, from, to, currentMove, MOVE_TYPE);
+  }
   public makeAlternativeMove(moveString:string, promotionPiece:string){
     this.guiHandler.getChessboard().clearCircles();
     const lastMainMoveString=this.currentMoveArray[this.currentMove].from+this.currentMoveArray[this.currentMove].to;
@@ -81,7 +87,7 @@ class PlayerController {
       if(moveCheck){
         const currentFen = this.alternativeChessObject.fen();
         this.inAlternativePath=true;
-        this.guiHandler.setBoardAndMove(currentFen, from, to, this.currentMove, Config.MOVE_TYPE.MOVE_REGULAR);
+        this.updateBoardGUI(currentFen, from, to, this.currentMove, Config.MOVE_TYPE.MOVE_REGULAR);
         this.alternativePathArray.push(moveString);
       }else{
         return "snapback";
@@ -103,7 +109,7 @@ class PlayerController {
         if(moveCheck){
           const currentFen = this.alternativeChessObject.fen();
           this.inAlternativePath=true;
-          this.guiHandler.setBoardAndMove(currentFen, from, to, this.currentMove, Config.MOVE_TYPE.MOVE_REGULAR);
+          this.updateBoardGUI(currentFen, from, to, this.currentMove, Config.MOVE_TYPE.MOVE_REGULAR);
           this.alternativePathArray.push(moveString);
         }else{
           return "snapback";

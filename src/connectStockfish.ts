@@ -5,8 +5,10 @@ import { EvaluationGraph } from './EvaluationGraph.js';
 import { GuiHandler } from './GuiHandler.js';
 import { PlayerController } from './PlayerController.js';
 import {Sidebar} from "./Sidebar.js"
+import { createStockfishOrchestrator } from './stockfishOrchestator.js';
+import { LiveBoardEvaluation } from './LiveBoardEvaluation.js';
 
-declare var Stockfish:any;
+
 function getRandomNumber(lastNumber) {
 
     let randomNumber;
@@ -52,15 +54,10 @@ if(analysisData[i]["evaluation"]>analysisData[i-1]["evaluation"]+6){
 // var stockfish = new Worker(wasmSupported ? '/dependencies/stockfish.wasm.js' : '/dependencies/stockfish.js');
 //var stockfish = new Worker('/dependencies/stockfish.js');
 var stockfish=null;
-await Stockfish().then(sf => {
-  stockfish = sf;
-});
-stockfish.addMessageListener(message => {
-    stockfishOrchestratorInst.handleMainMessage({from:'stockfish', message:message})
-});
 
 
-const stockfishOrchestratorInst=new stockfishOrchestrator(stockfish);
+
+const stockfishOrchestratorInst= await createStockfishOrchestrator(false);
 
 const sidebarInst=new Sidebar(document.getElementById("sidebarComponent"));
 
@@ -69,8 +66,15 @@ const evaluationGraphInst=new EvaluationGraph("myChart");
 const guiHandlerInst=new GuiHandler(evaluationGraphInst, sidebarInst);
 var analsysOrchestratorInst=new AnalysisOrchestrator(stockfishOrchestratorInst, guiHandlerInst);
 
+const stockfishOrchestratorForLiveEvaluation= await createStockfishOrchestrator(true);
+const liveBoardEvaluationInst=new LiveBoardEvaluation(stockfishOrchestratorForLiveEvaluation, guiHandlerInst);
 
-const playerControllerInst=new PlayerController(guiHandlerInst, analsysOrchestratorInst);
+const playerControllerInst=new PlayerController(guiHandlerInst, analsysOrchestratorInst, liveBoardEvaluationInst);
+
+
+
+
+
 
 sidebarInst.playerController=playerControllerInst;
 console.log("playerControllerSet");

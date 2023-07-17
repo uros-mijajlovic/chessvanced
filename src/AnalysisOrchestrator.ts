@@ -34,6 +34,8 @@ class AnalysisOrchestrator {
       this.gameAnalysis=[];
       this.guiHandler=guiHandler;
       this.analysisArray=[];
+      //var myself=this;
+      this.stockfishOrchestrator.setCallback((data) => {this.sendEval(data)});
 
     }
   private calculateMoveBrilliance(playersMove, moveIndex){
@@ -89,8 +91,12 @@ class AnalysisOrchestrator {
   }
 
 
-  sendEval(dataForFen:Record<number, number>, FENstring:string, regularMove:string, moveIndex:number){
+  sendEval(dataFromStockfish){
     
+    var dataForFen=dataFromStockfish["positionEvaluation"];
+    var FENstring=dataFromStockfish["FENstring"];
+    var regularMove = dataFromStockfish["regularMove"];
+    var moveIndex = dataFromStockfish["moveIndex"];
     this.analysisArray.push(dataForFen);
     const moveAnalysis={}
     const centipawns=dataForFen[0]["CP"];

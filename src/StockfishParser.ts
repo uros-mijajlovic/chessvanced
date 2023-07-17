@@ -51,24 +51,22 @@ function getBestMoveFromString(message:string){
 
 export class StockfishParser{
     private data:Record<number, any>; 
-    private maxDepthReached:number;
     constructor(){
         this.data={};
-        this.maxDepthReached=0;
     }
     getEval(){
-        console.log(`max depth reached is ${this.maxDepthReached}`);
-        this.maxDepthReached=0;
         return this.data[0]["CP"];
     }
     sendMessage(message:string, isWhiteMove:boolean, currentFEN:string){
-        this.maxDepthReached=Math.max(this.maxDepthReached, getDepthFromString(message));
+        
+        const evaulationDepth = getDepthFromString(message);
         const moveOrder=getMultiPVvalueFromString(message);
         const bestMove=getBestMoveFromString(message);
         
         const score=getScorevalueFromString(message, isWhiteMove)
         this.data[moveOrder-1]={"move":bestMove, "CP":score["value"] * (isWhiteMove ? 1:-1), "cpOrMate":score["cpOrMate"]};
         this.data[moveOrder-1]["FEN"]=currentFEN;
+        this.data[moveOrder-1]["depth"]=evaulationDepth;
 
     }
     getAllData(){
