@@ -15,6 +15,7 @@ class PlayerController {
   private mainChessObject: any;
   private alternativeChessObject:any;
   private alternativePathArray:string[];
+  private inAlternativePath:boolean;
 
   constructor(guiHandler:GuiHandler, analysisOrchestratorInst:AnalysisOrchestrator){
     this.currentPgn=null;
@@ -23,7 +24,9 @@ class PlayerController {
     this.currentMove=0;
     this.mainChessObject=Chess();
     this.alternativeChessObject=Chess();
-    this.alternativePathArray=[]
+    this.alternativePathArray=[];
+    this.inAlternativePath=false;
+
     //console.log(this.currentMoveArray);
     //console.log(this.currentFenArray);
   }
@@ -52,21 +55,82 @@ class PlayerController {
   public getChessObject(){
     return this.mainChessObject;
   }
+  public getAlternativeChessObject(){
+    return this.alternativeChessObject;
+  }
+  public getInAlternative(){
+    return this.inAlternativePath;
+  }
   public startAnalysis(){
     this.analysisOrchestrator.analyzePgnGame(this.currentFenArray, this.currentMoveArray);
   }
-  public makeAlternativeMove(moveString:string){
+  public makeAlternativeMove(moveString:string, promotionPiece:string){
     this.guiHandler.getChessboard().clearCircles();
     const lastMainMoveString=this.currentMoveArray[this.currentMove].from+this.currentMoveArray[this.currentMove].to;
-    if(moveString==lastMainMoveString){
-      this.gotoMove(this.currentMove+1);
+    console.log(moveString, promotionPiece)
+
+    if(this.inAlternativePath==true){
+      const from=moveString.substring(0, 2);
+      const to = moveString.substring(2, 4);
+      const moveCheck = this.alternativeChessObject.move({
+          from: from,
+          to: to,
+          promotion: promotionPiece
+      });
+      console.log(moveCheck, moveString, this.alternativeChessObject.fen());
+      if(moveCheck){
+        const currentFen = this.alternativeChessObject.fen();
+        this.inAlternativePath=true;
+        this.guiHandler.setBoardAndMove(currentFen, from, to, this.currentMove, Config.MOVE_TYPE.MOVE_REGULAR);
+        this.alternativePathArray.push(moveString);
+      }else{
+        return "snapback";
+      }
+
+
     }else{
-      return "snapback";
+      if(moveString==lastMainMoveString){
+        this.gotoMove(this.currentMove+1);
+      }else{
+        const from=moveString.substring(0, 2);
+        const to = moveString.substring(2, 4);
+        const moveCheck = this.alternativeChessObject.move({
+            from: from,
+            to: to,
+            promotion: promotionPiece
+        });
+        console.log(moveCheck, moveString, this.alternativeChessObject.fen());
+        if(moveCheck){
+          const currentFen = this.alternativeChessObject.fen();
+          this.inAlternativePath=true;
+          this.guiHandler.setBoardAndMove(currentFen, from, to, this.currentMove, Config.MOVE_TYPE.MOVE_REGULAR);
+          this.alternativePathArray.push(moveString);
+        }else{
+          return "snapback";
+        }
+
+
+        //idemo alternativnim putem
+        
+      }
     }
   }
   public goBackwards(){
     //todo: ubaci proveru da li je alternative == main
-    this.gotoMove(this.currentMove-1);
+    if(this.inAlternativePath){
+      const lastMoveString=this.alternativePathArray.pop();
+
+      const from=lastMoveString.substring(0, 2);
+      const to = lastMoveString.substring(2, 4);
+
+      this.alternativeChessObject.undo();
+      this.guiHandler.setBoardAndMove(this.alternativeChessObject.fen(), from, to, this.currentMove, Config.MOVE_TYPE.MOVE_REGULAR);
+      if(this.alternativeChessObject.fen() == this.mainChessObject.fen()){
+        this.inAlternativePath=false;
+      }
+    }else{
+      this.gotoMove(this.currentMove-1);
+    }
   }
   public goForwards(){
     //todo: ubaci proveru da li je alternative == main
@@ -75,11 +139,12 @@ class PlayerController {
 
   public gotoMove(index : number){
     
-    
+    this.inAlternativePath=false;
     if(index<0)index=0; // finxing bug with index=-1
     if (index>this.currentMoveArray.length)index=this.currentMoveArray.length
     this.currentMove=index;
     this.mainChessObject.load(this.currentFenArray[index]);
+    this.alternativeChessObject.load(this.currentFenArray[index]);
     if(index>0){
       console.log(this.currentFenArray[index]);
       const moveFlag=this.currentMoveArray[index-1].flags;

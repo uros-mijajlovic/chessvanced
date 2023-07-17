@@ -11,8 +11,13 @@ export const boardConfig = {
 
 
 function onDragStart(dragStartEvt) {
+    var game=null;
+    if(playerControllerInst.getInAlternative){
+        game = playerControllerInst.getAlternativeChessObject();
+    }else{
+        game = playerControllerInst.getChessObject();
 
-    const game = playerControllerInst.getChessObject();
+    }
     const board = guiHandlerInst.getChessboard();
     if (game.game_over()) return false
 
@@ -21,10 +26,13 @@ function onDragStart(dragStartEvt) {
     if (game.turn() === 'b' && !isBlackPiece(dragStartEvt.piece)) return false
 
     // what moves are available to from this square?
+
     const legalMoves = game.moves({
         square: dragStartEvt.square,
         verbose: true
     })
+
+    
 
     // place Circles on the possible target squares
     legalMoves.forEach((move) => {
@@ -44,25 +52,25 @@ function onDrop(dropEvent) {
             promotion: 'q'
         })
         if(move){
-            guiHandlerInst.createPromotionPopup(promotionCallback, dropEvent.source, dropEvent.target);
+            guiHandlerInst.createPromotionPopup(moveCallback, dropEvent.source, dropEvent.target);
         }else{
             return "snapback";
         }
     } else {
-        return promotionCallback(dropEvent.source, dropEvent.target, 'q');
+        return moveCallback(dropEvent.source, dropEvent.target, 'q');
     }
 }
 
-function promotionCallback(source, target, promotion) {
+function moveCallback(source, target, promotion) {
     const board = guiHandlerInst.getChessboard();
     const game = playerControllerInst.getChessObject();
-    return playerControllerInst.makeAlternativeMove(source+target);
+    return playerControllerInst.makeAlternativeMove(source+target, promotion);
     const move = game.move({
         from: source,
         to: target,
         promotion: 'q'
     })
-    board.clearCircles()
+    board.clearCircles();
     console.log(move);
     if (move) {
         board.fen(game.fen());
