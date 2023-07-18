@@ -34,6 +34,8 @@ function getMultiPVvalueFromString(message:string){
         var cpValue = parseInt(match[1]);
         //console.log("PV value:", cpValue);
         return cpValue;
+    }else{
+        return null;
     }
 }
 
@@ -42,10 +44,22 @@ function getBestMoveFromString(message:string){
     
     const regex = /pv\s(\w{4})/;
     const match = message.match(regex);
-    return match[1];
+    if(match){
+        return match[1];
+    }else{
+        console.log(`ALOALO${message}`);
+    }
 
 }
 
+function getIsWhiteMoveFromFen(fenString:string){
+    var splittedString=fenString.split(" ");
+    if (splittedString[1]=="w"){
+        return true
+    }else{
+        return false;
+    }
+}
 
   
 
@@ -57,16 +71,20 @@ export class StockfishParser{
     getEval(){
         return this.data[0]["CP"];
     }
-    sendMessage(message:string, isWhiteMove:boolean, currentFEN:string){
+    sendMessage(message:string, currentFEN:string){
         
+        const isWhiteMove=getIsWhiteMoveFromFen(currentFEN);
         const evaulationDepth = getDepthFromString(message);
         const moveOrder=getMultiPVvalueFromString(message);
         const bestMove=getBestMoveFromString(message);
-        
-        const score=getScorevalueFromString(message, isWhiteMove)
-        this.data[moveOrder-1]={"move":bestMove, "CP":score["value"] * (isWhiteMove ? 1:-1), "cpOrMate":score["cpOrMate"]};
-        this.data[moveOrder-1]["FEN"]=currentFEN;
-        this.data[moveOrder-1]["depth"]=evaulationDepth;
+
+        if(bestMove){
+            const score=getScorevalueFromString(message, isWhiteMove)
+            this.data[moveOrder-1]={"move":bestMove, "CP":score["value"] * (isWhiteMove ? 1:-1), "cpOrMate":score["cpOrMate"]};
+            this.data[moveOrder-1]["FEN"]=currentFEN;
+            this.data[moveOrder-1]["depth"]=evaulationDepth;
+
+        }
 
     }
     getAllData(){

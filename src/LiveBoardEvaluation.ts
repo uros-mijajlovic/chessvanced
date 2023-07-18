@@ -10,19 +10,44 @@ import { stockfishOrchestrator } from "./stockfishOrchestator.js";
 export class LiveBoardEvaluation{
     private stockfishOrchestrator: stockfishOrchestrator
     private guiHandler:GuiHandler //for drawing arrows
-    constructor(stockfishOrchestratorInst, guiHandler){
+    private div:HTMLElement;
+    private evaluationLine:HTMLElement;
+    private evaluationDiv:HTMLElement;
+    constructor(stockfishOrchestratorInst, guiHandler, divForEvaluation: HTMLElement){
         this.stockfishOrchestrator=stockfishOrchestratorInst;
         this.guiHandler=guiHandler;
         this.stockfishOrchestrator.setCallback((data) => {this.evaluationGetCallback(data)});
+        this.div=divForEvaluation;
+        this.evaluationLine=this.div.querySelector(".liveEvaluationLine");
+        this.evaluationDiv=this.evaluationLine.querySelector(".liveEvaluation");
+
+//const isDivInvisible = window.getComputedStyle(myDiv).display === 'none';
     }
 
     evaluationGetCallback(data){
+        var evaluationLineDivs=this.div.children;
+        let i=0;
         console.log(data);
+        while (i in data){
+            var evaluationLine=evaluationLineDivs[i] as HTMLElement;
+
+            const isLineInvisible = window.getComputedStyle(evaluationLine).display === 'none';
+            if(isLineInvisible){
+                evaluationLine.style.display = 'flex';
+            }
+            if(data[i]["cpOrMate"]=="cp"){
+                evaluationLine.querySelector(".liveEvaluation").textContent=data[i]["CP"];
+            }else{
+                evaluationLine.querySelector(".liveEvaluation").textContent="M"+data[i]["CP"];
+            }
+
+            i++;
+        }
 
         //get data from
     }
     evaulateNewBoard(fen){
-        console.log(`LBE got fen ${fen}`);
+        //console.log(`LBE got fen ${fen}`);
         this.stockfishOrchestrator.stopAndStartNewAnalysis(fen);
         //so->stop
         //posalji novi fen

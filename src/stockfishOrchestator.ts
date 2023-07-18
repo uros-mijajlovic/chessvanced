@@ -36,8 +36,13 @@ class stockfishOrchestrator {
     this.sendEvalAfterEveryMove=sendEvalAfterEveryMove;
     this.stockfishWorker = stockfishWorkerArg;
     this.stockfishParser = new StockfishParser();
-
-    this.moveTimeLengthMs = Config.STOCKFISH_MOVETIME;
+    
+    if(sendEvalAfterEveryMove){
+      this.moveTimeLengthMs=5000;
+    }else{
+      this.moveTimeLengthMs = Config.STOCKFISH_MOVETIME;
+    }
+    
 
 
     this.isCurrentlyWorking = null;
@@ -69,7 +74,7 @@ class stockfishOrchestrator {
     this.currentFEN = fenPosition;
     this.currentRegularMove = regularMove;
     this.moveIndex = moveIndex;
-    console.log(`position fen ${fenPosition}`);
+    //console.log(`position fen ${fenPosition}`);
 
     this.stockfishWorker.postMessage(`position fen ${fenPosition}`)
 
@@ -97,7 +102,7 @@ class stockfishOrchestrator {
     if (text.startsWith('bestmove')) {
       this.whiteMove = !this.whiteMove;
       const currentEval = this.stockfishParser.getAllData();
-      console.log(currentEval);
+      //console.log(currentEval);
       var dataFromStockfish={};
       dataFromStockfish["positionEvaluation"] = currentEval;
       dataFromStockfish["FENstring"] = this.currentFEN;
@@ -112,7 +117,7 @@ class stockfishOrchestrator {
       this.isCurrentlyWorking = false;
     } else {
       
-      this.stockfishParser.sendMessage(text, this.whiteMove, this.currentFEN);
+      this.stockfishParser.sendMessage(text, this.currentFEN);
       
       const currentEval = this.stockfishParser.getAllData();
 

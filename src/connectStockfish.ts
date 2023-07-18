@@ -67,7 +67,7 @@ const guiHandlerInst=new GuiHandler(evaluationGraphInst, sidebarInst);
 var analsysOrchestratorInst=new AnalysisOrchestrator(stockfishOrchestratorInst, guiHandlerInst);
 
 const stockfishOrchestratorForLiveEvaluation= await createStockfishOrchestrator(true);
-const liveBoardEvaluationInst=new LiveBoardEvaluation(stockfishOrchestratorForLiveEvaluation, guiHandlerInst);
+const liveBoardEvaluationInst=new LiveBoardEvaluation(stockfishOrchestratorForLiveEvaluation, guiHandlerInst, document.getElementById("liveEvaluationContainer"));
 
 const playerControllerInst=new PlayerController(guiHandlerInst, analsysOrchestratorInst, liveBoardEvaluationInst);
 

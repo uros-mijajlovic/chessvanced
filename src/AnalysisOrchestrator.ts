@@ -53,7 +53,7 @@ class AnalysisOrchestrator {
         return "gray";
       }
 
-      console.log("CALCULATING BRILLIANCE", beforeMoveAnalysis, playersMove);
+      //console.log("CALCULATING BRILLIANCE", beforeMoveAnalysis, playersMove);
       //console.log(`i think the move ${this.moveArray[moveIndex-1].fromto}, ${moveIndex-1}`)
       //console.log(dataForFen);
       if (playersMove==beforeMoveAnalysis[0]["move"]){

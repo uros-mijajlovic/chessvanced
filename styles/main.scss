@@ -168,12 +168,18 @@ body {
   padding:2%;
 }
 
-.liveEvaluationContainer {
-  display: grid;
-  grid-template-columns: repeat(3, 0.5fr);
-  justify-items:start;
-  grid-gap: 10px;
+#liveEvaluationContainer {
+  
   padding:2%;
+}
+
+.liveEvaluation{
+  background-color: #896ca0;
+  padding:2%;
+  border-radius: 10%;
+}
+.liveEvaluationLine{
+  display: flex;
 }
 
 .move-element:nth-child(even) {
