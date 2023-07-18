@@ -28,6 +28,7 @@ class PlayerController {
     this.alternativeChessObject=Chess();
     this.alternativePathArray=[];
     this.inAlternativePath=false;
+    this.liveBoardEvaluation=liveBoardEvaluationInst;
 
     //console.log(this.currentMoveArray);
     //console.log(this.currentFenArray);
@@ -66,9 +67,11 @@ class PlayerController {
   public startAnalysis(){
     this.analysisOrchestrator.analyzePgnGame(this.currentFenArray, this.currentMoveArray);
   }
-  private updateBoardGUI(currentFen, from, to, currentMove, MOVE_TYPE){
+  private updateBoardGUI(newFen, from, to, currentMove, MOVE_TYPE){
 
-    this.guiHandler.setBoardAndMove(currentFen, from, to, currentMove, MOVE_TYPE);
+    this.guiHandler.setBoardAndMove(newFen, from, to, currentMove, MOVE_TYPE);
+    this.liveBoardEvaluation.evaulateNewBoard(newFen);
+
   }
   public makeAlternativeMove(moveString:string, promotionPiece:string){
     this.guiHandler.getChessboard().clearCircles();
@@ -155,9 +158,10 @@ class PlayerController {
       console.log(this.currentFenArray[index]);
       const moveFlag=this.currentMoveArray[index-1].flags;
       const moveType=this.getMoveType(moveFlag);
-      this.guiHandler.setBoardAndMove(this.currentFenArray[index], this.currentMoveArray[index-1].fromto.substring(0, 2), this.currentMoveArray[index-1].fromto.substring(2, 4), index, moveType)
+
+      this.updateBoardGUI(this.currentFenArray[index], this.currentMoveArray[index-1].fromto.substring(0, 2), this.currentMoveArray[index-1].fromto.substring(2, 4), index, moveType);
     }else{
-      this.guiHandler.setBoardAndMove(this.currentFenArray[index], "", "", index, Config.MOVE_TYPE.MOVE_REGULAR);
+      this.updateBoardGUI(this.currentFenArray[index], "", "", index, Config.MOVE_TYPE.MOVE_REGULAR);
     }
   }
 }

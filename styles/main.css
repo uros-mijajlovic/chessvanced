@@ -199,6 +199,14 @@ body {
   padding: 2%;
 }
 
+.liveEvaluationContainer {
+  display: grid;
+  grid-template-columns: repeat(3, 0.5fr);
+  justify-items: start;
+  grid-gap: 10px;
+  padding: 2%;
+}
+
 .move-element:nth-child(even) {
   background-color: #303030;
 }

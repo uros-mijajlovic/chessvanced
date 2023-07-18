@@ -48,7 +48,6 @@ class stockfishOrchestrator {
 
     this.whiteMove = true;
 
-
     this.stockfishWorker.postMessage(`setoption name Hash value 128`);
     this.stockfishWorker.postMessage(`setoption name Threads value 1`);
     this.stockfishWorker.postMessage(`setoption name MultiPV value 2`);
@@ -83,6 +82,12 @@ class stockfishOrchestrator {
     }
     await this.getAnalsysForFenPosition(fenPosition, regularMove, moveIndex);
   }
+
+  async stopAndStartNewAnalysis(fenPosition){
+    this.stockfishWorker.postMessage(`stop`);
+    this.getAnalsysForFenPosition(fenPosition, "", 0);
+
+  }
   handleMainMessage(message) {
 
     const from = message.from;
@@ -99,13 +104,21 @@ class stockfishOrchestrator {
       dataFromStockfish["regularMove"] = this.currentRegularMove;
       dataFromStockfish["moveIndex"] = this.moveIndex;
       
-      this.callbackFunction(dataFromStockfish);
+      if(!this.sendEvalAfterEveryMove){
+        this.callbackFunction(dataFromStockfish);
+      }
 
       this.stockfishParser.cleanData();
       this.isCurrentlyWorking = false;
     } else {
-
+      
       this.stockfishParser.sendMessage(text, this.whiteMove, this.currentFEN);
+      
+      const currentEval = this.stockfishParser.getAllData();
+
+      if(this.sendEvalAfterEveryMove){
+        this.callbackFunction( currentEval );
+      }
 
     }
   }

@@ -9,16 +9,21 @@ import { stockfishOrchestrator } from "./stockfishOrchestator.js";
 
 export class LiveBoardEvaluation{
     private stockfishOrchestrator: stockfishOrchestrator
-    private guiHandler:GuiHandler
+    private guiHandler:GuiHandler //for drawing arrows
     constructor(stockfishOrchestratorInst, guiHandler){
         this.stockfishOrchestrator=stockfishOrchestratorInst;
         this.guiHandler=guiHandler;
+        this.stockfishOrchestrator.setCallback((data) => {this.evaluationGetCallback(data)});
     }
 
     evaluationGetCallback(data){
+        console.log(data);
+
         //get data from
     }
     evaulateNewBoard(fen){
+        console.log(`LBE got fen ${fen}`);
+        this.stockfishOrchestrator.stopAndStartNewAnalysis(fen);
         //so->stop
         //posalji novi fen
     }
