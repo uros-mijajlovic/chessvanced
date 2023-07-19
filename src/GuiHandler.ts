@@ -100,7 +100,7 @@ class GuiHandler {
       callback(sourceTile, targetTile, Config.PROMOTION_TO_CHAR[id]);
 
     }
-
+    console.log("PRAVIM DUGMICE");
     const buttonContainer = document.getElementById('buttonContainer');
 
     // Create and add four buttons to the container
