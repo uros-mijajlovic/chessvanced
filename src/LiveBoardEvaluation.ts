@@ -27,14 +27,19 @@ export class LiveBoardEvaluation{
     evaluationGetCallback(data){
         var evaluationLineDivs=this.div.children;
         let i=0;
-        console.log(data);
+        const bestMove=data[0]["move"];
+        this.guiHandler.addBestMoveArrow(bestMove);
+
         while (i in data){
+            
             var evaluationLine=evaluationLineDivs[i] as HTMLElement;
 
             const isLineInvisible = window.getComputedStyle(evaluationLine).display === 'none';
             if(isLineInvisible){
                 evaluationLine.style.display = 'flex';
             }
+            evaluationLine.querySelector(".liveBestMove").textContent=data[i]["move"];
+            
             if(data[i]["cpOrMate"]=="cp"){
                 evaluationLine.querySelector(".liveEvaluation").textContent=data[i]["CP"];
             }else{

@@ -58,6 +58,18 @@ class GuiHandler {
 
   }
 
+  public addBestMoveArrow(fromto){
+    this.chessBoard.clearArrows()
+    const from=fromto.substring(0, 2);
+    const to=fromto.substring(2, 4);
+    this.addArrowToBoard(from, to);
+  }
+  public addArrowToBoard(from, to){
+    const smer=from+'-'+to;
+    console.log(`NACRTAJ MI STRELICU OD ${smer} DA TI NE BIH JEBAO MAMU`)
+    this.chessBoard.addArrow(smer, 'small');
+  }
+
   public getChessboard() {
     return this.chessBoard;
   }
@@ -67,7 +79,7 @@ class GuiHandler {
   public createPromotionPopup(callback, sourceTile, targetTile) {
     function createButton(id, callback, sourceTile, targetTile) {
       const button = document.createElement('button');
-      button.textContent = `Button ${id}`;
+      button.textContent = `Button ${Config.PROMOTION_TO_CHAR[id]}`;
       button.id = `button-${id}`;
       button.addEventListener('click', (event) => printButtonId(event, callback, sourceTile, targetTile, id));
       return button;
@@ -82,13 +94,15 @@ class GuiHandler {
       while (buttonContainer.firstChild) {
         buttonContainer.removeChild(buttonContainer.firstChild);
       }
-      callback(sourceTile, targetTile, id);
+      
+      callback(sourceTile, targetTile, Config.PROMOTION_TO_CHAR[id]);
+
     }
 
     const buttonContainer = document.getElementById('buttonContainer');
 
     // Create and add four buttons to the container
-    for (let i = 1; i <= 4; i++) {
+    for (let i = 0; i <= 3; i++) {
       const button = createButton(i, callback, sourceTile, targetTile);
       buttonContainer.appendChild(button);
     }

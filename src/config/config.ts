@@ -42,5 +42,17 @@ export namespace Config{
         "mistake" : 1,
     }
     export const STOCKFISH_MOVETIME=50;
+    export enum PROMOTION {
+        QUEEN,
+        ROOK,
+        BISHOP,
+        KNIGHT,
+    };
+    export const PROMOTION_TO_CHAR = {
+        0:"q",
+        1:"r",
+        2:"n",
+        3:"b"
+    };
     
 }

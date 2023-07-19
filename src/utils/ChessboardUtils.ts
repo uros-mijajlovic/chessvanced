@@ -46,14 +46,19 @@ function isBlackPiece(piece) { return /^b/.test(piece) }
 function onDrop(dropEvent) {
     if ((dropEvent.piece == "wP" && dropEvent.target[1] == "8") || (dropEvent.piece == "bP" && dropEvent.target[1] == "1")) {
         const game = playerControllerInst.getChessObject();
+
+        console.log(game.fen());
         const move=game.move({
             from: dropEvent.source,
             to: dropEvent.target,
             promotion: 'q'
         })
+        game.undo();
         if(move){
+            console.log("PROMOCIJA")
             guiHandlerInst.createPromotionPopup(moveCallback, dropEvent.source, dropEvent.target);
         }else{
+            console.log("SNAP")
             return "snapback";
         }
     } else {
@@ -62,8 +67,10 @@ function onDrop(dropEvent) {
 }
 
 function moveCallback(source, target, promotion) {
+    console.log("P");
     const board = guiHandlerInst.getChessboard();
     const game = playerControllerInst.getChessObject();
+    
     return playerControllerInst.makeAlternativeMove(source+target, promotion);
     const move = game.move({
         from: source,

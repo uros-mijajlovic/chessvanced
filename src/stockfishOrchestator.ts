@@ -38,7 +38,7 @@ class stockfishOrchestrator {
     this.stockfishParser = new StockfishParser();
     
     if(sendEvalAfterEveryMove){
-      this.moveTimeLengthMs=5000;
+      this.moveTimeLengthMs=1000;
     }else{
       this.moveTimeLengthMs = Config.STOCKFISH_MOVETIME;
     }

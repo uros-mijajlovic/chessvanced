@@ -56,7 +56,11 @@ class PlayerController {
 
 
   public getChessObject(){
-    return this.mainChessObject;
+    if(this.inAlternativePath){
+      return this.alternativeChessObject;
+    }else{
+      return this.mainChessObject;
+    }
   }
   public getAlternativeChessObject(){
     return this.alternativeChessObject;
@@ -77,7 +81,8 @@ class PlayerController {
     this.guiHandler.getChessboard().clearCircles();
     const lastMainMoveString=this.currentMoveArray[this.currentMove].from+this.currentMoveArray[this.currentMove].to;
     console.log(moveString, promotionPiece)
-
+    console.log("K");
+    
     if(this.inAlternativePath==true){
       const from=moveString.substring(0, 2);
       const to = moveString.substring(2, 4);
@@ -86,9 +91,11 @@ class PlayerController {
           to: to,
           promotion: promotionPiece
       });
+
       console.log(moveCheck, moveString, this.alternativeChessObject.fen());
       if(moveCheck){
         const currentFen = this.alternativeChessObject.fen();
+        
         this.inAlternativePath=true;
         this.updateBoardGUI(currentFen, from, to, this.currentMove, Config.MOVE_TYPE.MOVE_REGULAR);
         this.alternativePathArray.push(moveString);
