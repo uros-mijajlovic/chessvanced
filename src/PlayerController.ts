@@ -49,7 +49,7 @@ class PlayerController {
     this.currentFenArray=PgnToFenArr(this.currentPgn);
     this.currentMoveArray=PgnToMoveArr(this.currentPgn);
     this.guiHandler.updateSidebar(pgnString);
-    
+    this.gotoMove(0);
     this.startAnalysis();
   }
 

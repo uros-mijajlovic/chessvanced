@@ -57,7 +57,9 @@ class GuiHandler {
     this.flipBoard();
 
   }
-
+  public clearArrows(){
+    this.chessBoard.clearArrows();
+  }
   public addBestMoveArrow(fromto){
     this.chessBoard.clearArrows()
     const from=fromto.substring(0, 2);

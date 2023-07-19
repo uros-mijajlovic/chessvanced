@@ -1,4 +1,6 @@
 @use 'navbar';
+@use 'liveEvaluation';
+
 body {
   background-color: #33353f;
   color: #fff;
@@ -174,13 +176,18 @@ body {
 }
 
 .liveEvaluation{
-  background-color: #896ca0;
-  padding:2%;
+  background-color: #d9d9d9;
+  padding:1%;
   border-radius: 10%;
+  color:#222227;
+  font-weight: bold;
 }
 .liveEvaluationLine{
   display: flex;
+  
+  align-items: center;
 }
+
 
 .move-element:nth-child(even) {
   background-color: #303030;
