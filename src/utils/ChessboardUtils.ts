@@ -8,6 +8,10 @@ export const boardConfig = {
     onDrop
 }
 
+export function clampAndBound(x, min, max) {
+    return Math.min(Math.max(x, min), max);
+}
+
 
 
 function onDragStart(dragStartEvt) {
@@ -71,7 +75,7 @@ function moveCallback(source, target, promotion) {
     const board = guiHandlerInst.getChessboard();
     const game = playerControllerInst.getChessObject();
     
-    return playerControllerInst.makeAlternativeMove(source+target, promotion);
+    return playerControllerInst.makePossibleAlternativeMove(source+target, promotion);
     const move = game.move({
         from: source,
         to: target,

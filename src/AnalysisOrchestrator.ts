@@ -102,9 +102,12 @@ class AnalysisOrchestrator {
     const centipawns=dataForFen[0]["CP"];
 
     if (dataForFen[0]["cpOrMate"]=="mate"){
-      
+
+      const mateForOpposite=(moveAnalysis["CP"]>0) ? 1:-1;
       moveAnalysis["CP"]="M"+centipawns.toString();
-      moveAnalysis["evaluation"]=49*(dataForFen[0]["isWhiteMove"]==true ? 1:-1);
+      
+
+      moveAnalysis["evaluation"]=mateForOpposite*49*(dataForFen[0]["isWhiteMove"]==true ? 1:-1);
 
     }else{
       var evalScoreForGraph = 50 * (2 / (1 + Math.exp(-0.004 * centipawns)) - 1)
