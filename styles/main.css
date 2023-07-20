@@ -29,6 +29,13 @@
   }
 }
 /* Add a color to the active/current link */
+@font-face {
+  font-family: "chessFont"; /* Font name that you will use in your CSS */
+  src: url("/assets/fonts/lichess.chess.woff") format("woff");
+  /* Add additional formats for cross-browser support, such as:
+     src: url('path/to/your/font.woff') format('woff2'),
+          url('path/to/your/font.ttf') format('truetype'); */
+}
 #liveEvaluationTopBar {
   display: flex;
   justify-content: space-between;
@@ -38,6 +45,11 @@
   font-weight: 700;
   color: #d9d9d9;
   font-size: 14px;
+}
+
+.liveBestMove {
+  font-family: "chessFont";
+  padding-left: 2%;
 }
 
 .container {
@@ -104,6 +116,27 @@ body {
   color: #fff;
   font-family: Arial, sans-serif;
   padding: 20px;
+}
+
+.overlay {
+  position: fixed;
+  top: 0px;
+  left: 0px;
+  width: 100vw;
+  height: 100vh;
+  background: rgba(0, 0, 0, 0.4);
+  z-index: 1;
+}
+
+.content {
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  background: #d4d4d4;
+  width: 450px;
+  height: 220px;
+  z-index: 2;
 }
 
 .white-3b784.yellow_tile {

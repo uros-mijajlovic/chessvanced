@@ -6,6 +6,7 @@
 
 import { GuiHandler } from "./GuiHandler.js";
 import { stockfishOrchestrator } from "./stockfishOrchestator.js";
+import { algebraicToSEN } from "./utils/ChessboardUtils.js";
 
 export class LiveBoardEvaluation {
     private stockfishOrchestrator: stockfishOrchestrator
@@ -59,7 +60,8 @@ export class LiveBoardEvaluation {
                 if (isLineInvisible) {
                     evaluationLine.style.display = 'flex';
                 }
-                evaluationLine.querySelector(".liveBestMove").textContent = data[i]["move"];
+                console.log(data[i]);
+                evaluationLine.querySelector(".liveBestMove").textContent = algebraicToSEN(data[i]["move"], data[i]["FEN"]);
 
                 if (data[i]["cpOrMate"] == "cp") {
                     const isPositiveEvaluation = (parseFloat(data[i]["CP"]) / 100) > 0;

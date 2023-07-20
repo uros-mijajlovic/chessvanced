@@ -106,12 +106,12 @@ class PlayerController {
     console.log("K");
 
     if (this.inAlternativePath == true) {
-      this.makeAlternativeMove(moveString, promotionPiece);
+      return this.makeAlternativeMove(moveString, promotionPiece);
     } else {
       if (moveString == lastMainMoveString) {
         this.gotoMove(this.currentMove + 1);
       } else {
-        this.makeAlternativeMove(moveString, promotionPiece);
+        return this.makeAlternativeMove(moveString, promotionPiece);
       }
     }
   }

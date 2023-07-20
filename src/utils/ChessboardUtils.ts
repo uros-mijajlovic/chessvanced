@@ -1,6 +1,16 @@
 import { playerControllerInst, guiHandlerInst } from "../connectStockfish.js"
+import { Chess } from "../../dependencies/chess.js";
 
-
+export function algebraicToSEN(algebraicNotation, FENstring){
+    const chessObject=Chess();
+    chessObject.load(FENstring);
+    const move=chessObject.move({from:algebraicNotation.substring(0, 2), to:algebraicNotation.substring(2, 4), promotion:'q'});
+    if(move){
+        return move.san;
+    }else{
+        return algebraicNotation;
+    }
+}
 export const boardConfig = {
     draggable: true,
     position: "start",

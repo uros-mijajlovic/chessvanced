@@ -1,0 +1,7 @@
+@font-face {
+    font-family: 'chessFont'; /* Font name that you will use in your CSS */
+    src: url('/assets/fonts/lichess.chess.woff') format('woff');
+    /* Add additional formats for cross-browser support, such as:
+       src: url('path/to/your/font.woff') format('woff2'),
+            url('path/to/your/font.ttf') format('truetype'); */
+  }
