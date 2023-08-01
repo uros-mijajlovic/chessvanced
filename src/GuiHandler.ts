@@ -78,21 +78,28 @@ class GuiHandler {
   public flipBoard() {
     this.chessBoard.flip();
   }
+
   public createPromotionPopup(callback, sourceTile, targetTile) {
+
     function createButton(id, callback, sourceTile, targetTile) {
-      const button = document.createElement('button');
-      button.textContent = `Button ${Config.PROMOTION_TO_CHAR[id]}`;
+      const imgWrapDiv=document.createElement('div');
+      imgWrapDiv.classList.add("promotion-figure-button");
+
+      const button = document.createElement('img');
+      
+      button.src="/img/chesspieces/wikipedia/bQ.png";
       button.id = `button-${id}`;
       button.addEventListener('click', (event) => printButtonId(event, callback, sourceTile, targetTile, id));
-      return button;
+      imgWrapDiv.appendChild(button);
+      return imgWrapDiv;
     }
 
     function printButtonId(event,callback, sourceTile, targetTile, id) {
       const buttonId = event.target.id;
       console.log(`Button ID: ${buttonId}`);
-      const buttonContainer = document.getElementById('buttonContainer');
-
-      // Remove all buttons from the container
+      const buttonContainer = document.getElementById('promotion_bar');
+      buttonContainer.style.visibility="hidden"
+      
       while (buttonContainer.firstChild) {
         buttonContainer.removeChild(buttonContainer.firstChild);
       }
@@ -100,9 +107,11 @@ class GuiHandler {
       callback(sourceTile, targetTile, Config.PROMOTION_TO_CHAR[id]);
 
     }
-    console.log("PRAVIM DUGMICE");
-    const buttonContainer = document.getElementById('buttonContainer');
 
+    console.log("PRAVIM DUGMICE");
+    const buttonContainer = document.getElementById('promotion_bar');
+    buttonContainer.style.visibility="visible";
+    
     // Create and add four buttons to the container
     for (let i = 0; i <= 3; i++) {
       const button = createButton(i, callback, sourceTile, targetTile);
