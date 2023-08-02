@@ -2,6 +2,7 @@
 @use 'fonts';
 @use 'liveEvaluation';
 @use 'board';
+@use 'importPgn';
 
 body {
   background-color: #33353f;
@@ -9,29 +10,7 @@ body {
   font-family: Arial, sans-serif;
   padding: 20px;
 }
-.popup{
-  position:absolute;
-  height: 0;
-  width: 100%;
-  padding-bottom: 100%;
-}
-.overlay{
-  position:absolute;
-  width:100%;
-  height:100%;
-  background:rgba(0, 0, 0, 0.4);
-  z-index:1;
-}
-.content{
-  position:absolute;
-  width:12.5%;
-  height:50%;
-  background:#d4d4d4;
-  z-index:2;
-  //transform:translate(-50%, -50%);
 
-
-}
 
 #analysisAll {
   height:100%;

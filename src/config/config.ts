@@ -49,11 +49,18 @@ export namespace Config{
         BISHOP,
         KNIGHT,
     };
-    export const PROMOTION_TO_CHAR = {
+    export const PROMOTION_TO_CHAR : { [key: number]: string } = {
         0:"q",
         1:"r",
         2:"n",
         3:"b"
     };
+    export const PROMOTION_CHAR_TO_IMAGE_URL = {
+        "q":"/img/chesspieces/wikipedia/bQ.png",
+        "r":"/img/chesspieces/wikipedia/bR.png",
+        "n":"/img/chesspieces/wikipedia/bN.png",
+        "b":"/img/chesspieces/wikipedia/bB.png",
+    };
+    
     
 }

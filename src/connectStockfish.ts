@@ -33,6 +33,7 @@ const playerControllerInst=new PlayerController(guiHandlerInst, analsysOrchestra
 
 
 sidebarInst.playerController=playerControllerInst;
+sidebarInst.guiHandler=guiHandlerInst;
 console.log("playerControllerSet");
 
 document.addEventListener('keydown', function(event) {

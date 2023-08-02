@@ -74,6 +74,7 @@
     width: 100%;
     padding-bottom: 100%;
     visibility:hidden;
+
   }
   .overlay{
     position:absolute;
@@ -84,6 +85,8 @@
 
   }
   .promotion-bar{
+    display:flex;
+    flex-direction: column-reverse;
     box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1); 
     position:absolute;
     width:12.5%;

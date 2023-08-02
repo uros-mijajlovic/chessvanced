@@ -25,7 +25,15 @@
 
 
   <div id="analysisAll">
-    
+    <div id="import_popup">
+      <h2>Import game</h2>
+      <textarea id="pgn_textarea"></textarea>
+      <div style = "display: flex; flex-direction: row;">
+        <button id="import-button" class="popup_button">Import game</button>
+        <button id="close-import-button" class="popup_button">Close</button>
+      </div>
+      
+    </div>
     
     <div id="chessgroundParentDiv">
       
@@ -33,19 +41,6 @@
       <div class="popup">
         <div class="overlay"></div>
         <div class="promotion-bar" id="promotion_bar">
-          <div class="promotion-figure-button">
-            <img src="/img/chesspieces/wikipedia/bQ.png" >
-          </div>
-          
-          <div class="promotion-figure-button">
-            <img src="/img/chesspieces/wikipedia/bB.png" >
-          </div>
-          <div class="promotion-figure-button">
-            <img src="/img/chesspieces/wikipedia/bR.png" >
-          </div>
-          <div class="promotion-figure-button">
-            <img src="/img/chesspieces/wikipedia/bN.png" >
-          </div>
         </div>
       </div>
 
@@ -53,7 +48,10 @@
     </div>
 
     <div id="chartContainer">
-      <h3 id="loadpgnButton" style="text-align: center;">Load PGN</h3>
+      <div style="display:flex; justify-content: space-around;">
+        <h4 id="loadpgnButton" style="text-align: center;">Load PGN</h4>
+        <h4 id="flipBoardButton" style="text-align: center; cursor: pointer; user-select: none;">Flip board</h4>
+      </div>
       <h2 style="text-align: center;">Game Review</h2>
       <div id="liveEvaluationMain">
         <div id="liveEvaluationTopBar">

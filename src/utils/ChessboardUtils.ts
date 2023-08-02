@@ -22,6 +22,10 @@ export function clampAndBound(x, min, max) {
     return Math.min(Math.max(x, min), max);
 }
 
+export function getRowFromTile(tile:string){
+    return tile[0].charCodeAt(0) - "a".charCodeAt(0);
+}
+
 
 
 function onDragStart(dragStartEvt) {
@@ -58,6 +62,9 @@ function isWhitePiece(piece) { return /^w/.test(piece) }
 function isBlackPiece(piece) { return /^b/.test(piece) }
 
 function onDrop(dropEvent) {
+
+    //check if it is promotion
+    
     if ((dropEvent.piece == "wP" && dropEvent.target[1] == "8") || (dropEvent.piece == "bP" && dropEvent.target[1] == "1")) {
         const game = playerControllerInst.getChessObject();
 
@@ -70,7 +77,8 @@ function onDrop(dropEvent) {
         game.undo();
         if(move){
             console.log("PROMOCIJA")
-            guiHandlerInst.createPromotionPopup(moveCallback, dropEvent.source, dropEvent.target);
+            const sidePlaying = dropEvent.piece[0];
+            guiHandlerInst.createPromotionPopup(moveCallback, dropEvent.source, dropEvent.target, sidePlaying);
         }else{
             console.log("SNAP")
             return "snapback";
@@ -100,4 +108,6 @@ function moveCallback(source, target, promotion) {
     }
 
 }
+
+
 

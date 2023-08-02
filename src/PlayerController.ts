@@ -45,7 +45,7 @@ class PlayerController {
 
   }
 
-  public setPgn(pgnString) {
+  public setPgn(pgnString:string) {
     this.currentPgn = pgnString;
     this.currentFenArray = PgnToFenArr(this.currentPgn);
     this.currentMoveArray = PgnToMoveArr(this.currentPgn);

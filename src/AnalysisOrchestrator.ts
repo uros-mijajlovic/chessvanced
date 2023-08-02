@@ -99,15 +99,17 @@ class AnalysisOrchestrator {
     var moveIndex = dataFromStockfish["moveIndex"];
     this.analysisArray.push(dataForFen);
     const moveAnalysis={}
+    console.log(dataForFen);
     const centipawns=dataForFen[0]["CP"];
 
     if (dataForFen[0]["cpOrMate"]=="mate"){
-
-      const mateForOpposite=(moveAnalysis["CP"]>0) ? 1:-1;
+      console.log(centipawns);
+      console.log(dataForFen);
+      const mateForOpposite=(centipawns>0) ? 1:-1;
       moveAnalysis["CP"]="M"+centipawns.toString();
       
 
-      moveAnalysis["evaluation"]=mateForOpposite*49*(dataForFen[0]["isWhiteMove"]==true ? 1:-1);
+      moveAnalysis["evaluation"]=mateForOpposite*49;
 
     }else{
       var evalScoreForGraph = 50 * (2 / (1 + Math.exp(-0.004 * centipawns)) - 1)

@@ -1,4 +1,4 @@
-const pgn_string_white=`[Event "Live Chess"]
+const pgn_string_short=`[Event "Live Chess"]
 [Site "Chess.com"]
 [Date "2023.06.22"]
 [Round "?"]
@@ -13,7 +13,7 @@ const pgn_string_white=`[Event "Live Chess"]
 [Termination "urke-37 won by resignation"]
 
 1. e4 d5 2. exd5 Qxd5 3. Nc3 Qa5 4. d3 c6 5. Bd2 Nf6 6. h3 e5 7. Qe2 Be6 8. Nf3
-Bd6 9. Ne4 Nxe4 10. Bxa5 b6 11. Qxe4 1-0 `
+Bd6 9. Ne4 Nxe4 10. Bxa5 b6 11. Qxe4 1-0`
 
 const pgn_string_black=`[Event "Live Chess"]
 [Site "Chess.com"]
@@ -193,7 +193,7 @@ Ka4 Rb4+ 103. Ka5 Rb5+ 104. Ka6 Rb6+ 105. Ka7 Ra6+ 106. Kb8 Ra8+ 107. Kc7 Rc8+
 Ke6 Rd6+ $3 114. Ke5 Rd5+ 115. Kf4 Rf5+ $3 116. Ke3 Rf3+ $3 117. Kd4 Rd3+ $3 118.
 Ke5 Rd5+ {<br /><br />Game may have continued...} (118... Rd5+ 119. Ke4 Rd4+
 120. Kf3 Rf4+ 121. Ke2 Rf2+ 122. Kd3 Rd2+ {0.00}) 1/2-1/2`;
-const pgn_string_1=pgn_string_38brilliant;
+const pgn_string_1=pgn_string_short;
 
 // const pgn_string_1=`[Event "Live Chess"]
 // [Site "Chess.com"]

@@ -1,4 +1,5 @@
 import {Chess} from '../dependencies/chess.js';
+import { GuiHandler } from './GuiHandler.js';
 import { PlayerController } from './PlayerController.js';
 function getMovesFromFen(fenString){
     const chess=Chess();
@@ -18,12 +19,33 @@ export class Sidebar{
     
     private div: HTMLElement;
     public playerController:PlayerController;
+    public guiHandler:GuiHandler;
     constructor(divForTheSidebar: HTMLElement){
         this.div = divForTheSidebar;
+        document.getElementById("flipBoardButton").addEventListener('click', () => {this.guiHandler.flipBoard()});
+
+        document.getElementById("loadpgnButton").addEventListener('click', () => {this.guiHandler.showImportPopup()});
+
+        document.getElementById("import-button").addEventListener('click', () => {this.importFromText()});
+
+        
+        document.getElementById("close-import-button").addEventListener('click', () => {this.guiHandler.hideImportPopup()});
+    }
+
+    public importFromText(){
+        const textarea = document.getElementById("pgn_textarea") as HTMLTextAreaElement;
+        const text = textarea.value;
+        this.guiHandler.hideImportPopup();
+        this.playerController.setPgn(text);
+
     }
 
 
-    setAnalysisData(gameAnalysis){
+    public setAnalysisData(gameAnalysis){
+        
+        console.log("SETUP")
+        //document.getElementById("import").addEventListener('click', () => {this.playerController.setPgn()});
+
         const handleClick = (event) => {
             this.playerController.gotoMove(parseInt(event.target.id)+1);
         };

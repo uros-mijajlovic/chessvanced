@@ -3,7 +3,8 @@ import { EvaluationGraph } from "./EvaluationGraph.js";
 import { Sidebar } from "./Sidebar.js";
 import { SoundHandler } from "./SoundHandler.js";
 import { Config } from "./config/config.js"
-import { boardConfig } from "./utils/ChessboardUtils.js";
+import { boardConfig, getRowFromTile } from "./utils/ChessboardUtils.js";
+import ChessboardHandler from "./ChessboardHandler.js";
 declare var Chessboard2: any;
 
 const glyphToSvg = {
@@ -40,115 +41,57 @@ const sleep = (ms) => new Promise(r => setTimeout(r, ms));
 
 
 class GuiHandler {
-  private chessBoard: any;
   private evaluationGraph: EvaluationGraph;
   private sidebar: Sidebar;
-  private activeTiles: string[];
   private soundHandler: SoundHandler;
   private gameAnalysis: any[];
-
+  private chessboardHandler:ChessboardHandler;
   constructor(evaluationGraphInst: EvaluationGraph, sidebar: Sidebar) {
     this.evaluationGraph = evaluationGraphInst;
-
-    this.chessBoard = Chessboard2('chessground', boardConfig);
+    this.chessboardHandler=new ChessboardHandler();
     this.sidebar = sidebar;
-    this.activeTiles = []
     this.soundHandler = new SoundHandler();
     this.flipBoard();
 
   }
+  public showImportPopup(){
+    console.log("Vsiible")
+    document.getElementById("import_popup").style.visibility="visible";
+  }
+  public hideImportPopup(){
+    document.getElementById("import_popup").style.visibility="hidden";
+  }
+  
   public clearArrows(){
-    this.chessBoard.clearArrows();
+    this.chessboardHandler.clearArrows();
   }
   public addBestMoveArrow(fromto){
-    this.chessBoard.clearArrows()
-    const from=fromto.substring(0, 2);
-    const to=fromto.substring(2, 4);
-    this.addArrowToBoard(from, to);
+    this.chessboardHandler.addBestMoveArrow(fromto);
   }
   public addArrowToBoard(from, to){
-    const smer=from+'-'+to;
-    console.log(`NACRTAJ MI STRELICU OD ${smer} DA TI NE BIH JEBAO MAMU`)
-    this.chessBoard.addArrow(smer, 'small');
+    this.chessboardHandler.addArrowToBoard(from, to);
   }
 
   public getChessboard() {
-    return this.chessBoard;
+    return this.chessboardHandler.getChessboard();
   }
+
   public flipBoard() {
-    this.chessBoard.flip();
+    this.chessboardHandler.flipBoard();
+    
   }
 
-  public createPromotionPopup(callback, sourceTile, targetTile) {
+  public createPromotionPopup(callback, sourceTile, targetTile, sidePlaying:string) {
 
-    function createButton(id, callback, sourceTile, targetTile) {
-      const imgWrapDiv=document.createElement('div');
-      imgWrapDiv.classList.add("promotion-figure-button");
-
-      const button = document.createElement('img');
-      
-      button.src="/img/chesspieces/wikipedia/bQ.png";
-      button.id = `button-${id}`;
-      button.addEventListener('click', (event) => printButtonId(event, callback, sourceTile, targetTile, id));
-      imgWrapDiv.appendChild(button);
-      return imgWrapDiv;
-    }
-
-    function printButtonId(event,callback, sourceTile, targetTile, id) {
-      const buttonId = event.target.id;
-      console.log(`Button ID: ${buttonId}`);
-      const buttonContainer = document.getElementById('promotion_bar');
-      buttonContainer.style.visibility="hidden"
-      
-      while (buttonContainer.firstChild) {
-        buttonContainer.removeChild(buttonContainer.firstChild);
-      }
-      
-      callback(sourceTile, targetTile, Config.PROMOTION_TO_CHAR[id]);
-
-    }
-
-    console.log("PRAVIM DUGMICE");
-    const buttonContainer = document.getElementById('promotion_bar');
-    buttonContainer.style.visibility="visible";
-    
-    // Create and add four buttons to the container
-    for (let i = 0; i <= 3; i++) {
-      const button = createButton(i, callback, sourceTile, targetTile);
-      buttonContainer.appendChild(button);
-    }
+    this.chessboardHandler.createPromotionPopup(callback, sourceTile, targetTile, sidePlaying);
   }
   private colorTile(tile: string, TILE_COLOR: Config.TILE_COLORS, tile_css = "yellow_tile") {
-
-    var chessgroundElement = document.getElementById("chessground");
-    const indexRow = 8 - parseInt(tile[1]);
-    const indexColumn = tile[0].charCodeAt(0) - "a".charCodeAt(0);
-    if (indexRow >= 0 && indexRow < 8 && indexColumn >= 0 && indexColumn < 8) {
-      var selectedTile = chessgroundElement.firstElementChild.firstElementChild.children[1].children[indexRow].children[indexColumn];
-
-      if (TILE_COLOR == Config.TILE_COLORS.ACTIVE) {
-        const lastClassOfTile = selectedTile.classList[selectedTile.classList.length - 1];
-        if (lastClassOfTile != "active") {
-          this.activeTiles.push(tile)
-          if (lastClassOfTile == "inactive") {
-            selectedTile.classList.remove(lastClassOfTile);
-            selectedTile.classList.add(tile_css);
-          } else {
-            selectedTile.classList.add(tile_css);
-          }
-        }
-      } else if (TILE_COLOR == Config.TILE_COLORS.INACTIVE) {
-        selectedTile.classList.remove(selectedTile.classList[selectedTile.classList.length - 1]);
-        selectedTile.classList.add("kurac");
-
-      }
-    }
+    
+    this.chessboardHandler.colorTile(tile, TILE_COLOR, tile_css);
   }
+
   private deactivateTiles() {
-    while (this.activeTiles.length > 0) {
-      this.colorTile(this.activeTiles[this.activeTiles.length - 1], Config.TILE_COLORS.INACTIVE);
-      this.activeTiles.pop();
-    }
+    this.chessboardHandler.deactivateTiles();
 
   }
   private colorTilesForMove(from, to, moveIndex) {
@@ -169,7 +112,7 @@ class GuiHandler {
 
     this.soundHandler.playSound(moveType);
     this.evaluationGraph.updateGraphSelectedMove(moveIndex);
-    this.chessBoard.position(fenString, false);
+    this.chessboardHandler.getChessboard().position(fenString, false);
 
     this.colorTilesForMove(from, to, moveIndex);
 
