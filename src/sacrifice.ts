@@ -78,7 +78,11 @@ function findMaxAdvantage(fen:string, swapSide:boolean) {
         const checkMove=chess.move(moves[i])
         if(checkMove.captured!=undefined){
             var piece=checkMove.captured.toUpperCase()
+
+            //Static exchange evaluation might be needed here
             
+
+
             if(figureValues[piece]>maxAdvantage){
                 maxAdvantage=figureValues[piece]
                 bestMove= moves[i]

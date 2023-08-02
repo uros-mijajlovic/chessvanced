@@ -101,9 +101,13 @@ class PlayerController {
   }
   public makePossibleAlternativeMove(moveString: string, promotionPiece: string) {
     this.guiHandler.getChessboard().clearCircles();
-    const lastMainMoveString = this.currentMoveArray[this.currentMove].from + this.currentMoveArray[this.currentMove].to;
-    console.log(moveString, promotionPiece)
-    console.log("K");
+    var lastMainMoveString;
+    if(this.currentMove>=this.currentMoveArray.length){
+      this.inAlternativePath=true
+    }else{
+      lastMainMoveString = this.currentMoveArray[this.currentMove].from + this.currentMoveArray[this.currentMove].to;
+    }
+    
 
     if (this.inAlternativePath == true) {
       return this.makeAlternativeMove(moveString, promotionPiece);
