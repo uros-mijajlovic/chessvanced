@@ -3,23 +3,14 @@ import {Chess} from '../dependencies/chess.js';
 import {pgn_string_1, fen_string_1} from './const/constGames.js';
 import {stockfish, stockfishOrchestratorInst} from './connectStockfish.js'
 
-const globalAnalysisDepth=10;
-
-const figureValues = {
-    'Q': 9,     // Queen
-    'R': 5,     // Rook
-    'B': 3,     // Bishop
-    'N': 3,     // Knight
-    'P': 1      // Pawn
-  };
-export function PgnToFenArr(pgnString: string){
-  const chessjs=Chess();
+export function PgnToFenArr(pgnString: string) {
+  const chessjs = Chess();
   chessjs.load_pgn(pgnString);
   const moves = chessjs.history();
-  var fenMoves=[];
-  
+  var fenMoves = [];
 
-  const newChessjs=Chess()
+
+  const newChessjs = Chess()
   fenMoves.push(newChessjs.fen());
   moves.forEach((move, index) => {
     newChessjs.move(move);
@@ -27,79 +18,185 @@ export function PgnToFenArr(pgnString: string){
   });
   return fenMoves;
 }
-export function PgnToMoveArr(pgnString:string){
+export function PgnToMoveArr(pgnString: string) {
 
-  const chessjs=Chess();
+  const chessjs = Chess();
   chessjs.load_pgn(pgnString);
   const moves = chessjs.history({ verbose: true });
 
   moves.forEach((move, index) => {
-    move.fromto=move.from + move.to;
+    move.fromto = move.from + move.to;
   });
 
   return moves;
 
 }
 
-export function didSacrificeIncrease(fenBefore, fenAfter){
-  const maxAdvantageBefore = findMaxAdvantage(fenBefore, true);
-  const maxAdvantageAfter = findMaxAdvantage(fenAfter, false)
-  console.log(`COMPARE ADVANTAGES ${maxAdvantageBefore}, ${maxAdvantageAfter}`);
-  return maxAdvantageBefore<maxAdvantageAfter;
+const pieceValues: Record<string, number> = {
+  q: 9,
+  r: 5,
+  b: 3,
+  n: 3,
+  p: 1,
+  k: 0,
+};
+
+function intToSquare(square) {
+  const file = String.fromCharCode(97 + (square % 8)); // 'a' + column index (0 to 7)
+  const rank = 8 - Math.floor(square / 8); // 8 - row index (0 to 7)
+
+  return file + rank;
+
+}
+
+function makeCapture(board, uciMoveString: string) {
+  board.move({ from: uciMoveString.substring(0, 2), to: uciMoveString.substring(2, 4) });
+}
+
+function undoCapture(board) {
+  board.undo();
+}
+
+function other(side: 'w' | 'b'): 'w' | 'b' {
+  return side === 'w' ? 'b' : 'w';
+}
+function getAttackers(board, side, tile) {
+  const moves = board.moves({ verbose: true });
+  var attackers = []
+  for (const move of moves) {
+    if (move.to == tile) {
+      attackers.push(move.from);
+    }
+  }
+  return attackers;
+}
+
+function getSmallestAttackerForSquare(board, tile: string, side: 'w' | 'b') {
+
+  const piece = board.get(tile);
+  if (piece && piece.color === side) {
+    return [-1, -1];
+  }
+
+  const attackers = getAttackers(board, side, tile);
+  let smallestPiece: string | null = null;
+  let smallestPieceSquare = -1;
+  for (const a of attackers) {
+    const attackingPiece = board.get(a).type;
+    if (smallestPiece === null || (valueOfPiece(attackingPiece) < valueOfPiece(smallestPiece))) {
+      smallestPiece = attackingPiece;
+      smallestPieceSquare = a;
+    }
+  }
+  return [smallestPiece, smallestPieceSquare];
+}
+
+function see(board, square: string, side: 'w' | 'b'): number {
+  if (side != board.turn()) {
+    const swappedFen = swapFenSide(board.fen());
+    board=Chess(swappedFen);
+  }
+  let value = 0;
+  const pieceOnTheSquare = board.get(square);
+  if (pieceOnTheSquare == null) {
+    return 0;
+  }
+  if (pieceOnTheSquare.color == side) {
+    return 0;
+  }
+
+  const [piece, squareFrom] = getSmallestAttackerForSquare(board, square, side);
+  const pieceJustCaptured = pieceOnTheSquare.type;
+  if (piece && pieceJustCaptured) {
+    const uciMoveString = `${squareFrom}${square}`;
+    makeCapture(board, uciMoveString);
+    value = Math.max(0, valueOfPiece(pieceJustCaptured) - see(board, square, other(side)));
+    undoCapture(board);
+  }
+  return value;
+}
+
+function valueOfPiece(piece: string): number {
+
+  const pieceStr = piece.toLowerCase();
+  return pieceValues[pieceStr];
+}
+function swapFenSide(fen: string) {
+  var splittedString = fen.split(" ");
+  if (splittedString[1] == "w") {
+    splittedString[1] = "b";
+  } else {
+    splittedString[1] = "w";
+  }
+  fen = splittedString.join(" ");
+  return fen;
+}
+function getSideFromFen(fen: string): "w" | "b" {
+  return fen.split(" ")[1] as "w" | "b";
+}
+
+function findMaxMaterialLoss(fen: string, turn): number {
+
+  let maxMaterialLoss = 0;
+  if (getSideFromFen(fen) != turn) {
+    fen = swapFenSide(fen);
+  }
+  for (let i = 0; i < 64; i++) {
+    maxMaterialLoss = Math.max(maxMaterialLoss, findMaterialLossForSquare(fen, intToSquare(i), turn));
+  }
+  return maxMaterialLoss;
+}
+
+function findMaterialLossForSquare(fen, square, turn): number {
+  const board = Chess(fen);
+  return see(board, square, turn)
+}
+
+
+function calculateSidesMaterial(fen, side): number {
+  const chess = Chess();
+  chess.load(fen);
+
+  let sideMaterial = 0;
+
+  for (let square = 0; square < 64; square++) {
+
+    const squareString = intToSquare(square);
+    const piece = chess.get(squareString);
+
+    if (piece !== null && piece.color === side) {
+      const pieceType = piece.type;
+      const pieceValue = valueOfPiece(pieceType);
+      sideMaterial += pieceValue;
+    }
+  }
+
+  return sideMaterial;
 }
 
 
 
-function findMaxAdvantage(fen:string, swapSide:boolean) {
 
 
-    var maxAdvantage=0
-    var bestMove=null
-    const chess = Chess();
+export function didSacrificeIncrease(fenAfterLast: string,fenBetween:string, fenAfter: string, lastMove) {
 
-    if(swapSide==true){
-      console.log(`i took da string${fen}`)
-      var splittedString=fen.split(" ");
-      if (splittedString[1]=="w"){
-        splittedString[1]="b";
-      }else{
-        splittedString[1]="w";
-      }
-      fen=splittedString.join(" ");
-      console.log(`and transformed it into${fen}`)
-    }
-    chess.load(fen);
-    
-    const moves=chess.moves()
+  const turn = getSideFromFen(fenAfterLast);
+  const materialWon = calculateSidesMaterial(fenAfterLast, turn) - calculateSidesMaterial(fenAfter, turn);
+  const materialLossAfter = findMaxMaterialLoss(fenAfter, turn);
+  const materialLossBefore = findMaxMaterialLoss(fenAfterLast, turn);
 
-    console.log(chess.ascii())
-    
-    for (let i = 0; i < moves.length; i++) {
-        const checkMove=chess.move(moves[i])
-        if(checkMove.captured!=undefined){
-            var piece=checkMove.captured.toUpperCase()
+  const materialLossOriginSquare = findMaterialLossForSquare(fenBetween, lastMove.substring(0, 2), turn);
+  const materialLossTargetSquare = findMaterialLossForSquare(fenAfter, lastMove.substring(2, 4), turn);
 
-            //Static exchange evaluation might be needed here
-            
-
-
-            if(figureValues[piece]>maxAdvantage){
-                maxAdvantage=figureValues[piece]
-                bestMove= moves[i]
-            }
-        }
-        chess.undo();
-      }
-    if (maxAdvantage>0){
-        console.log(maxAdvantage)
-        console.log(bestMove)
-    }
-
-    return maxAdvantage;
-    
+  console.log("moveSpecificMaterialLoss ", materialLossOriginSquare, materialLossTargetSquare);
+  console.log(materialWon)
+  console.log(materialLossAfter, materialLossBefore)
+  if(materialLossOriginSquare+1+materialWon < materialLossTargetSquare){
+    return true;
   }
-const playerColor='w'
-
-
-
-
+  if (materialWon) {
+    return 0 < materialLossAfter - materialLossBefore - materialWon;
+  } else {
+    return 1 < materialLossAfter - materialLossBefore - materialWon;
+  }
+}

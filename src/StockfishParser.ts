@@ -47,7 +47,7 @@ function getBestMoveFromString(message:string){
     if(match){
         return match[1];
     }else{
-        console.log(`ALOALO${message}`);
+        //console.log(`ALOALO${message}`);
     }
 
 }
@@ -72,7 +72,7 @@ export class StockfishParser{
         return this.data[0]["CP"];
     }
     sendMessage(message:string, currentFEN:string){
-        
+        //console.log(message);
         const isWhiteMove=getIsWhiteMoveFromFen(currentFEN);
         const evaulationDepth = getDepthFromString(message);
         const moveOrder=getMultiPVvalueFromString(message);

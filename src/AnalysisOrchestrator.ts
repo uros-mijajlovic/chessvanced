@@ -44,6 +44,7 @@ class AnalysisOrchestrator {
       }
       
       const isWhiteMove=moveIndex%2;
+      
 
       const beforeMoveAnalysis=this.analysisArray[this.analysisArray.length-2];
 
@@ -56,19 +57,28 @@ class AnalysisOrchestrator {
       //console.log("CALCULATING BRILLIANCE", beforeMoveAnalysis, playersMove);
       //console.log(`i think the move ${this.moveArray[moveIndex-1].fromto}, ${moveIndex-1}`)
       //console.log(dataForFen);
+      const afterMoveCpDiscrepancy = (afterMoveAnalysis[0]["CP"] - beforeMoveAnalysis[0]["CP"]) * (isWhiteMove?1:-1);
+
+      if(this.analysisArray.length>2){
+        const afterLastMoveAnalysis=this.analysisArray[this.analysisArray.length-3];
+
+        if(afterMoveCpDiscrepancy>-75){
+          if(sacrifice.didSacrificeIncrease(afterLastMoveAnalysis[0]["FEN"], beforeMoveAnalysis[0]["FEN"], afterMoveAnalysis[0]["FEN"], playersMove)){
+            return "brilliant";
+          }
+        }
+
+      }
+      
       if (playersMove==beforeMoveAnalysis[0]["move"]){
         if(Math.abs((Math.abs(beforeMoveAnalysis[0]["CP"])-Math.abs(beforeMoveAnalysis[1]["CP"]))) > 100){
-          if(sacrifice.didSacrificeIncrease(this.analysisArray[this.analysisArray.length-2][0]["FEN"], this.analysisArray[this.analysisArray.length-1][0]["FEN"])){
-            return "brilliant";
-          }else{
-            return "great"
-          }
+          return "great"
         }else{
           return "best"
         }
       }
       
-      const afterMoveCpDiscrepancy = (afterMoveAnalysis[0]["CP"] - beforeMoveAnalysis[0]["CP"]) * (isWhiteMove?1:-1);
+      
 
       if (playersMove == beforeMoveAnalysis[1]["move"] && Math.abs((Math.abs(beforeMoveAnalysis[0]["CP"])-Math.abs(beforeMoveAnalysis[1]["CP"]))) < 100){
         return "good"
@@ -99,8 +109,9 @@ class AnalysisOrchestrator {
     var moveIndex = dataFromStockfish["moveIndex"];
     this.analysisArray.push(dataForFen);
     const moveAnalysis={}
-    console.log(dataForFen);
+    
     const centipawns=dataForFen[0]["CP"];
+    console.log(FENstring, centipawns, dataForFen);
 
     if (dataForFen[0]["cpOrMate"]=="mate"){
       console.log(centipawns);
