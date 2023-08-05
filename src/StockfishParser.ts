@@ -90,7 +90,7 @@ export class StockfishParser{
     getAllData(){
         return this.data;
     }
-    cleanData(){
+    clearData(){
         this.data={};
     }
 

@@ -51,20 +51,27 @@ Qe3 $6 Bf4 20. Qxe4 Bxh3 $3 21. Nf3 Bxg2+ 22. Kxg2 Qg4+ $1 23. Kh1 Rf6 $6 24. Nh
 {<br /><br />Game may have continued...} (30... Qxb5 31. Re1 Qg5+ 32. Rg2 Qxg2+
 33. Kxg2 g5 34. Kg3 Ne5 {-6.29}) 0-1`
 
-const pgn_string_kasparov=`[Event "Ch World (match)"]
-[Site "Moscow (Russia)"]
-[Date "1985.??.??"]
-[Round "?"]
-[White "Anatoly Karpov"]
-[Black "Garry Kasparov"]
-[Result "0-1"]
+const pgn_string_kasparov=`[Event "It (cat.17)"]
+[Site "Wijk aan Zee (Netherlands)"]
+[Date "1999.??.??"]
+[Round "4"]
+[White "Kasparov Garry (RUS)"]
+[Black "Topalov Veselin (BUL)"]
+[Result "1-0"]
+[ECO "B07"]
+[WhiteElo "2851"]
+[BlackElo "2690"]
+[Annotator ""]
+[Source ""]
+[Remark "I"]
 
-1. e4 c5 2. Nf3 e6 3. d4 cxd4 4. Nxd4 Nc6 5. Nb5 d6 6. c4 Nf6 7. N1c3 a6 8. Na3
-d5 9. cxd5 exd5 10. exd5 Nb4 11. Be2 Bc5 12. O-O O-O 13. Bf3 Bf5 14. Bg5 Re8 15.
-Qd2 b5 16. Rad1 Nd3 17. Nab1 h6 18. Bh4 b4 19. Na4 Bd6 20. Bg3 Rc8 21. b3 g5 22.
-Bxd6 Qxd6 23. g3 Nd7 24. Bg2 Qf6 25. a3 a5 26. axb4 axb4 27. Qa2 Bg6 28. d6 g4
-29. Qd2 Kg7 30. f3 Qxd6 31. fxg4 Qd4+ 32. Kh1 Nf6 33. Rf4 Ne4 34. Qxd3 Nf2+ 35.
-Rxf2 Bxd3 36. Rfd2 Qe3 37. Rxd3 Rc1 38. Nb2 Qf2 39. Nd2 Rxd1+ 40. Nxd1 Re1+ 0-1`;
+1. e4 d6 2. d4 Nf6 3. Nc3 g6 4. Be3 Bg7 5. Qd2 c6 6. f3 b5 7. Nge2 Nbd7 8. Bh6
+Bxh6 9. Qxh6 Bb7 10. a3 e5 11. O-O-O Qe7 12. Kb1 a6 13. Nc1 O-O-O 14. Nb3 exd4
+15. Rxd4 c5 16. Rd1 Nb6 17. g3 Kb8 18. Na5 Ba8 19. Bh3 d5 20. Qf4+ Ka7 21. Rhe1
+d4 22. Nd5 Nbxd5 23. exd5 Qd6 24. Rxd4 cxd4 25. Re7+ Kb6 26. Qxd4+ Kxa5 27. b4+
+Ka4 28. Qc3 Qxd5 29. Ra7 Bb7 30. Rxb7 Qc4 31. Qxf6 Kxa3 32. Qxa6+ Kxb4 33. c3+
+Kxc3 34. Qa1+ Kd2 35. Qb2+ Kd1 36. Bf1 Rd2 37. Rd7 Rxd7 38. Bxc4 bxc4 39. Qxh8
+Rd3 40. Qa8 c3 41. Qa4+ Ke1 42. f4 f5 43. Kc1 Rd2 44. Qa7 1-0`;
 const pgn_string_3=`[Event "Live Chess"]
 [Site "Chess.com"]
 [Date "2023.07.02"]
@@ -207,6 +214,8 @@ Ka4 Rb4+ 103. Ka5 Rb5+ 104. Ka6 Rb6+ 105. Ka7 Ra6+ 106. Kb8 Ra8+ 107. Kc7 Rc8+
 Ke6 Rd6+ $3 114. Ke5 Rd5+ 115. Kf4 Rf5+ $3 116. Ke3 Rf3+ $3 117. Kd4 Rd3+ $3 118.
 Ke5 Rd5+ {<br /><br />Game may have continued...} (118... Rd5+ 119. Ke4 Rd4+
 120. Kf3 Rf4+ 121. Ke2 Rf2+ 122. Kd3 Rd2+ {0.00}) 1/2-1/2`;
+
+const pgn_string_super_short=`1. e4 d5 2. exd5 Nf6`;
 const pgn_string_1=pgn_string_kasparov;
 
 // const pgn_string_1=`[Event "Live Chess"]

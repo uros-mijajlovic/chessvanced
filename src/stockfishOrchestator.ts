@@ -18,18 +18,18 @@ export async function createStockfishOrchestrator(sendEvalAfterEveryMove) {
   return stockfishOrchestratorInst;
 }
 class stockfishOrchestrator {
-  private stockfishWorker: any;
+  private stockfishWorker: Worker;
   private isCurrentlyWorking: boolean;
   private currentFEN: string;
   public analysisOrchestrator: AnalysisOrchestrator;
   private whiteMove: boolean;
-
   private stockfishParser: StockfishParser;
   private moveTimeLengthMs: number;
   private currentRegularMove: string;
   private moveIndex: number;
   private callbackFunction;
   private sendEvalAfterEveryMove:boolean;
+
 
 
   constructor(stockfishWorkerArg, sendEvalAfterEveryMove) {
@@ -63,6 +63,16 @@ class stockfishOrchestrator {
 
 
     //this.stockfishWorker.postMessage(`bench`);
+  }
+
+  public deleteWorker(){
+    this.stockfishWorker.terminate(); 
+  }
+  public clearData(){
+    this.stockfishWorker.postMessage(`stop`)
+    this.stockfishParser.clearData();
+    this.whiteMove=true;
+    this.isCurrentlyWorking=false;
   }
 
   setCallback(callbackFunction){
@@ -110,7 +120,7 @@ class stockfishOrchestrator {
       dataFromStockfish["regularMove"] = this.currentRegularMove;
       dataFromStockfish["moveIndex"] = this.moveIndex;
       
-      this.stockfishParser.cleanData();
+      this.stockfishParser.clearData();
       if(!this.sendEvalAfterEveryMove){
         this.callbackFunction(dataFromStockfish);
       }

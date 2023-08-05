@@ -21,7 +21,7 @@ export class SoundHandler{
         createBlobFromAudioFile('/assets/audio/standard/Check.mp3').then((blob: Blob) => {
             this.audioArray[Config.MOVE_TYPE.MOVE_CHECK]=URL.createObjectURL(blob);
         })
-        createBlobFromAudioFile('/assets/audio/standard/Mate.mp3').then((blob: Blob) => {
+        createBlobFromAudioFile('/assets/audio/standard/Victory.mp3').then((blob: Blob) => {
             this.audioArray[Config.MOVE_TYPE.MOVE_MATE]=URL.createObjectURL(blob);
         })
 

@@ -1,7 +1,6 @@
 
 import {Chess} from '../dependencies/chess.js';
-import {pgn_string_1, fen_string_1} from './const/constGames.js';
-import {stockfish, stockfishOrchestratorInst} from './connectStockfish.js'
+
 
 export function PgnToFenArr(pgnString: string) {
   const chessjs = Chess();
@@ -174,12 +173,26 @@ function calculateSidesMaterial(fen, side): number {
   return sideMaterial;
 }
 
+function isForced(fenString){
+  const board=Chess(fenString);
+  if(board.in_check()){
+    if (board.moves.length==1){
+      return true
+    }
+  }
+
+  return false
+}
+
 
 
 
 
 export function didSacrificeIncrease(fenAfterLast: string,fenBetween:string, fenAfter: string, lastMove) {
 
+  if(isForced(fenBetween)){
+    return false;
+  }
   const turn = getSideFromFen(fenAfterLast);
   const materialWon = calculateSidesMaterial(fenAfterLast, turn) - calculateSidesMaterial(fenAfter, turn);
   const materialLossAfter = findMaxMaterialLoss(fenAfter, turn);

@@ -117,6 +117,15 @@ export class EvaluationGraph {
         }
         });
     }
+    public clearData(){
+      this.gameAnalysis=[];
+      globalGameAnalysis=[];
+      var labels = this.chartData.labels=[];
+      var data = this.chartData.datasets[0].data=[];
+      var pointRadii= this.chartData.datasets[0].pointRadius=[];
+      this.graph.update();
+
+    }
     updateGraph(newGameAnalysis){
       this.gameAnalysis=newGameAnalysis
       globalGameAnalysis=newGameAnalysis;

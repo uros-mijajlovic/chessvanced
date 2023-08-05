@@ -51,6 +51,8 @@ class PlayerController {
     this.currentMoveArray = PgnToMoveArr(this.currentPgn);
     this.guiHandler.updateSidebar(pgnString);
     this.gotoMove(0);
+    
+    this.guiHandler.clearData();
     this.startAnalysis();
   }
 

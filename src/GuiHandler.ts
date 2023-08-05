@@ -47,12 +47,17 @@ class GuiHandler {
   private gameAnalysis: any[];
   private chessboardHandler:ChessboardHandler;
   constructor(evaluationGraphInst: EvaluationGraph, sidebar: Sidebar) {
+    this.soundHandler = new SoundHandler();
     this.evaluationGraph = evaluationGraphInst;
     this.chessboardHandler=new ChessboardHandler();
     this.sidebar = sidebar;
-    this.soundHandler = new SoundHandler();
+    
     this.flipBoard();
 
+  }
+  public clearData(){
+    this.gameAnalysis=[];
+    this.evaluationGraph.clearData();
   }
   public showImportPopup(){
     console.log("Vsiible")
@@ -109,7 +114,7 @@ class GuiHandler {
   public async setBoardAndMove(fenString: string, from: string, to: string, moveIndex: number, moveType: Config.MOVE_TYPE = Config.MOVE_TYPE.MOVE_NONE) {
 
     //this.soundHandler.playSound(this.soundHandler.SOUND_TYPE.SOUND_MOVE);
-
+    
     this.soundHandler.playSound(moveType);
     this.evaluationGraph.updateGraphSelectedMove(moveIndex);
     this.chessboardHandler.getChessboard().position(fenString, false);

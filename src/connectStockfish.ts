@@ -12,15 +12,12 @@ import { LiveBoardEvaluation } from './LiveBoardEvaluation.js';
 var stockfish=null;
 
 
-
-const stockfishOrchestratorInst= await createStockfishOrchestrator(false);
-
 const sidebarInst=new Sidebar(document.getElementById("sidebarComponent"));
 
 const evaluationGraphInst=new EvaluationGraph("myChart");
 
 const guiHandlerInst=new GuiHandler(evaluationGraphInst, sidebarInst);
-var analsysOrchestratorInst=new AnalysisOrchestrator(stockfishOrchestratorInst, guiHandlerInst);
+var analsysOrchestratorInst=new AnalysisOrchestrator(guiHandlerInst);
 
 const stockfishOrchestratorForLiveEvaluation= await createStockfishOrchestrator(true);
 const liveBoardEvaluationInst=new LiveBoardEvaluation(stockfishOrchestratorForLiveEvaluation, guiHandlerInst, document.getElementById("liveEvaluationContainer"));
@@ -50,12 +47,7 @@ document.addEventListener('keydown', function(event) {
 
 
 evaluationGraphInst.playerControllerInst=playerControllerInst;
-stockfishOrchestratorInst.analysisOrchestrator=analsysOrchestratorInst;
-
-
 
 playerControllerInst.setPgn(pgn_string_1);
 
-
-
-export {stockfish, stockfishOrchestratorInst, evaluationGraphInst, playerControllerInst, guiHandlerInst};
+export {playerControllerInst, guiHandlerInst}
