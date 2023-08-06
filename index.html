@@ -10,6 +10,7 @@
   <link rel="stylesheet" type="text/css" href="styles/chessboardjs2.css">
 
   <script src="https://cdn.jsdelivr.net/npm/chart.js@4.3.0/dist/chart.umd.min.js"></script>
+  <script src="https://cdn.jsdelivr.net/npm/axios@1.4.0/dist/axios.min.js"></script>
 
 </head>
 
@@ -28,15 +29,15 @@
     <div id="import_popup">
       <h2>Import game</h2>
       <textarea id="pgn_textarea"></textarea>
-      <div style = "display: flex; flex-direction: row;">
+      <div style="display: flex; flex-direction: row;">
         <button id="import-button" class="popup_button">Import game</button>
         <button id="close-import-button" class="popup_button">Close</button>
       </div>
-      
+
     </div>
-    
+
     <div id="chessgroundParentDiv">
-      
+
       <div id="buttonContainer"></div>
       <div class="popup">
         <div class="overlay"></div>
@@ -57,7 +58,7 @@
         <div id="liveEvaluationTopBar">
           <div>Stockfish 15</div>
           <div class="evaluationSwitch">
-            <p>Live Evaluation  </p>
+            <p>Live Evaluation </p>
             <label id="toggleSwitch" class="toggle-switch">
               <input type="checkbox">
               <span class="toggle-slider"></span>

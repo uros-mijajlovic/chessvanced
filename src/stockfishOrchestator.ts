@@ -2,6 +2,7 @@ import { AnalysisOrchestrator } from "./AnalysisOrchestrator";
 import { StockfishParser } from "./StockfishParser.js";
 import { Config } from "./config/config.js";
 declare var Stockfish: any;
+declare var axios:any;
 
 export async function createStockfishOrchestrator(sendEvalAfterEveryMove) {
   var stockfish;
@@ -65,6 +66,35 @@ class stockfishOrchestrator {
     //this.stockfishWorker.postMessage(`bench`);
   }
 
+  private async getLichessData(fenPosition: string) {
+    try {
+      const apiUrl = `https://lichess.org/api/cloud-eval?fen=${encodeURIComponent(fenPosition)}&multiPv=2`;
+      const response = await axios.get(apiUrl);
+  
+      // Check if the response contains any analysis data (e.g., 'evals' field).
+      if (response.data.fen) {
+        // The position was found in the cache (already analyzed).
+        if(response.data.pvs.length<2){
+          return [false]
+        }
+        return [true, response.data];
+      } else {
+        // The position was not found in the cache (no analysis available).
+        return [false, response.data];
+      }
+    } catch (error) {
+      return [false];
+    }
+  }
+  
+  private async checkCache(fenString){
+    const responseFromCache=await this.getLichessData(fenString)
+    if(responseFromCache[0]==true){
+      return [true, this.stockfishParser.cachedDataToParsed(responseFromCache[1])];
+    }
+    return [false]
+  }
+
   public deleteWorker(){
     this.stockfishWorker.terminate(); 
   }
@@ -75,8 +105,17 @@ class stockfishOrchestrator {
     this.isCurrentlyWorking=false;
   }
 
-  setCallback(callbackFunction){
+  public setCallback(callbackFunction){
     this.callbackFunction=callbackFunction;
+  }
+
+  private fillRestOfDataForAnalysisOrchestrator(currentEval){
+    var dataFromStockfish={};
+    dataFromStockfish["positionEvaluation"] = currentEval;
+    dataFromStockfish["FENstring"] = this.currentFEN;
+    dataFromStockfish["regularMove"] = this.currentRegularMove;
+    dataFromStockfish["moveIndex"] = this.moveIndex;
+    return dataFromStockfish;
   }
 
   async getAnalsysForFenPosition(fenPosition, regularMove, moveIndex) {
@@ -84,6 +123,16 @@ class stockfishOrchestrator {
     this.currentFEN = fenPosition;
     this.currentRegularMove = regularMove;
     this.moveIndex = moveIndex;
+
+    const cachedResponse=await this.checkCache(fenPosition);
+    if(cachedResponse[0]==true){
+      console.log("za ovu poziciju imam info")
+      console.log(cachedResponse[1])
+      this.callbackFunction(this.fillRestOfDataForAnalysisOrchestrator(cachedResponse[1]));
+      this.isCurrentlyWorking = false;
+      return;
+    }
+    console.log("za ovu poziciju nemam info")
     //console.log(`position fen ${fenPosition}`);
 
     this.stockfishWorker.postMessage(`position fen ${fenPosition}`)
@@ -114,11 +163,7 @@ class stockfishOrchestrator {
       this.whiteMove = !this.whiteMove;
       const currentEval = this.stockfishParser.getAllData();
       //console.log(currentEval);
-      var dataFromStockfish={};
-      dataFromStockfish["positionEvaluation"] = currentEval;
-      dataFromStockfish["FENstring"] = this.currentFEN;
-      dataFromStockfish["regularMove"] = this.currentRegularMove;
-      dataFromStockfish["moveIndex"] = this.moveIndex;
+      var dataFromStockfish=this.fillRestOfDataForAnalysisOrchestrator(currentEval)
       
       this.stockfishParser.clearData();
       if(!this.sendEvalAfterEveryMove){
@@ -134,7 +179,7 @@ class stockfishOrchestrator {
       const currentEval = this.stockfishParser.getAllData();
 
       if(this.sendEvalAfterEveryMove){
-        this.callbackFunction( currentEval );
+        this.callbackFunction( this.fillRestOfDataForAnalysisOrchestrator(currentEval) );
       }
 
     }

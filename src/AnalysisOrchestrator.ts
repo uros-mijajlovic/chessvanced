@@ -45,7 +45,6 @@ class AnalysisOrchestrator {
   }
 
   public clearData() {
-    
     this.gameAnalysis = []
     this.analysisArray = []
   }
@@ -126,7 +125,7 @@ class AnalysisOrchestrator {
     const moveAnalysis = {}
 
     const centipawns = dataForFen[0]["CP"];
-    console.log(FENstring, centipawns, dataForFen);
+    //console.log(FENstring, centipawns, dataForFen);
 
     if (dataForFen[0]["cpOrMate"] == "mate") {
       console.log(centipawns);
@@ -168,26 +167,20 @@ class AnalysisOrchestrator {
     //continue
   }
   async analyzePgnGame(fenMoves, moveArray, fromPerspective = "black") {
-    
-    await this.stopAnalysis();
 
-
+    //console.log(fenMoves);
+    //console.log(moveArray);
     if(this.stockfishOrchestrator){
       this.stockfishOrchestrator.deleteWorker();
     }
 
-    
-
+    await this.stopAnalysis();
 
     this.stockfishOrchestrator = await createStockfishOrchestrator(false);
     
     this.stockfishOrchestrator.analysisOrchestrator=this;
     
     this.stockfishOrchestrator.setCallback((data) => { this.sendEval(data) });
-    
-    
-    
-    
 
     console.log("Propusten dalje")
 

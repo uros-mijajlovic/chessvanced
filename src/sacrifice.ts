@@ -201,9 +201,9 @@ export function didSacrificeIncrease(fenAfterLast: string,fenBetween:string, fen
   const materialLossOriginSquare = findMaterialLossForSquare(fenBetween, lastMove.substring(0, 2), turn);
   const materialLossTargetSquare = findMaterialLossForSquare(fenAfter, lastMove.substring(2, 4), turn);
 
-  console.log("moveSpecificMaterialLoss ", materialLossOriginSquare, materialLossTargetSquare);
-  console.log(materialWon)
-  console.log(materialLossAfter, materialLossBefore)
+  //console.log("moveSpecificMaterialLoss ", materialLossOriginSquare, materialLossTargetSquare);
+  //console.log(materialWon)
+  //console.log(materialLossAfter, materialLossBefore)
   if(materialLossOriginSquare+1+materialWon < materialLossTargetSquare){
     return true;
   }

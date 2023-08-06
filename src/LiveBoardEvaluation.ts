@@ -45,10 +45,12 @@ export class LiveBoardEvaluation {
             this.guiHandler.clearArrows();
         }
     }
-    evaluationGetCallback(data) {
+    evaluationGetCallback(stockfishData) {
+        var data=stockfishData["positionEvaluation"];
         if (this.enabled) {
             var evaluationLineDivs = this.div.children;
             let i = 0;
+            console.log(data);
             const bestMove = data[0]["move"];
             this.guiHandler.addBestMoveArrow(bestMove);
 

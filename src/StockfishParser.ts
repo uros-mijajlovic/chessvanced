@@ -68,6 +68,26 @@ export class StockfishParser{
     constructor(){
         this.data={};
     }
+    public cachedDataToParsed(cachedData){
+        const data={}
+        for(let i=0; i<2; i++){
+          data[i]={}
+          data[i]["FEN"]=cachedData["fen"]
+          
+          if("cp" in cachedData["pvs"][i]){
+            data[i]["CP"]=cachedData["pvs"][i]["cp"]
+            data[i]["move"]=cachedData["pvs"][i]["moves"].split(' ')[0];
+            data[i]["cpOrMate"]="cp";
+          }else{
+            data[i]["CP"]=cachedData["pvs"][i]["mate"]
+            data[i]["move"]=cachedData["pvs"][i]["moves"].split(' ')[0];
+            data[i]["cpOrMate"]="mate";
+          }
+          data[i]["depth"]=cachedData["depth"];
+        }
+        return data;
+      }
+
     getEval(){
         return this.data[0]["CP"];
     }

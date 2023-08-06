@@ -50,4 +50,4 @@ evaluationGraphInst.playerControllerInst=playerControllerInst;
 
 playerControllerInst.setPgn(pgn_string_1);
 
-export {playerControllerInst, guiHandlerInst}
+export {playerControllerInst, guiHandlerInst, evaluationGraphInst}
