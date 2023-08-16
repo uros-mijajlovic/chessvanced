@@ -5,11 +5,16 @@
     "allowJs":true, 
     "outDir":"dist",
     "moduleResolution": "node",
+    "types": [
+      //(various types, e.g. jquery, core-js),
+      "chrome"
+    ]
     
   },
   "include": [
     "src/**/*"
-  ]
+  ],
+  
   
 }
 

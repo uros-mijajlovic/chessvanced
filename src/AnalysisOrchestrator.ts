@@ -166,7 +166,7 @@ class AnalysisOrchestrator {
     console.log("stopped and started new")
     //continue
   }
-  async analyzePgnGame(fenMoves, moveArray, fromPerspective = "black") {
+  async analyzePgnGame(fenMoves, moveArray, fromPerspective = "black", alreadyAnalyzed={}) {
 
     //console.log(fenMoves);
     //console.log(moveArray);

@@ -126,13 +126,10 @@ class stockfishOrchestrator {
 
     const cachedResponse=await this.checkCache(fenPosition);
     if(cachedResponse[0]==true){
-      console.log("za ovu poziciju imam info")
-      console.log(cachedResponse[1])
       this.callbackFunction(this.fillRestOfDataForAnalysisOrchestrator(cachedResponse[1]));
       this.isCurrentlyWorking = false;
       return;
     }
-    console.log("za ovu poziciju nemam info")
     //console.log(`position fen ${fenPosition}`);
 
     this.stockfishWorker.postMessage(`position fen ${fenPosition}`)

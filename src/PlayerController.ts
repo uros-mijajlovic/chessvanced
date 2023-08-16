@@ -5,6 +5,7 @@ import { Chess } from "../dependencies/chess.js";
 import { Config } from "./config/config.js";
 import { LiveBoardEvaluation } from "./LiveBoardEvaluation";
 import { clampAndBound } from "./utils/ChessboardUtils.js";
+
 //import { PgnToFenArr, PgnToMoveArr } from "./sacrifice";
 
 type moveType = [string, string];
@@ -22,6 +23,7 @@ class PlayerController {
   private alternativeStackRight: moveType[];
   private inAlternativePath: boolean;
   private liveBoardEvaluation: LiveBoardEvaluation;
+  private analyzedData:any;
   constructor(guiHandler: GuiHandler, analysisOrchestratorInst: AnalysisOrchestrator, liveBoardEvaluationInst: LiveBoardEvaluation) {
     this.liveBoardEvaluation = liveBoardEvaluationInst;
     this.currentPgn = null;
@@ -34,6 +36,16 @@ class PlayerController {
     this.alternativeStackRight = [];
     this.inAlternativePath = false;
     this.liveBoardEvaluation = liveBoardEvaluationInst;
+
+    chrome.runtime.onMessage.addListener((msg) => {
+      if(msg.type=="chessvancedextension"){
+        this.analyzedData=msg.message;
+        this.setGameFromExtension();
+        chrome.runtime.sendMessage({type:"chessvanced.com", message:"injected"})
+
+      }
+      
+  })
   }
 
   private getMoveType(flag) {
@@ -43,6 +55,14 @@ class PlayerController {
       return Config.MOVE_TYPE.MOVE_REGULAR
     }
 
+  }
+
+  public setGameFromExtension(currentFenArray, currentMoveArray) {
+    
+    this.currentFenArray=currentFenArray;
+    this.currentMoveArray=currentMoveArray;
+    this.guiHandler.clearData();
+    this.startAnalysis();
   }
 
   public setPgn(pgnString:string) {
@@ -72,7 +92,7 @@ class PlayerController {
     return this.inAlternativePath;
   }
   public startAnalysis() {
-    this.analysisOrchestrator.analyzePgnGame(this.currentFenArray, this.currentMoveArray);
+    this.analysisOrchestrator.analyzePgnGame(this.currentFenArray, this.currentMoveArray, "white", {});
   }
   private updateBoardGUI(newFen, from, to, currentMove, MOVE_TYPE) {
 
