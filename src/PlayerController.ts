@@ -49,14 +49,14 @@ class PlayerController {
 
   }
 
-  public setGameFromExtension(currentFenArray, currentMoveArray, analysisData) {
+  public setGameFromExtension(currentFenArray, currentMoveArray, analysisData, analyzedFens) {
     console.log("injector tried to call me", this.ready, currentFenArray, currentMoveArray);
     if(this.ready){
       this.currentFenArray=currentFenArray;
       this.currentMoveArray=currentMoveArray;
       this.analysisData=analysisData;
       //this.guiHandler.clearData();
-      this.startAnalysis();
+      this.startAnalysis(analyzedFens);
       return true;
     }else{
       return false;
@@ -90,8 +90,8 @@ class PlayerController {
   public getInAlternative() {
     return this.inAlternativePath;
   }
-  public startAnalysis() {
-    this.analysisOrchestrator.analyzePgnGame(this.currentFenArray, this.currentMoveArray, "white", this.analysisData);
+  public startAnalysis(analyzedFens={}) {
+    this.analysisOrchestrator.analyzePgnGame(this.currentFenArray, this.currentMoveArray, "white", this.analysisData, analyzedFens);
   }
   private updateBoardGUI(newFen, from, to, currentMove, MOVE_TYPE) {
 

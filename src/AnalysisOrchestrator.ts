@@ -166,10 +166,12 @@ class AnalysisOrchestrator {
     console.log("stopped and started new")
     //continue
   }
-  async analyzePgnGame(fenMoves, moveArray, fromPerspective = "black", alreadyAnalyzed={}) {
+  async analyzePgnGame(fenMoves, moveArray, fromPerspective, alreadyAnalyzed={}, analyzedFens:any = {}) {
 
+    this.gameAnalysis=alreadyAnalyzed;
+    this.analysisArray=analyzedFens;
 
-    console.log("he alredy analyzed", alreadyAnalyzed);
+    console.log("he alredy analyzed", alreadyAnalyzed, analyzedFens);
     console.log("KURAC")
     console.log("fenMoves", fenMoves);
     console.log("moveArray", moveArray);
@@ -188,8 +190,6 @@ class AnalysisOrchestrator {
     console.log("Propusten dalje")
 
     this.running=true;
-
-    this.gameAnalysis = alreadyAnalyzed;
     this.moveArray = moveArray;
     this.fromPerspective = fromPerspective;
 
