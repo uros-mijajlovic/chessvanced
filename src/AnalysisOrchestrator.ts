@@ -168,8 +168,11 @@ class AnalysisOrchestrator {
   }
   async analyzePgnGame(fenMoves, moveArray, fromPerspective = "black", alreadyAnalyzed={}) {
 
-    //console.log(fenMoves);
-    //console.log(moveArray);
+
+    console.log("he alredy analyzed", alreadyAnalyzed);
+    console.log("KURAC")
+    console.log("fenMoves", fenMoves);
+    console.log("moveArray", moveArray);
     if(this.stockfishOrchestrator){
       this.stockfishOrchestrator.deleteWorker();
     }
@@ -186,13 +189,17 @@ class AnalysisOrchestrator {
 
     this.running=true;
 
-    this.gameAnalysis = []
+    this.gameAnalysis = alreadyAnalyzed;
     this.moveArray = moveArray;
     this.fromPerspective = fromPerspective;
 
     this.fenArray = fenMoves;
 
-    for (let i = 0; i < fenMoves.length; i++) {
+    var alreadyAnalyzedMoveCount = this.gameAnalysis.length;
+
+    this.guiHandler.updateGraph(this.gameAnalysis);
+    for (let i = alreadyAnalyzedMoveCount; i < fenMoves.length; i++) {
+      
       const fenMove = fenMoves[i];
 
       if (this.stopped) {

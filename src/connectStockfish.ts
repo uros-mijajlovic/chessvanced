@@ -8,6 +8,13 @@ import {Sidebar} from "./Sidebar.js"
 import { createStockfishOrchestrator } from './stockfishOrchestator.js';
 import { LiveBoardEvaluation } from './LiveBoardEvaluation.js';
 
+declare global {
+  interface Window {
+    playerControllerInst: any; // You can replace 'any' with the appropriate type
+
+    myStr: any; 
+  }
+}
 
 var stockfish=null;
 
@@ -48,6 +55,9 @@ document.addEventListener('keydown', function(event) {
 
 evaluationGraphInst.playerControllerInst=playerControllerInst;
 
-playerControllerInst.setPgn(pgn_string_1);
+window.playerControllerInst=playerControllerInst;
+
+playerControllerInst.ready=true;
+console.log(playerControllerInst.ready);
 
 export {playerControllerInst, guiHandlerInst, evaluationGraphInst}

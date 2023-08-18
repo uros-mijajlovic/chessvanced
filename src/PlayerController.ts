@@ -23,7 +23,8 @@ class PlayerController {
   private alternativeStackRight: moveType[];
   private inAlternativePath: boolean;
   private liveBoardEvaluation: LiveBoardEvaluation;
-  private analyzedData:any;
+  private analysisData:any;
+  public ready:boolean;
   constructor(guiHandler: GuiHandler, analysisOrchestratorInst: AnalysisOrchestrator, liveBoardEvaluationInst: LiveBoardEvaluation) {
     this.liveBoardEvaluation = liveBoardEvaluationInst;
     this.currentPgn = null;
@@ -36,16 +37,7 @@ class PlayerController {
     this.alternativeStackRight = [];
     this.inAlternativePath = false;
     this.liveBoardEvaluation = liveBoardEvaluationInst;
-
-    chrome.runtime.onMessage.addListener((msg) => {
-      if(msg.type=="chessvancedextension"){
-        this.analyzedData=msg.message;
-        this.setGameFromExtension();
-        chrome.runtime.sendMessage({type:"chessvanced.com", message:"injected"})
-
-      }
-      
-  })
+    this.ready=false;
   }
 
   private getMoveType(flag) {
@@ -57,15 +49,22 @@ class PlayerController {
 
   }
 
-  public setGameFromExtension(currentFenArray, currentMoveArray) {
-    
-    this.currentFenArray=currentFenArray;
-    this.currentMoveArray=currentMoveArray;
-    this.guiHandler.clearData();
-    this.startAnalysis();
+  public setGameFromExtension(currentFenArray, currentMoveArray, analysisData) {
+    console.log("injector tried to call me", this.ready, currentFenArray, currentMoveArray);
+    if(this.ready){
+      this.currentFenArray=currentFenArray;
+      this.currentMoveArray=currentMoveArray;
+      this.analysisData=analysisData;
+      //this.guiHandler.clearData();
+      this.startAnalysis();
+      return true;
+    }else{
+      return false;
+    }
   }
 
   public setPgn(pgnString:string) {
+    this.analysisData=null;
     this.currentPgn = pgnString;
     this.currentFenArray = PgnToFenArr(this.currentPgn);
     this.currentMoveArray = PgnToMoveArr(this.currentPgn);
@@ -92,7 +91,7 @@ class PlayerController {
     return this.inAlternativePath;
   }
   public startAnalysis() {
-    this.analysisOrchestrator.analyzePgnGame(this.currentFenArray, this.currentMoveArray, "white", {});
+    this.analysisOrchestrator.analyzePgnGame(this.currentFenArray, this.currentMoveArray, "white", this.analysisData);
   }
   private updateBoardGUI(newFen, from, to, currentMove, MOVE_TYPE) {
 
