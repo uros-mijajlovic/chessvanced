@@ -121,9 +121,6 @@ class GuiHandler {
 
     this.colorTilesForMove(from, to, moveIndex);
 
-
-
-
   }
   public updateGraph(gameAnalysis) {
     //this.sidebar.setAnalysisData(gameAnalysis);

@@ -55,7 +55,7 @@ class stockfishOrchestrator {
     this.whiteMove = true;
 
     this.stockfishWorker.postMessage(`setoption name Hash value 512`);
-    this.stockfishWorker.postMessage(`setoption name Threads value 4`);
+    this.stockfishWorker.postMessage(`setoption name Threads value 1`);
     this.stockfishWorker.postMessage(`setoption name MultiPV value 2`);
 
     self.onmessage = this.handleMainMessage.bind(this);

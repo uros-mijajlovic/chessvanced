@@ -49,13 +49,26 @@ class PlayerController {
 
   }
 
+  private moveArrayToPgn(moveArray){
+    var chessjs=Chess()
+    for (const move of moveArray){
+
+      console.log(move.san)
+      chessjs.move(move.san);
+    }
+    console.log(chessjs.pgn())
+    return chessjs.pgn();
+  }
+
   public setGameFromExtension(currentFenArray, currentMoveArray, analysisData, analyzedFens) {
     console.log("injector tried to call me", this.ready, currentFenArray, currentMoveArray);
     if(this.ready){
       this.currentFenArray=currentFenArray;
       this.currentMoveArray=currentMoveArray;
       this.analysisData=analysisData;
-      //this.guiHandler.clearData();
+      const pgnString = this.moveArrayToPgn(currentMoveArray);
+      this.guiHandler.updateSidebar(pgnString);
+
       this.startAnalysis(analyzedFens);
       return true;
     }else{

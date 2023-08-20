@@ -92,9 +92,5 @@ export class Sidebar{
             const move_container=getMoveElementDiv(moves.length, moveTuple[0], "");
             this.div.appendChild(move_container);
         }
-
-    
-        
-
     }
 }
