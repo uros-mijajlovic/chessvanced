@@ -121,7 +121,10 @@ class AnalysisOrchestrator {
     var FENstring = dataFromStockfish["FENstring"];
     var regularMove = dataFromStockfish["regularMove"];
     var moveIndex = dataFromStockfish["moveIndex"];
+    
+    console.log("my analysisArray is", this.analysisArray)
     this.analysisArray.push(dataForFen);
+
     const moveAnalysis = {}
 
     const centipawns = dataForFen[0]["CP"];
@@ -166,7 +169,7 @@ class AnalysisOrchestrator {
     console.log("stopped and started new")
     //continue
   }
-  async analyzePgnGame(fenMoves, moveArray, fromPerspective, alreadyAnalyzed=[], analyzedFens:any = []) {
+  async analyzePgnGame(fenMoves, moveArray, fromPerspective, alreadyAnalyzed=[], analyzedFens=[]) {
     if(alreadyAnalyzed){
       this.gameAnalysis=alreadyAnalyzed;
     }

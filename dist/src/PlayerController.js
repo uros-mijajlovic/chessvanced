@@ -50,7 +50,7 @@ class PlayerController {
         }
     }
     setPgn(pgnString) {
-        this.analysisData = null;
+        this.analysisData = [];
         this.currentPgn = pgnString;
         this.currentFenArray = PgnToFenArr(this.currentPgn);
         this.currentMoveArray = PgnToMoveArr(this.currentPgn);
@@ -73,7 +73,7 @@ class PlayerController {
     getInAlternative() {
         return this.inAlternativePath;
     }
-    startAnalysis(analyzedFens = {}) {
+    startAnalysis(analyzedFens = []) {
         this.analysisOrchestrator.analyzePgnGame(this.currentFenArray, this.currentMoveArray, "white", this.analysisData, analyzedFens);
     }
     updateBoardGUI(newFen, from, to, currentMove, MOVE_TYPE) {
