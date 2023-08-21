@@ -167,8 +167,9 @@ class AnalysisOrchestrator {
     //continue
   }
   async analyzePgnGame(fenMoves, moveArray, fromPerspective, alreadyAnalyzed={}, analyzedFens:any = {}) {
-
-    this.gameAnalysis=alreadyAnalyzed;
+    if(alreadyAnalyzed){
+      this.gameAnalysis=alreadyAnalyzed;
+    }
     this.analysisArray=analyzedFens;
 
     console.log("he alredy analyzed", alreadyAnalyzed, analyzedFens);

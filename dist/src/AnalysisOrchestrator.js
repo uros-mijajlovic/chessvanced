@@ -111,7 +111,9 @@ class AnalysisOrchestrator {
         //continue
     }
     async analyzePgnGame(fenMoves, moveArray, fromPerspective, alreadyAnalyzed = {}, analyzedFens = {}) {
-        this.gameAnalysis = alreadyAnalyzed;
+        if (alreadyAnalyzed) {
+            this.gameAnalysis = alreadyAnalyzed;
+        }
         this.analysisArray = analyzedFens;
         console.log("he alredy analyzed", alreadyAnalyzed, analyzedFens);
         console.log("KURAC");
