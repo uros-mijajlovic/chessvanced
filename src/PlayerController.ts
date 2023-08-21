@@ -77,7 +77,7 @@ class PlayerController {
   }
 
   public setPgn(pgnString:string) {
-    this.analysisData=null;
+    this.analysisData=[];
     this.currentPgn = pgnString;
     this.currentFenArray = PgnToFenArr(this.currentPgn);
     this.currentMoveArray = PgnToMoveArr(this.currentPgn);
@@ -103,7 +103,7 @@ class PlayerController {
   public getInAlternative() {
     return this.inAlternativePath;
   }
-  public startAnalysis(analyzedFens={}) {
+  public startAnalysis(analyzedFens=[]) {
     this.analysisOrchestrator.analyzePgnGame(this.currentFenArray, this.currentMoveArray, "white", this.analysisData, analyzedFens);
   }
   private updateBoardGUI(newFen, from, to, currentMove, MOVE_TYPE) {
