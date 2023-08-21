@@ -195,7 +195,12 @@ class AnalysisOrchestrator {
 
     this.fenArray = fenMoves;
 
-    var alreadyAnalyzedMoveCount = this.gameAnalysis.length;
+    var alreadyAnalyzedMoveCount
+    if(this.gameAnalysis){
+      alreadyAnalyzedMoveCount = this.gameAnalysis.length;
+    }else{
+      alreadyAnalyzedMoveCount=0;
+    }
 
     this.guiHandler.updateGraph(this.gameAnalysis);
     for (let i = alreadyAnalyzedMoveCount; i < fenMoves.length; i++) {

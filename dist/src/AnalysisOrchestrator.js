@@ -129,7 +129,13 @@ class AnalysisOrchestrator {
         this.moveArray = moveArray;
         this.fromPerspective = fromPerspective;
         this.fenArray = fenMoves;
-        var alreadyAnalyzedMoveCount = this.gameAnalysis.length;
+        var alreadyAnalyzedMoveCount;
+        if (this.gameAnalysis) {
+            alreadyAnalyzedMoveCount = this.gameAnalysis.length;
+        }
+        else {
+            alreadyAnalyzedMoveCount = 0;
+        }
         this.guiHandler.updateGraph(this.gameAnalysis);
         for (let i = alreadyAnalyzedMoveCount; i < fenMoves.length; i++) {
             const fenMove = fenMoves[i];
