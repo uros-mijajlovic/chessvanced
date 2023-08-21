@@ -1,4 +1,5 @@
 import { AnalysisOrchestrator } from './AnalysisOrchestrator.js';
+import { urke_analysis_array, urke_fen_array, urke_game_analysis, urke_move_array } from './const/constGames.js';
 import { EvaluationGraph } from './EvaluationGraph.js';
 import { GuiHandler } from './GuiHandler.js';
 import { PlayerController } from './PlayerController.js';
@@ -32,4 +33,6 @@ evaluationGraphInst.playerControllerInst = playerControllerInst;
 window.playerControllerInst = playerControllerInst;
 playerControllerInst.ready = true;
 console.log(playerControllerInst.ready);
+//playerControllerInst.setPgn(pgn_string_1);
+playerControllerInst.setGameFromExtension(urke_fen_array, urke_move_array, urke_game_analysis, urke_analysis_array);
 export { playerControllerInst, guiHandlerInst, evaluationGraphInst };

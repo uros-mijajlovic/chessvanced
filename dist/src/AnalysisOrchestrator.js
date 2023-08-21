@@ -77,22 +77,23 @@ class AnalysisOrchestrator {
         var FENstring = dataFromStockfish["FENstring"];
         var regularMove = dataFromStockfish["regularMove"];
         var moveIndex = dataFromStockfish["moveIndex"];
-        console.log("my analysisArray is", this.analysisArray);
-        if (this.analysisArray) {
-            this.analysisArray.push(dataForFen);
-        }
-        else {
-            this.analysisArray = [dataForFen];
-        }
+        //console.log("my analysisArray is", this.analysisArray, "and dataFromStockfish Is", dataFromStockfish)
+        this.analysisArray.push(dataForFen);
         const moveAnalysis = {};
         const centipawns = dataForFen[0]["CP"];
         //console.log(FENstring, centipawns, dataForFen);
         if (dataForFen[0]["cpOrMate"] == "mate") {
-            console.log(centipawns);
-            console.log(dataForFen);
-            const mateForOpposite = (centipawns > 0) ? 1 : -1;
-            moveAnalysis["CP"] = "M" + centipawns.toString();
-            moveAnalysis["evaluation"] = mateForOpposite * 49;
+            if (dataForFen[0]["isCheckmated"] == true) {
+                moveAnalysis["CP"] = "M0";
+                moveAnalysis["evaluation"] = -centipawns * 49;
+            }
+            else {
+                console.log(centipawns);
+                console.log(dataForFen);
+                const mateForOpposite = (centipawns > 0) ? 1 : -1;
+                moveAnalysis["CP"] = "M" + centipawns.toString();
+                moveAnalysis["evaluation"] = mateForOpposite * 49;
+            }
         }
         else {
             var evalScoreForGraph = 50 * (2 / (1 + Math.exp(-0.004 * centipawns)) - 1);
@@ -101,6 +102,7 @@ class AnalysisOrchestrator {
         }
         moveAnalysis["moveRating"] = this.calculateMoveBrilliance(regularMove, moveIndex);
         this.gameAnalysis.push(moveAnalysis);
+        console.log("gameAnalysis", JSON.stringify(this.gameAnalysis), "analsisArray", JSON.stringify(this.analysisArray), "moveArray", JSON.stringify(this.moveArray), "fenarray", JSON.stringify(this.fenArray));
         this.guiHandler.updateGraph(this.gameAnalysis);
     }
     async stopAnalysis() {
