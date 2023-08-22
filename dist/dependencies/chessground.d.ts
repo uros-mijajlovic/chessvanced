@@ -1,0 +1,23 @@
+export function Chessground(element: any, config: any): {
+    set(config: any): void;
+    state: any;
+    getFen: () => string;
+    toggleOrientation: () => void;
+    setPieces(pieces: any): void;
+    selectSquare(key: any, force: any): void;
+    move(orig: any, dest: any): void;
+    newPiece(piece: any, key: any): void;
+    playPremove(): boolean;
+    playPredrop(validate: any): boolean;
+    cancelPremove(): void;
+    cancelPredrop(): void;
+    cancelMove(): void;
+    stop(): void;
+    explode(keys: any): void;
+    setAutoShapes(shapes: any): void;
+    setShapes(shapes: any): void;
+    getKeyAtDomPos(pos: any): any;
+    redrawAll: any;
+    dragNewPiece(piece: any, event: any, force: any): void;
+    destroy(): void;
+};

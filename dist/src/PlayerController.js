@@ -34,9 +34,9 @@ class PlayerController {
         console.log(chessjs.pgn());
         return chessjs.pgn();
     }
-    setGameFromExtension(currentFenArray, currentMoveArray, analysisData, analyzedFens) {
+    setGameFromExtension(currentFenArray, currentMoveArray, analysisData, analyzedFens, initialSet = false) {
         console.log("injector tried to call me", this.ready, currentFenArray, currentMoveArray);
-        if (this.ready) {
+        if (initialSet || this.ready) {
             this.currentFenArray = currentFenArray;
             this.currentMoveArray = currentMoveArray;
             this.analysisData = analysisData;

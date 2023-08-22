@@ -45,7 +45,7 @@ class AnalysisOrchestrator {
         if (this.analysisArray.length > 2) {
             const afterLastMoveAnalysis = this.analysisArray[this.analysisArray.length - 3];
             if (afterMoveCpDiscrepancy > -75) {
-                if (Math.abs(afterMoveAnalysis[0]["CP"]) < 75 || (isWhiteMove == 1 && afterMoveAnalysis[0]["CP"] > 0) || (isWhiteMove == 0 && afterMoveAnalysis[0]["CP"] < 0)) {
+                if ((isWhiteMove == 1 && afterMoveAnalysis[0]["CP"] > 0) || (isWhiteMove == 0 && afterMoveAnalysis[0]["CP"] < 0)) {
                     if (sacrifice.didSacrificeIncrease(afterLastMoveAnalysis[0]["FEN"], beforeMoveAnalysis[0]["FEN"], afterMoveAnalysis[0]["FEN"], playersMove)) {
                         return "brilliant";
                     }

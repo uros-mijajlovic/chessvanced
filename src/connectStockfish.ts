@@ -1,10 +1,10 @@
-import {stockfishOrchestrator} from './stockfishOrchestator.js'
+import { stockfishOrchestrator } from './stockfishOrchestator.js'
 import { AnalysisOrchestrator } from './AnalysisOrchestrator.js';
-import {pgn_string_1, fen_string_1, urke_analysis_array, urke_fen_array, urke_game_analysis, urke_move_array} from './const/constGames.js';
+import { urke_analysis_array, urke_fen_array, urke_game_analysis, urke_move_array } from './const/constGames.js';
 import { EvaluationGraph } from './EvaluationGraph.js';
 import { GuiHandler } from './GuiHandler.js';
 import { PlayerController } from './PlayerController.js';
-import {Sidebar} from "./Sidebar.js"
+import { Sidebar } from "./Sidebar.js"
 import { createStockfishOrchestrator } from './stockfishOrchestator.js';
 import { LiveBoardEvaluation } from './LiveBoardEvaluation.js';
 
@@ -12,35 +12,35 @@ declare global {
   interface Window {
     playerControllerInst: any; // You can replace 'any' with the appropriate type
 
-    myStr: any; 
+    myStr: any;
   }
 }
 
-var stockfish=null;
+var stockfish = null;
 
 
-const sidebarInst=new Sidebar(document.getElementById("sidebarComponent"));
+const sidebarInst = new Sidebar(document.getElementById("sidebarComponent"));
 
-const evaluationGraphInst=new EvaluationGraph("myChart");
+const evaluationGraphInst = new EvaluationGraph("myChart");
 
-const guiHandlerInst=new GuiHandler(evaluationGraphInst, sidebarInst);
-var analsysOrchestratorInst=new AnalysisOrchestrator(guiHandlerInst);
+const guiHandlerInst = new GuiHandler(evaluationGraphInst, sidebarInst);
+var analsysOrchestratorInst = new AnalysisOrchestrator(guiHandlerInst);
 
-const stockfishOrchestratorForLiveEvaluation= await createStockfishOrchestrator(true);
-const liveBoardEvaluationInst=new LiveBoardEvaluation(stockfishOrchestratorForLiveEvaluation, guiHandlerInst, document.getElementById("liveEvaluationContainer"));
+const stockfishOrchestratorForLiveEvaluation = await createStockfishOrchestrator(true);
+const liveBoardEvaluationInst = new LiveBoardEvaluation(stockfishOrchestratorForLiveEvaluation, guiHandlerInst, document.getElementById("liveEvaluationContainer"));
 
-const playerControllerInst=new PlayerController(guiHandlerInst, analsysOrchestratorInst, liveBoardEvaluationInst);
-
-
-
+const playerControllerInst = new PlayerController(guiHandlerInst, analsysOrchestratorInst, liveBoardEvaluationInst);
 
 
 
-sidebarInst.playerController=playerControllerInst;
-sidebarInst.guiHandler=guiHandlerInst;
+
+
+
+sidebarInst.playerController = playerControllerInst;
+sidebarInst.guiHandler = guiHandlerInst;
 console.log("playerControllerSet");
 
-document.addEventListener('keydown', function(event) {
+document.addEventListener('keydown', function (event) {
   if (event.keyCode === 37) {
     // Left arrow key is pressed
     playerControllerInst.goBackwards();
@@ -53,15 +53,18 @@ document.addEventListener('keydown', function(event) {
 });
 
 
-evaluationGraphInst.playerControllerInst=playerControllerInst;
+evaluationGraphInst.playerControllerInst = playerControllerInst;
 
-window.playerControllerInst=playerControllerInst;
+window.playerControllerInst = playerControllerInst;
 
-
+console.log("KURAC")
 console.log(playerControllerInst.ready);
 //playerControllerInst.setPgn(pgn_string_1);
-playerControllerInst.setGameFromExtension(urke_fen_array, urke_move_array, urke_game_analysis, urke_analysis_array);
 
-playerControllerInst.ready=true;
 
-export {playerControllerInst, guiHandlerInst, evaluationGraphInst}
+
+playerControllerInst.setGameFromExtension(urke_fen_array, urke_move_array, urke_game_analysis, urke_analysis_array, true);
+
+playerControllerInst.ready = true;
+
+export { playerControllerInst, guiHandlerInst, evaluationGraphInst }
