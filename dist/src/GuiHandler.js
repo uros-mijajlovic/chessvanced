@@ -32,6 +32,7 @@ class GuiHandler {
         this.chessboardHandler = new ChessboardHandler();
         this.sidebar = sidebar;
         this.flipBoard();
+        this.boardOrientation = "white";
     }
     setBoardOrientation(boardOrientation) {
         if (this.boardOrientation != boardOrientation) {

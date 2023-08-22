@@ -54,6 +54,7 @@ class GuiHandler {
     this.sidebar = sidebar;
     
     this.flipBoard();
+    this.boardOrientation="white";
 
   }
   public setBoardOrientation(boardOrientation){
