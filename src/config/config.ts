@@ -1,5 +1,5 @@
 export namespace Config{
-    export const STOCKFISH_MOVETIME=59;
+    export const STOCKFISH_MOVETIME=1500;
     export enum MOVE_TYPE {
         MOVE_REGULAR,
         MOVE_CAPTURE,
