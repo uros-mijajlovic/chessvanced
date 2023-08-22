@@ -1,8 +1,7 @@
 /* Add a black background color to the top navigation */
 .topnav {
   background-color: #1d1d27;
-  overflow: hidden;
-  display: flex;
+  height: 100px;
   width: 100%;
   align-items: center;
 }
@@ -31,6 +30,7 @@
 
 @media (min-width: 1281px) and (max-width: 3000px) {
   .topnav {
+    height: 100px;
     width: 1280px;
   }
 }
@@ -261,7 +261,12 @@ body {
   background-color: #33353f;
   color: #fff;
   font-family: Arial, sans-serif;
-  padding: 20px;
+}
+
+.parentOfEverything {
+  display: flex;
+  flex-direction: column;
+  height: 90vh;
 }
 
 #analysisAll {
@@ -429,6 +434,7 @@ body {
     display: flex;
   }
   #chartContainer {
+    flex: 1;
     display: flex;
     flex-direction: column;
     width: 30%;
@@ -436,7 +442,7 @@ body {
   }
   #chessgroundParentDiv {
     width: 80vh;
-    height: 80vh;
+    height: 90%;
     position: relative;
   }
   #chessground {
@@ -447,6 +453,7 @@ body {
 }
 @media (min-width: 1281px) and (max-width: 3000px) {
   #analysisAll {
+    flex: 1;
     display: flex;
     width: 1280px;
   }
@@ -457,9 +464,8 @@ body {
     height: 80vh;
   }
   #chessgroundParentDiv {
-    height: 80vh;
-    width: 80vh;
-    position: relative;
+    aspect-ratio: 1/1;
+    height: 100%;
   }
   #buttonContainer {
     position: absolute;
@@ -471,9 +477,8 @@ body {
     height: 100px;
   }
   #chessground {
-    height: 0;
-    width: 100%;
-    padding-bottom: 100%;
+    aspect-ratio: 1/1;
+    height: 100%;
   }
 }
 cg-board {

@@ -3,7 +3,8 @@
 
 <head>
   <title>ChessVanced, Free Chess Game Review</title>
-  <script async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-9698035494594986" crossorigin="anonymous"></script>
+  <script async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-9698035494594986"
+    crossorigin="anonymous"></script>
   <link rel="stylesheet" type="text/css" href="styles/chessground.base.css">
   <link rel="stylesheet" type="text/css" href="styles/chessground.brown.css">
   <link rel="stylesheet" type="text/css" href="styles/chessground.cburnett.css">
@@ -18,108 +19,109 @@
 <body>
 
 
-
-  <div class="topnav">
-    <h1>ChessVanced</h1>
-    <!-- <a href="#analysis">Analysis</a>
+  <div class="parentOfEverything">
+    <div class="topnav">
+      <h1>ChessVanced</h1>
+      <!-- <a href="#analysis">Analysis</a>
     <a href="#about">About</a> -->
-  </div>
-
-
-  <div id="analysisAll">
-    <div id="import_popup">
-      <h2>Import game</h2>
-      <textarea id="pgn_textarea"></textarea>
-      <div style="display: flex; flex-direction: row;">
-        <button id="import-button" class="popup_button">Import game</button>
-        <button id="close-import-button" class="popup_button">Close</button>
-      </div>
-
     </div>
 
-    <div id="chessgroundParentDiv">
 
-      <div id="buttonContainer"></div>
-      <div class="popup">
-        <div class="overlay"></div>
-        <div class="promotion-bar" id="promotion_bar">
+    <div id="analysisAll">
+      <div id="import_popup">
+        <h2>Import game</h2>
+        <textarea id="pgn_textarea"></textarea>
+        <div style="display: flex; flex-direction: row;">
+          <button id="import-button" class="popup_button">Import game</button>
+          <button id="close-import-button" class="popup_button">Close</button>
         </div>
+
       </div>
 
-      <div id="chessground"></div>
+      <div id="chessgroundParentDiv">
+
+        <div id="buttonContainer"></div>
+        <div class="popup">
+          <div class="overlay"></div>
+          <div class="promotion-bar" id="promotion_bar">
+          </div>
+        </div>
+
+        <div id="chessground"></div>
+      </div>
+
+      <div id="chartContainer">
+        <div style="display:flex; justify-content: space-around;">
+          <h4 id="loadpgnButton" style="text-align: center;">Load PGN</h4>
+          <h4 id="flipBoardButton" style="text-align: center; cursor: pointer; user-select: none;">Flip board</h4>
+        </div>
+        <div id="liveEvaluationMain">
+          <div id="liveEvaluationTopBar">
+            <div>Stockfish 15</div>
+            <div class="evaluationSwitch">
+              <p>Live Evaluation </p>
+              <label id="toggleSwitch" class="toggle-switch">
+                <input type="checkbox">
+                <span class="toggle-slider"></span>
+              </label>
+            </div>
+          </div>
+          <div id="liveEvaluationContainer">
+            <div class="liveEvaluationLine" style="display:none;">
+              <div class="liveEvaluation">+3.2</div>
+              <div class="liveBestMove">Bc2</div>
+            </div>
+
+            <div class="liveEvaluationLine" style="display:none;">
+              <div class="liveEvaluation">+3.2</div>
+              <div class="liveBestMove">Bc2</div>
+            </div>
+
+            <div class="liveEvaluationLine" style="display:none;">
+              <div class="liveEvaluation">+3.2</div>
+              <div class="liveBestMove">Bc2</div>
+            </div>
+
+          </div>
+
+
+
+        </div>
+
+        <div id="chartWrapper"><canvas id="myChart"></canvas></div>
+        <div id="moveOverviewDiv">
+          <div class="moveOverview stellar">
+            <div>5</div>
+            <div>Stellar</div>
+            <div>2</div>
+          </div>
+
+          <div class="moveOverview great">
+            <div>1</div>
+            <div>Great Move</div>
+            <div>4</div>
+          </div>
+
+          <div class="moveOverview best">
+            <div>12</div>
+            <div>Best Move</div>
+            <div>20</div>
+          </div>
+        </div>
+        <div id="sidebar">
+          <div id="sidebarComponent"></div>
+        </div>
+
+      </div>
     </div>
 
-    <div id="chartContainer">
-      <div style="display:flex; justify-content: space-around;">
-        <h4 id="loadpgnButton" style="text-align: center;">Load PGN</h4>
-        <h4 id="flipBoardButton" style="text-align: center; cursor: pointer; user-select: none;">Flip board</h4>
-      </div>
-      <h2 style="text-align: center;">Game Review</h2>
-      <div id="liveEvaluationMain">
-        <div id="liveEvaluationTopBar">
-          <div>Stockfish 15</div>
-          <div class="evaluationSwitch">
-            <p>Live Evaluation </p>
-            <label id="toggleSwitch" class="toggle-switch">
-              <input type="checkbox">
-              <span class="toggle-slider"></span>
-            </label>
-          </div>
-        </div>
-        <div id="liveEvaluationContainer">
-          <div class="liveEvaluationLine" style="display:none;">
-            <div class="liveEvaluation">+3.2</div>
-            <div class="liveBestMove">Bc2</div>
-          </div>
-
-          <div class="liveEvaluationLine" style="display:none;">
-            <div class="liveEvaluation">+3.2</div>
-            <div class="liveBestMove">Bc2</div>
-          </div>
-
-          <div class="liveEvaluationLine" style="display:none;">
-            <div class="liveEvaluation">+3.2</div>
-            <div class="liveBestMove">Bc2</div>
-          </div>
-
-        </div>
-
-
-
-      </div>
-
-      <div id="chartWrapper"><canvas id="myChart"></canvas></div>
-      <div id="moveOverviewDiv">
-        <div class="moveOverview stellar">
-          <div>5</div>
-          <div>Stellar</div>
-          <div>2</div>
-        </div>
-
-        <div class="moveOverview great">
-          <div>1</div>
-          <div>Great Move</div>
-          <div>4</div>
-        </div>
-
-        <div class="moveOverview best">
-          <div>12</div>
-          <div>Best Move</div>
-          <div>20</div>
-        </div>
-      </div>
-      <div id="sidebar">
-        <div id="sidebarComponent"></div>
-      </div>
-
-    </div>
   </div>
 
   <script src="/dependencies/stockfish.js"></script>
   <script src="https://unpkg.com/@chrisoakman/chessboard2@0.5.0/dist/chessboard2.min.js"
     integrity="sha384-/KwQCjA1GWovZNV3QDVtvSMDzO4reGgarF/RqHipr7hIUElH3r5zNl9WEPPOBRIF"
     crossorigin="anonymous"></script>
-  <script type="module" src="distWebpack/bundle.js"></script>
+  <script type="module" src="dist/src/connectStockfish.js"></script>
 
 
 </body>
