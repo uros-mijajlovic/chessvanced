@@ -31,8 +31,8 @@ document.addEventListener('keydown', function (event) {
 });
 evaluationGraphInst.playerControllerInst = playerControllerInst;
 window.playerControllerInst = playerControllerInst;
-playerControllerInst.ready = true;
 console.log(playerControllerInst.ready);
 //playerControllerInst.setPgn(pgn_string_1);
 playerControllerInst.setGameFromExtension(urke_fen_array, urke_move_array, urke_game_analysis, urke_analysis_array);
+playerControllerInst.ready = true;
 export { playerControllerInst, guiHandlerInst, evaluationGraphInst };
