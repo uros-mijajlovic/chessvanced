@@ -33,6 +33,11 @@ class GuiHandler {
         this.sidebar = sidebar;
         this.flipBoard();
     }
+    setBoardOrientation(boardOrientation) {
+        if (this.boardOrientation == "white" != boardOrientation) {
+            this.flipBoard();
+        }
+    }
     clearData() {
         this.gameAnalysis = [];
         this.evaluationGraph.clearData();
@@ -57,6 +62,12 @@ class GuiHandler {
         return this.chessboardHandler.getChessboard();
     }
     flipBoard() {
+        if (this.boardOrientation == "white") {
+            this.boardOrientation = "black";
+        }
+        else {
+            this.boardOrientation = "white";
+        }
         this.chessboardHandler.flipBoard();
     }
     createPromotionPopup(callback, sourceTile, targetTile, sidePlaying) {

@@ -46,6 +46,7 @@ class GuiHandler {
   private soundHandler: SoundHandler;
   private gameAnalysis: any[];
   private chessboardHandler:ChessboardHandler;
+  private boardOrientation :string;
   constructor(evaluationGraphInst: EvaluationGraph, sidebar: Sidebar) {
     this.soundHandler = new SoundHandler();
     this.evaluationGraph = evaluationGraphInst;
@@ -54,6 +55,11 @@ class GuiHandler {
     
     this.flipBoard();
 
+  }
+  public setBoardOrientation(boardOrientation){
+    if(this.boardOrientation=="white" != boardOrientation){
+      this.flipBoard();
+    }
   }
   public clearData(){
     this.gameAnalysis=[];
@@ -82,6 +88,11 @@ class GuiHandler {
   }
 
   public flipBoard() {
+    if(this.boardOrientation=="white"){
+      this.boardOrientation="black"
+    }else{
+      this.boardOrientation="white"
+    }
     this.chessboardHandler.flipBoard();
     
   }

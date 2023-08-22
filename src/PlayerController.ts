@@ -40,6 +40,7 @@ class PlayerController {
     this.ready=false;
   }
 
+ 
   private getMoveType(flag) {
     if (flag == "c") {
       return Config.MOVE_TYPE.MOVE_CAPTURE
@@ -60,13 +61,15 @@ class PlayerController {
     return chessjs.pgn();
   }
 
-  public setGameFromExtension(currentFenArray, currentMoveArray, analysisData, analyzedFens, initialSet=false) {
+  public setGameFromExtension(currentFenArray, currentMoveArray, analysisData, analyzedFens, playerSide, initialSet=false) {
     console.log("injector tried to call me", this.ready, currentFenArray, currentMoveArray);
     if(initialSet || this.ready){
       this.currentFenArray=currentFenArray;
       this.currentMoveArray=currentMoveArray;
       this.analysisData=analysisData;
       const pgnString = this.moveArrayToPgn(currentMoveArray);
+      
+      this.guiHandler.setBoardOrientation(playerSide);
       this.guiHandler.updateSidebar(pgnString);
 
       this.startAnalysis(analyzedFens);

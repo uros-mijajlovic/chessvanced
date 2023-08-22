@@ -34,13 +34,14 @@ class PlayerController {
         console.log(chessjs.pgn());
         return chessjs.pgn();
     }
-    setGameFromExtension(currentFenArray, currentMoveArray, analysisData, analyzedFens, initialSet = false) {
+    setGameFromExtension(currentFenArray, currentMoveArray, analysisData, analyzedFens, playerSide, initialSet = false) {
         console.log("injector tried to call me", this.ready, currentFenArray, currentMoveArray);
         if (initialSet || this.ready) {
             this.currentFenArray = currentFenArray;
             this.currentMoveArray = currentMoveArray;
             this.analysisData = analysisData;
             const pgnString = this.moveArrayToPgn(currentMoveArray);
+            this.guiHandler.setBoardOrientation(playerSide);
             this.guiHandler.updateSidebar(pgnString);
             this.startAnalysis(analyzedFens);
             return true;
