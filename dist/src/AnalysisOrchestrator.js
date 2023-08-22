@@ -119,6 +119,7 @@ class AnalysisOrchestrator {
         //continue
     }
     async analyzePgnGame(fenMoves, moveArray, fromPerspective, alreadyAnalyzed = [], analyzedFens = []) {
+        await this.stopAnalysis();
         if (alreadyAnalyzed) {
             this.gameAnalysis = alreadyAnalyzed;
         }
@@ -132,7 +133,6 @@ class AnalysisOrchestrator {
         if (this.stockfishOrchestrator) {
             this.stockfishOrchestrator.deleteWorker();
         }
-        await this.stopAnalysis();
         this.stockfishOrchestrator = await createStockfishOrchestrator(false);
         this.stockfishOrchestrator.analysisOrchestrator = this;
         this.stockfishOrchestrator.setCallback((data) => { this.sendEval(data); });
