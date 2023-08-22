@@ -1,4 +1,5 @@
 import { AnalysisOrchestrator } from './AnalysisOrchestrator.js';
+import { urke_analysis_array, urke_fen_array, urke_game_analysis, urke_move_array } from './const/constGames.js';
 import { EvaluationGraph } from './EvaluationGraph.js';
 import { GuiHandler } from './GuiHandler.js';
 import { PlayerController } from './PlayerController.js';
@@ -33,6 +34,8 @@ window.playerControllerInst = playerControllerInst;
 console.log("KURAC");
 console.log(playerControllerInst.ready);
 //playerControllerInst.setPgn(pgn_string_1);
-//playerControllerInst.setGameFromExtension(urke_fen_array, urke_move_array, urke_game_analysis, urke_analysis_array, "black", true);
+if (window.location.href == "https://chessvanced.com/") {
+    playerControllerInst.setGameFromExtension(urke_fen_array, urke_move_array, urke_game_analysis, urke_analysis_array, "black", true);
+}
 playerControllerInst.ready = true;
 export { playerControllerInst, guiHandlerInst, evaluationGraphInst };

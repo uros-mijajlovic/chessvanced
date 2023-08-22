@@ -193,8 +193,10 @@ const pgn_string_blunders=`[Event "Rated Bullet game"]
 [Opening "French Defense: Exchange Variation"]
 [Termination "Time forfeit"]
 
-1. e4 e6 2. d4 d5 3. exd5 exd5 4. Qe2+ Be6 5. Nf3 Nf6 6. g3 Bd6 7. Bg2 Nbd7 8. O-O c6 9. Re1 Qc7 10. Ne5 O-O-O 11. Nxd7 Bxd7 12. Bg5 h6 13. Bxf6 gxf6 14. Nc3 h5 15. Qd2 h4 16. a4 hxg3 17. fxg3 Bxg3 18. hxg3 Qxg3 19. Qf2 Qh2+ 20. Kf1 Rh5 21. Ke2 Re8+ 22. Kd1 Bg4+ 23. Ne2 Bxe2+ 24. Rxe2 Rxe2 25. Kxe2 Rg5 26. Rg1 Qh5+ 27. Bf3 Qg6 28. Rxg5 Qxg5 29. b4 Qc1 30. Bg4+ Kc7 31. Qg3+ Kb6 32. a5+ Kb5 33. Kd3 1-0
-`;
+1. e4 e6 2. d4 d5 3. exd5 exd5 4. Qe2+ Be6 5. Nf3 Nf6 6. g3 Bd6 7. Bg2 Nbd7 8. O-O c6 9. Re1 Qc7 10. Ne5 O-O-O 
+11. Nxd7 Bxd7 12. Bg5 h6 13. Bxf6 gxf6 14. Nc3 h5 15. Qd2 h4 16. a4 hxg3 17. fxg3 Bxg3 18. hxg3 Qxg3 
+19. Qf2 Qh2+ 20. Kf1 Rh5 21. Ke2 Re8+ 22. Kd1 Bg4+ 23. Ne2 Bxe2+ 24. Rxe2 Rxe2 25. Kxe2 Rg5 26. Rg1 Qh5+
+ 27. Bf3 Qg6 28. Rxg5 Qxg5 29. b4 Qc1 30. Bg4+ Kc7 31. Qg3+ Kb6 32. a5+ Kb5 33. Kd3 1-0`;
 
 const pgn_string_38brilliant=`[Event "Live Chess"]
 [Site "Chess.com"]

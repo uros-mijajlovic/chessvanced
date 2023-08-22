@@ -63,8 +63,10 @@ console.log(playerControllerInst.ready);
 
 
 
-//playerControllerInst.setGameFromExtension(urke_fen_array, urke_move_array, urke_game_analysis, urke_analysis_array, "black", true);
 
+if(window.location.href=="https://chessvanced.com/"){
+  playerControllerInst.setGameFromExtension(urke_fen_array, urke_move_array, urke_game_analysis, urke_analysis_array, "black", true);
+}
 playerControllerInst.ready = true;
 
 export { playerControllerInst, guiHandlerInst, evaluationGraphInst }
