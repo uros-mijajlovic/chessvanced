@@ -57,7 +57,7 @@ class GuiHandler {
 
   }
   public setBoardOrientation(boardOrientation){
-    if(this.boardOrientation=="white" != boardOrientation){
+    if(this.boardOrientation != boardOrientation){
       this.flipBoard();
     }
   }
