@@ -52,8 +52,6 @@ class GuiHandler {
     this.evaluationGraph = evaluationGraphInst;
     this.chessboardHandler=new ChessboardHandler();
     this.sidebar = sidebar;
-    
-    this.flipBoard();
     this.boardOrientation="white";
 
   }
