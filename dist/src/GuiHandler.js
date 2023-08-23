@@ -33,6 +33,9 @@ class GuiHandler {
         this.sidebar = sidebar;
         this.boardOrientation = "white";
     }
+    getGameAnalysis() {
+        return this.gameAnalysis;
+    }
     setBoardOrientation(boardOrientation) {
         if (this.boardOrientation != boardOrientation) {
             this.flipBoard();

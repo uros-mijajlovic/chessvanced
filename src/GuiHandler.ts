@@ -55,6 +55,9 @@ class GuiHandler {
     this.boardOrientation="white";
 
   }
+  public getGameAnalysis(){
+    return this.gameAnalysis;
+  }
   public setBoardOrientation(boardOrientation){
     if(this.boardOrientation != boardOrientation){
       this.flipBoard();

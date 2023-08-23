@@ -15,6 +15,8 @@ class PlayerController {
         this.alternativeStackRight = [];
         this.inAlternativePath = false;
         this.liveBoardEvaluation = liveBoardEvaluationInst;
+        this.analysisData = [];
+        this.analyzedFens = [];
         this.ready = false;
     }
     getMoveType(flag) {
@@ -23,6 +25,19 @@ class PlayerController {
         }
         else {
             return Config.MOVE_TYPE.MOVE_REGULAR;
+        }
+    }
+    gotoMoveOfType(moveType) {
+        console.log("tryna go to move of type", moveType);
+        const startingPoint = this.currentMove;
+        var nextMove = this.currentMove + 1;
+        console.log(this.guiHandler.getGameAnalysis());
+        while (nextMove != startingPoint) {
+            if (this.guiHandler.getGameAnalysis()[nextMove]["moveRating"] == moveType) {
+                this.gotoMove(nextMove);
+                return;
+            }
+            nextMove = (nextMove + 1) % this.currentMoveArray.length;
         }
     }
     moveArrayToPgn(moveArray) {
@@ -40,10 +55,12 @@ class PlayerController {
             this.currentFenArray = currentFenArray;
             this.currentMoveArray = currentMoveArray;
             this.analysisData = analysisData;
+            this.analyzedFens = analyzedFens;
+            this.playerSide = playerSide;
             const pgnString = this.moveArrayToPgn(currentMoveArray);
             this.guiHandler.setBoardOrientation(playerSide);
             this.guiHandler.updateSidebar(pgnString);
-            this.startAnalysis(analyzedFens);
+            this.startAnalysis();
             return true;
         }
         else {
@@ -52,6 +69,7 @@ class PlayerController {
     }
     setPgn(pgnString) {
         this.analysisData = [];
+        this.analyzedFens = [];
         this.currentPgn = pgnString;
         this.currentFenArray = PgnToFenArr(this.currentPgn);
         this.currentMoveArray = PgnToMoveArr(this.currentPgn);
@@ -74,8 +92,8 @@ class PlayerController {
     getInAlternative() {
         return this.inAlternativePath;
     }
-    startAnalysis(analyzedFens = []) {
-        this.analysisOrchestrator.analyzePgnGame(this.currentFenArray, this.currentMoveArray, "white", this.analysisData, analyzedFens);
+    startAnalysis() {
+        this.analysisOrchestrator.analyzePgnGame(this.currentFenArray, this.currentMoveArray, "white", this.analysisData, this.analyzedFens);
     }
     updateBoardGUI(newFen, from, to, currentMove, MOVE_TYPE) {
         this.guiHandler.setBoardAndMove(newFen, from, to, currentMove, MOVE_TYPE);

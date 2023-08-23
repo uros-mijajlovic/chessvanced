@@ -24,6 +24,7 @@ const sidebarInst = new Sidebar(document.getElementById("sidebarComponent"));
 const evaluationGraphInst = new EvaluationGraph("myChart");
 
 const guiHandlerInst = new GuiHandler(evaluationGraphInst, sidebarInst);
+
 var analsysOrchestratorInst = new AnalysisOrchestrator(guiHandlerInst);
 
 const stockfishOrchestratorForLiveEvaluation = await createStockfishOrchestrator(true);

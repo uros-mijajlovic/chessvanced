@@ -64,48 +64,52 @@ body {
   padding-right:20%;
 }
 
-.moveOverview > div {
+.moveOverview * {
   font-weight: bolder;
   font-size:0.9rem;
 }
 
-.stellar > div {
+.moveOverview span {
+  cursor:pointer;
+}
+
+.brilliant-color * {
   color: #7c20c3;
 }
 
-.great > div {
+.great-color * {
   color: #5c8bb0;
 }
 
-.best > div {
+.best-color * {
   color: #95bb4a;
 }
 
-.excellent > div {
+.excellent-color * {
   color: rgb(0, 172, 6);
 }
 
-.good > div {
+.good-color * {
   color: rgb(98, 164, 140);
 }
 
-.book > div {
+.book-color * {
   color: rgb(112, 60, 0);
 }
 
-.inaccuracy > div {
+.inaccuracy-color * {
   color: rgb(255, 240, 101);
 }
 
-.mistake > div {
+.mistake-color * {
   color: rgb(197, 126, 33);
 }
 
-.miss > div {
+.miss-color * {
   color: rgb(226, 65, 65);
 }
 
-.blunder > div {
+.blunder-color * {
   color: rgb(167, 0, 0);
 }
 

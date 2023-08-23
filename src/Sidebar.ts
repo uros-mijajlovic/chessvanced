@@ -1,6 +1,7 @@
 import {Chess} from '../dependencies/chess.js';
 import { GuiHandler } from './GuiHandler.js';
 import { PlayerController } from './PlayerController.js';
+import { Config } from './config/config.js';
 function getMovesFromFen(fenString){
     const chess=Chess();
     chess.load_pgn(fenString);
@@ -28,8 +29,45 @@ export class Sidebar{
 
         document.getElementById("import-button").addEventListener('click', () => {this.importFromText()});
 
-        
         document.getElementById("close-import-button").addEventListener('click', () => {this.guiHandler.hideImportPopup()});
+
+        const moveOverviewDiv = document.getElementById("moveOverviewDiv");
+
+
+
+
+        Config.MOVE_NAMES.forEach((name) => {
+            var div = document.createElement("div")
+            div.className="moveOverview "+ Config.MOVE_TO_ID_NAME[name];
+            
+            var moveOverviewYou = document.createElement("span")
+            moveOverviewYou.textContent="0";
+            moveOverviewYou.id = "you-"+Config.MOVE_TO_ID_NAME[name];
+            moveOverviewYou.addEventListener('click', (event) => this.gotoSpecialMove(event));
+
+            var moveOverviewName = document.createElement("div")
+            moveOverviewName.textContent=name;
+
+            var moveOverviewOpponent = document.createElement("span")
+            moveOverviewOpponent.textContent="0";
+            moveOverviewOpponent.id = "opp-"+Config.MOVE_TO_ID_NAME[name];
+            moveOverviewOpponent.addEventListener('click', (event) => this.gotoSpecialMove(event));
+
+            div.append(moveOverviewYou);
+            div.append(moveOverviewName);
+            div.append(moveOverviewOpponent);
+            moveOverviewDiv.append(div);
+            
+        })
+    }
+
+    public gotoSpecialMove(event){
+
+        //ako pise you trazi od this.playerSide
+        //ako pise opp onda suprotno
+        const spanId=event.target.id as String;
+        this.playerController.gotoMoveOfType(Config.ID_NAME_TO_MOVE_RATING[spanId.slice(4)])
+        console.log("tried to go to move", event.target.id)
     }
 
     public importFromText(){

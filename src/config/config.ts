@@ -16,6 +16,19 @@ export namespace Config{
         BLACK, 
         BOTH
     }
+    export const MOVE_NAMES=[
+        "Brilliant", "Great Move", "Best Move"
+    ]
+    export const MOVE_TO_ID_NAME={
+        "Brilliant":"brilliant-color",
+        "Great Move":"great-color",
+        "Best Move":"best-color"
+    }
+    export const ID_NAME_TO_MOVE_RATING = {
+        "brilliant-color": "brilliant",
+        "great-color": "great",
+        "best-color": "best"
+    };
     export const Colors = {
         "brilliant":"rgba(15, 255, 243, 1)",
         "great":"rgba(107, 111, 229, 1)",
@@ -30,8 +43,6 @@ export namespace Config{
         "best" : "yellow_tile",
         "good" : "yellow_tile",
         "gray" : "yellow_tile",
-        
-
         "mistake" : "mistake_tile",
     }
     export const pointSizes={
