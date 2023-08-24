@@ -16,7 +16,7 @@ for item in *; do
             echo "Deleted: $item"
         elif [ -d "$item" ]; then
             # Check if the item is a directory and not in the exclusion list
-            rmdir -rf "$item"
+            rm -rf "$item"
             echo "Skipping directory: $item"
         else
             # This is an unknown item (not a file or directory)
