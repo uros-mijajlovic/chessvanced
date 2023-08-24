@@ -442,11 +442,10 @@ body {
     display: flex;
   }
   #chartContainer {
-    flex: 1;
     display: flex;
     flex-direction: column;
-    width: 30%;
     height: 80vh;
+    aspect-ratio: 1/1.5;
   }
   #chessgroundParentDiv {
     width: 80vh;
@@ -468,8 +467,8 @@ body {
   #chartContainer {
     display: flex;
     flex-direction: column;
-    width: 500px;
     height: 80vh;
+    aspect-ratio: 1/1.5;
   }
   #chessgroundParentDiv {
     aspect-ratio: 1/1;

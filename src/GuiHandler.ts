@@ -1,4 +1,3 @@
-import { Chessground } from "../dependencies/chessground.js";
 import { EvaluationGraph } from "./EvaluationGraph.js";
 import { Sidebar } from "./Sidebar.js";
 import { SoundHandler } from "./SoundHandler.js";

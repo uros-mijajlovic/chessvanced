@@ -65,10 +65,10 @@ console.log(playerControllerInst.ready);
 
 
 
-if(window.location.href=="https://chessvanced.com/" || window.location.href=="fhttp://localhost:8000/"){
+if(window.location.href=="https://chessvanced.com/" || window.location.href=="http://localhost:8000/"){
   playerControllerInst.setGameFromExtension(urke_fen_array, urke_move_array, urke_game_analysis, urke_analysis_array, "black", true);
 }
 playerControllerInst.ready = true;
-console.log("successfully finished connectStockfish");
+console.log("successfully finished connectStockfish", window.location.href);
 
 export { playerControllerInst, guiHandlerInst, evaluationGraphInst }
