@@ -101,7 +101,6 @@ class AnalysisOrchestrator {
             moveAnalysis["CP"] = centipawns;
         }
         moveAnalysis["moveRating"] = this.calculateMoveBrilliance(regularMove, moveIndex);
-        this.guiHandler.getSidebar().addSpecialMove(moveAnalysis["moveRating"]);
         this.gameAnalysis.push(moveAnalysis);
         console.log("gameAnalysis", JSON.stringify(this.gameAnalysis), "analsisArray", JSON.stringify(this.analysisArray), "moveArray", JSON.stringify(this.moveArray), "fenarray", JSON.stringify(this.fenArray));
         this.guiHandler.updateGraph(this.gameAnalysis);

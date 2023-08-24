@@ -38,4 +38,5 @@ if (window.location.href == "https://chessvanced.com/" || window.location.href =
     playerControllerInst.setGameFromExtension(urke_fen_array, urke_move_array, urke_game_analysis, urke_analysis_array, "black", true);
 }
 playerControllerInst.ready = true;
+console.log("successfully finished connectStockfish");
 export { playerControllerInst, guiHandlerInst, evaluationGraphInst };

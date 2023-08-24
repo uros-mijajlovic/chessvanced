@@ -152,7 +152,6 @@ class AnalysisOrchestrator {
     }
 
     moveAnalysis["moveRating"] = this.calculateMoveBrilliance(regularMove, moveIndex);
-    this.guiHandler.getSidebar().addSpecialMove(moveAnalysis["moveRating"]);
 
     this.gameAnalysis.push(moveAnalysis);
 
