@@ -33,6 +33,9 @@ class GuiHandler {
         this.sidebar = sidebar;
         this.boardOrientation = "white";
     }
+    getSidebar() {
+        return this.sidebar;
+    }
     getGameAnalysis() {
         return this.gameAnalysis;
     }
@@ -71,6 +74,7 @@ class GuiHandler {
         else {
             this.boardOrientation = "white";
         }
+        this.sidebar.setCounterOrientation(this.boardOrientation);
         this.chessboardHandler.flipBoard();
     }
     createPromotionPopup(callback, sourceTile, targetTile, sidePlaying) {
@@ -100,8 +104,17 @@ class GuiHandler {
     }
     updateGraph(gameAnalysis) {
         //this.sidebar.setAnalysisData(gameAnalysis);
+        this.sidebar.clearMoveCounter();
+        var i = 0;
+        for (const moveAnalysis of gameAnalysis) {
+            this.addMoveAnalysis(moveAnalysis, ((i % 2 == 0) ? "black" : "white"));
+            i++;
+        }
         this.gameAnalysis = gameAnalysis;
         this.evaluationGraph.updateGraph(gameAnalysis);
+    }
+    addMoveAnalysis(moveAnalysis, moveSide) {
+        this.sidebar.addSpecialMove(moveAnalysis["moveRating"], moveSide);
     }
     updateSidebar(pgnString) {
         this.sidebar.setAnalysisData(pgnString);

@@ -27,17 +27,28 @@ class PlayerController {
             return Config.MOVE_TYPE.MOVE_REGULAR;
         }
     }
-    gotoMoveOfType(moveType) {
-        console.log("tryna go to move of type", moveType);
-        const startingPoint = this.currentMove;
-        var nextMove = this.currentMove + 1;
+    gotoMoveOfType(searchingForWhiteMove, moveType) {
+        console.log("tryna go to move of type", moveType, searchingForWhiteMove);
+        const startingPoint = this.currentMove + (((this.currentMove % 2 == 0 && searchingForWhiteMove) || (this.currentMove % 2 == 1 && !searchingForWhiteMove)) ? 1 : 0);
+        var nextMove = startingPoint;
+        if ((nextMove + 2) >= this.currentMoveArray.length) {
+            nextMove = 1 + ((searchingForWhiteMove) ? 0 : 1);
+        }
+        else {
+            nextMove = (nextMove + 2);
+        }
         console.log(this.guiHandler.getGameAnalysis());
         while (nextMove != startingPoint) {
             if (this.guiHandler.getGameAnalysis()[nextMove]["moveRating"] == moveType) {
                 this.gotoMove(nextMove);
                 return;
             }
-            nextMove = (nextMove + 1) % this.currentMoveArray.length;
+            if ((nextMove + 2) >= this.currentMoveArray.length) {
+                nextMove = 1 + ((searchingForWhiteMove) ? 0 : 1);
+            }
+            else {
+                nextMove = (nextMove + 2);
+            }
         }
     }
     moveArrayToPgn(moveArray) {
@@ -93,7 +104,7 @@ class PlayerController {
         return this.inAlternativePath;
     }
     startAnalysis() {
-        this.analysisOrchestrator.analyzePgnGame(this.currentFenArray, this.currentMoveArray, "white", this.analysisData, this.analyzedFens);
+        this.analysisOrchestrator.analyzePgnGame(this.currentFenArray, this.currentMoveArray, this.playerSide, this.analysisData, this.analyzedFens);
     }
     updateBoardGUI(newFen, from, to, currentMove, MOVE_TYPE) {
         this.guiHandler.setBoardAndMove(newFen, from, to, currentMove, MOVE_TYPE);
@@ -169,6 +180,7 @@ class PlayerController {
         }
     }
     gotoMove(index) {
+        console.log("going to move", index);
         this.inAlternativePath = false;
         index = clampAndBound(index, 0, this.currentMoveArray.length);
         this.currentMove = index;

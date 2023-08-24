@@ -29,6 +29,12 @@ export namespace Config{
         "great-color": "great",
         "best-color": "best"
     };
+    export const MOVE_RATING_TO_ID_NAME = {
+        "brilliant": "brilliant-color",
+        "great": "great-color",
+        "best": "best-color"
+    };
+    
     export const Colors = {
         "brilliant":"rgba(15, 255, 243, 1)",
         "great":"rgba(107, 111, 229, 1)",

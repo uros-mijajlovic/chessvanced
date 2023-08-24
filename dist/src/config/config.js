@@ -35,6 +35,11 @@ export var Config;
         "great-color": "great",
         "best-color": "best"
     };
+    Config.MOVE_RATING_TO_ID_NAME = {
+        "brilliant": "brilliant-color",
+        "great": "great-color",
+        "best": "best-color"
+    };
     Config.Colors = {
         "brilliant": "rgba(15, 255, 243, 1)",
         "great": "rgba(107, 111, 229, 1)",

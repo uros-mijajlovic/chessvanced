@@ -64,6 +64,10 @@ body {
   padding-right:20%;
 }
 
+#moveOverviewDiv.reversed > div{
+  flex-direction: row-reverse;
+}
+
 .moveOverview * {
   font-weight: bolder;
   font-size:0.9rem;

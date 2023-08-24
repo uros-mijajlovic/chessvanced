@@ -13,6 +13,7 @@ function getMovesFromFen(fenString) {
 export class Sidebar {
     constructor(divForTheSidebar) {
         this.div = divForTheSidebar;
+        this.playerSide = "white";
         document.getElementById("flipBoardButton").addEventListener('click', () => { this.guiHandler.flipBoard(); });
         document.getElementById("loadpgnButton").addEventListener('click', () => { this.guiHandler.showImportPopup(); });
         document.getElementById("import-button").addEventListener('click', () => { this.importFromText(); });
@@ -23,13 +24,13 @@ export class Sidebar {
             div.className = "moveOverview " + Config.MOVE_TO_ID_NAME[name];
             var moveOverviewYou = document.createElement("span");
             moveOverviewYou.textContent = "0";
-            moveOverviewYou.id = "you-" + Config.MOVE_TO_ID_NAME[name];
+            moveOverviewYou.id = "white-" + Config.MOVE_TO_ID_NAME[name];
             moveOverviewYou.addEventListener('click', (event) => this.gotoSpecialMove(event));
             var moveOverviewName = document.createElement("div");
             moveOverviewName.textContent = name;
             var moveOverviewOpponent = document.createElement("span");
             moveOverviewOpponent.textContent = "0";
-            moveOverviewOpponent.id = "opp-" + Config.MOVE_TO_ID_NAME[name];
+            moveOverviewOpponent.id = "black-" + Config.MOVE_TO_ID_NAME[name];
             moveOverviewOpponent.addEventListener('click', (event) => this.gotoSpecialMove(event));
             div.append(moveOverviewYou);
             div.append(moveOverviewName);
@@ -37,12 +38,36 @@ export class Sidebar {
             moveOverviewDiv.append(div);
         });
     }
+    setCounterOrientation(playerSide) {
+        if (this.playerSide != playerSide) {
+            this.playerSide = playerSide;
+            const moveOverviewDiv = document.getElementById("moveOverviewDiv");
+            if (moveOverviewDiv.className == "reversed") {
+                moveOverviewDiv.className = "";
+            }
+            else {
+                moveOverviewDiv.className = "reversed";
+            }
+        }
+    }
     gotoSpecialMove(event) {
-        //ako pise you trazi od this.playerSide
-        //ako pise opp onda suprotno
         const spanId = event.target.id;
-        this.playerController.gotoMoveOfType(Config.ID_NAME_TO_MOVE_RATING[spanId.slice(4)]);
+        this.playerController.gotoMoveOfType(spanId.substring(0, 5) == "white", Config.ID_NAME_TO_MOVE_RATING[spanId.slice(6)]);
         console.log("tried to go to move", event.target.id);
+    }
+    addSpecialMove(moveRating, moveSide) {
+        const idName = Config.MOVE_RATING_TO_ID_NAME[moveRating];
+        console.log("wanna add special move ", moveRating, moveSide + "-" + idName);
+        const spamCounterElement = document.getElementById(moveSide + "-" + idName);
+        if (spamCounterElement) {
+            spamCounterElement.textContent = (parseInt(spamCounterElement.textContent) + 1).toString();
+        }
+    }
+    clearMoveCounter() {
+        const spans = document.getElementById("moveOverviewDiv").querySelectorAll("span");
+        spans.forEach((span) => {
+            span.textContent = "0";
+        });
     }
     importFromText() {
         const textarea = document.getElementById("pgn_textarea");
