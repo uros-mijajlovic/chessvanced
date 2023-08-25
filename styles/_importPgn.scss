@@ -10,13 +10,14 @@
     background-color: #1d1d27;
     position: absolute;
     z-index: 5;
-    width: 100%;
+    width: 60%;
     max-width: 1000px;
     display: flex;
     align-items: center;
     justify-content: space-between;
     flex-direction: column;
     visibility: hidden;
+
 }
 #import_popup * {
     margin-top:2vh;
