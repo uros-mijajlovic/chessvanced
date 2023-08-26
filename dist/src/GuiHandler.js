@@ -140,12 +140,37 @@ class GuiHandler {
             this.colorTile(to, Config.TILE_COLORS.ACTIVE, cssForTile);
         }
     }
+    createGlyph(xOffsetPercent, yOffsetPercent) {
+        // Create an SVG element (you can replace this with your desired glyph)
+        const svg = document.createElementNS("http://www.w3.org/2000/svg", "svg");
+        svg.setAttribute("width", "300"); // Set a larger width for better visibility
+        svg.setAttribute("height", "300"); // Set a larger height for better visibility
+        svg.setAttribute("viewBox", "-20 -20 140 140"); // Set the viewBox for scaling
+        svg.style.position = "absolute";
+        const svgContent = glyphToSvg['??'];
+        svg.innerHTML = svgContent;
+        svg.style.left = `${xOffsetPercent}%`;
+        svg.style.bottom = `${yOffsetPercent}%`;
+        return svg;
+    }
+    addGlyphForMove(square, moveIndex) {
+        this.deactivateGlyphs();
+        const indexRow = 8 - parseInt(square[1]);
+        const indexColumn = square[0].charCodeAt(0) - "a".charCodeAt(0);
+        const myGlyph = this.createGlyph(10, 20);
+        const board = document.getElementsByClassName("squares-2dea6")[0];
+        board.appendChild(myGlyph);
+    }
+    deactivateGlyphs() {
+        //deactivate glyps
+    }
     async setBoardAndMove(fenString, from, to, moveIndex, moveType = Config.MOVE_TYPE.MOVE_NONE) {
         //this.soundHandler.playSound(this.soundHandler.SOUND_TYPE.SOUND_MOVE);
         this.soundHandler.playSound(moveType);
         this.evaluationGraph.updateGraphSelectedMove(moveIndex);
         this.chessboardHandler.getChessboard().position(fenString, false);
         this.colorTilesForMove(from, to, moveIndex);
+        this.addGlyphForMove(to, moveIndex);
     }
     updateGraph(gameAnalysis) {
         //this.sidebar.setAnalysisData(gameAnalysis);

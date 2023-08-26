@@ -58,13 +58,15 @@
   display: grid;
   grid-template-columns: 1fr 1fr; /* Creates a grid with 2 columns */
   grid-template-rows: 1fr 1fr; /* Creates a grid with 2 rows */
-  gap: 0; /* No gap between the grid cells */
-  height: 100%;
+  gap: 0;
+  
 }
 
 .square-4b72b > span{
   font-weight: 600;
   font-size:1.2em;
+  padding-left:1%;
+  overflow: hidden;
 }
 
 .orientation-white-4de03 > div:nth-child(1) >div:nth-child(1) span:nth-child(1){

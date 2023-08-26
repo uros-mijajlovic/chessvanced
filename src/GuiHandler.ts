@@ -44,99 +44,99 @@ class GuiHandler {
   private sidebar: Sidebar;
   private soundHandler: SoundHandler;
   private gameAnalysis: any[];
-  private chessboardHandler:ChessboardHandler;
-  private boardOrientation :string;
+  private chessboardHandler: ChessboardHandler;
+  private boardOrientation: string;
   constructor(evaluationGraphInst: EvaluationGraph, sidebar: Sidebar) {
     this.soundHandler = new SoundHandler();
     this.evaluationGraph = evaluationGraphInst;
-    this.chessboardHandler=new ChessboardHandler();
+    this.chessboardHandler = new ChessboardHandler();
     this.sidebar = sidebar;
-    this.boardOrientation="white";
-    
-    var boardRanks=document.getElementsByClassName("squares-2dea6")[0];
-    var i=8;
+    this.boardOrientation = "white";
+
+    var boardRanks = document.getElementsByClassName("squares-2dea6")[0];
+    var i = 8;
     console.log("board ranks", boardRanks)
-    for (const rank of boardRanks.children){
-      const firstSquare=rank.firstChild;
-      
-      var spanChild=document.createElement("span")
-      spanChild.textContent=i.toString();
-      
+    for (const rank of boardRanks.children) {
+      const firstSquare = rank.firstChild;
+
+      var spanChild = document.createElement("span")
+      spanChild.textContent = i.toString();
+
       firstSquare.appendChild(spanChild);
-      i-=1;
+      i -= 1;
     }
-    var i=8;
-    for (const rank of boardRanks.children){
-      
-      const lastSquare=rank.children[7];
-      
-      var spanChild=document.createElement("span")
-      spanChild.textContent=i.toString();
-      
+    var i = 8;
+    for (const rank of boardRanks.children) {
+
+      const lastSquare = rank.children[7];
+
+      var spanChild = document.createElement("span")
+      spanChild.textContent = i.toString();
+
       lastSquare.appendChild(spanChild);
-      i-=1;
-      
+      i -= 1;
+
     }
-    var topRank=boardRanks.children[0];
-    i=0;
-    for (const childSquare of topRank.children){
-      var emptyChild=document.createElement("span");
-      var spanChild=document.createElement("span")
-      spanChild.textContent=String.fromCharCode(97 + i);;
-      if (i!=7 && i!=0){
+    var topRank = boardRanks.children[0];
+    i = 0;
+    for (const childSquare of topRank.children) {
+      var emptyChild = document.createElement("span");
+      var spanChild = document.createElement("span")
+      spanChild.textContent = String.fromCharCode(97 + i);;
+      if (i != 7 && i != 0) {
         childSquare.appendChild(emptyChild);
       }
       childSquare.appendChild(spanChild);
-      i+=1
+      i += 1
     }
 
-    var topRank=boardRanks.children[7];
-    i=0;
-    for (const childSquare of topRank.children){
-      var emptyChild=document.createElement("span");
-      var spanChild=document.createElement("span")
+    var topRank = boardRanks.children[7];
+    i = 0;
+    for (const childSquare of topRank.children) {
+      var emptyChild = document.createElement("span");
+      var spanChild = document.createElement("span")
 
-      spanChild.textContent=String.fromCharCode(97 + i);;
-      if (i!=7 && i!=0){
+      spanChild.textContent = String.fromCharCode(97 + i);;
+      if (i != 7 && i != 0) {
         childSquare.appendChild(emptyChild);
       }
       childSquare.appendChild(spanChild);
-      i+=1
+      i += 1
     }
     console.log("GUI HANDLER INITATED NIGGA", topRank)
 
 
   }
-  public getSidebar() : Sidebar{
+  public getSidebar(): Sidebar {
     return this.sidebar;
   }
-  public getGameAnalysis(){
+  public getGameAnalysis() {
     return this.gameAnalysis;
   }
-  public setBoardOrientation(boardOrientation){
-    if(this.boardOrientation != boardOrientation){
+  public setBoardOrientation(boardOrientation) {
+    if (this.boardOrientation != boardOrientation) {
       this.flipBoard();
     }
   }
-  public clearData(){
-    this.gameAnalysis=[];
+  public clearData() {
+    this.gameAnalysis = [];
     this.evaluationGraph.clearData();
   }
-  public showImportPopup(){
+  public showImportPopup() {
     console.log("Vsiible")
-    document.getElementById("import_popup").style.visibility="visible";
+    document.getElementById("import_popup").style.visibility = "visible";
   }
-  public hideImportPopup(){
-    document.getElementById("import_popup").style.visibility="hidden";
+  public hideImportPopup() {
+    document.getElementById("import_popup").style.visibility = "hidden";
   }
-  
-  public clearArrows(){
+
+  public clearArrows() {
     this.chessboardHandler.clearArrows();
   }
-  public addBestMoveArrow(fromto){
+  public addBestMoveArrow(fromto) {
     this.chessboardHandler.addBestMoveArrow(fromto);
   }
-  public addArrowToBoard(from, to){
+  public addArrowToBoard(from, to) {
     this.chessboardHandler.addArrowToBoard(from, to);
   }
 
@@ -146,22 +146,22 @@ class GuiHandler {
 
   public flipBoard() {
 
-    if(this.boardOrientation=="white"){
-      this.boardOrientation="black"
-    }else{
-      this.boardOrientation="white"
+    if (this.boardOrientation == "white") {
+      this.boardOrientation = "black"
+    } else {
+      this.boardOrientation = "white"
     }
     this.sidebar.setCounterOrientation(this.boardOrientation)
     this.chessboardHandler.flipBoard();
-    
+
   }
 
-  public createPromotionPopup(callback, sourceTile, targetTile, sidePlaying:string) {
+  public createPromotionPopup(callback, sourceTile, targetTile, sidePlaying: string) {
 
     this.chessboardHandler.createPromotionPopup(callback, sourceTile, targetTile, sidePlaying);
   }
   private colorTile(tile: string, TILE_COLOR: Config.TILE_COLORS, tile_css = "yellow_tile") {
-    
+
     this.chessboardHandler.colorTile(tile, TILE_COLOR, tile_css);
   }
 
@@ -181,33 +181,66 @@ class GuiHandler {
     }
 
   }
+  private createGlyph(xOffsetPercent, yOffsetPercent) {
+
+    // Create an SVG element (you can replace this with your desired glyph)
+    const svg = document.createElementNS("http://www.w3.org/2000/svg", "svg");
+    svg.setAttribute("width", "300"); // Set a larger width for better visibility
+    svg.setAttribute("height", "300"); // Set a larger height for better visibility
+    svg.setAttribute("viewBox", "-20 -20 140 140");  // Set the viewBox for scaling
+    svg.style.position = "absolute";
+
+    const svgContent=glyphToSvg['??'];
+    svg.innerHTML = svgContent;
+    svg.style.left = `${xOffsetPercent}%`;
+    svg.style.bottom = `${yOffsetPercent}%`;
+
+    return svg;
+  }
+  private addGlyphForMove(square, moveIndex) {
+    this.deactivateGlyphs();
+
+    const indexRow = 8 - parseInt(square[1]);
+    const indexColumn = square[0].charCodeAt(0) - "a".charCodeAt(0);
+
+    const myGlyph=this.createGlyph(10, 20);
+    const board=document.getElementsByClassName("squares-2dea6")[0]
+    board.appendChild(myGlyph);
+
+
+
+  }
+  private deactivateGlyphs() {
+    //deactivate glyps
+  }
   public async setBoardAndMove(fenString: string, from: string, to: string, moveIndex: number, moveType: Config.MOVE_TYPE = Config.MOVE_TYPE.MOVE_NONE) {
 
     //this.soundHandler.playSound(this.soundHandler.SOUND_TYPE.SOUND_MOVE);
-    
+
     this.soundHandler.playSound(moveType);
     this.evaluationGraph.updateGraphSelectedMove(moveIndex);
     this.chessboardHandler.getChessboard().position(fenString, false);
 
     this.colorTilesForMove(from, to, moveIndex);
+    this.addGlyphForMove(to, moveIndex);
 
   }
   public updateGraph(gameAnalysis) {
     //this.sidebar.setAnalysisData(gameAnalysis);
     this.sidebar.clearMoveCounter();
-    var i=0
-    for(const moveAnalysis of gameAnalysis){
-      this.addMoveAnalysis(moveAnalysis, ((i%2==0)? "black":"white"))
+    var i = 0
+    for (const moveAnalysis of gameAnalysis) {
+      this.addMoveAnalysis(moveAnalysis, ((i % 2 == 0) ? "black" : "white"))
       i++;
     }
-    
+
 
 
     this.gameAnalysis = gameAnalysis;
     this.evaluationGraph.updateGraph(gameAnalysis);
   }
 
-  public addMoveAnalysis(moveAnalysis, moveSide){
+  public addMoveAnalysis(moveAnalysis, moveSide) {
     this.sidebar.addSpecialMove(moveAnalysis["moveRating"], moveSide)
   }
 
