@@ -50,14 +50,72 @@
 
 .white-3b784 {
   background-color: #bfcfdd;
-  color: #b58863;
+  color: #64707a;
+  
+}
+
+.square-4b72b{
+  display: grid;
+  grid-template-columns: 1fr 1fr; /* Creates a grid with 2 columns */
+  grid-template-rows: 1fr 1fr; /* Creates a grid with 2 rows */
+  gap: 0; /* No gap between the grid cells */
+  height: 100%;
+}
+
+.square-4b72b > span{
+  font-weight: 600;
+  font-size:1.2em;
+}
+
+.orientation-white-4de03 > div:nth-child(1) >div:nth-child(1) span:nth-child(1){
+  visibility: visible;
+}
+.orientation-white-4de03 .square-4b72b:nth-child(8) span{
+  visibility: hidden;
+}
+
+.orientation-white-4de03 > div:nth-child(8) >div:nth-child(8) span:nth-child(2){
+  visibility:  visible;
+}
+
+.orientation-white-4de03 > div:nth-child(1) span{
+  visibility: hidden;
 }
 
 
 
+.orientation-black-a8276 > div:nth-child(8) >div:nth-child(8) span:nth-child(1){
+  visibility: visible;
+}
+.orientation-black-a8276 > div:nth-child(8) span{
+  visibility: hidden;
+}
+
+.orientation-black-a8276 > div:nth-child(1) >div:nth-child(1) span:nth-child(2){
+  visibility: visible;
+}
+
+
+.orientation-black-a8276 .square-4b72b:nth-child(1) span{
+  visibility: hidden;
+}
+
+.square-4b72b > span:nth-child(1){
+  grid-row: 1 / 2; /* Place it in the first row */
+  grid-column: 1 / 2;
+}
+
+.square-4b72b > span:nth-child(2){
+  grid-row: 2 / 3; /* Place it in the second row */
+  grid-column: 2 / 3; 
+  display: flex; /* Use flexbox for centering */
+  justify-content: flex-end; /* Align to the right */
+  align-items: flex-end;
+}
+
 .black-b7cb6 {
   background-color: #99a6b1;
-  color: #f0d9b5;
+  color: #ccd9e4;
 }
 
 

@@ -32,6 +32,51 @@ class GuiHandler {
         this.chessboardHandler = new ChessboardHandler();
         this.sidebar = sidebar;
         this.boardOrientation = "white";
+        var boardRanks = document.getElementsByClassName("squares-2dea6")[0];
+        var i = 8;
+        console.log("board ranks", boardRanks);
+        for (const rank of boardRanks.children) {
+            const firstSquare = rank.firstChild;
+            var spanChild = document.createElement("span");
+            spanChild.textContent = i.toString();
+            firstSquare.appendChild(spanChild);
+            i -= 1;
+        }
+        var i = 8;
+        for (const rank of boardRanks.children) {
+            const lastSquare = rank.children[7];
+            var spanChild = document.createElement("span");
+            spanChild.textContent = i.toString();
+            lastSquare.appendChild(spanChild);
+            i -= 1;
+        }
+        var topRank = boardRanks.children[0];
+        i = 0;
+        for (const childSquare of topRank.children) {
+            var emptyChild = document.createElement("span");
+            var spanChild = document.createElement("span");
+            spanChild.textContent = String.fromCharCode(97 + i);
+            ;
+            if (i != 7 && i != 0) {
+                childSquare.appendChild(emptyChild);
+            }
+            childSquare.appendChild(spanChild);
+            i += 1;
+        }
+        var topRank = boardRanks.children[7];
+        i = 0;
+        for (const childSquare of topRank.children) {
+            var emptyChild = document.createElement("span");
+            var spanChild = document.createElement("span");
+            spanChild.textContent = String.fromCharCode(97 + i);
+            ;
+            if (i != 7 && i != 0) {
+                childSquare.appendChild(emptyChild);
+            }
+            childSquare.appendChild(spanChild);
+            i += 1;
+        }
+        console.log("GUI HANDLER INITATED NIGGA", topRank);
     }
     getSidebar() {
         return this.sidebar;
