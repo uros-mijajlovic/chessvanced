@@ -69,10 +69,11 @@
 }
 
 .popup{
+
+    
+    aspect-ratio: 1/1;
+    height: 100%;
     position:absolute;
-    height: 0;
-    width: 100%;
-    padding-bottom: 100%;
     visibility:hidden;
 
   }

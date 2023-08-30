@@ -1,5 +1,12 @@
 /*! chessboard2 v@VERSION | (c) 2021 Chris Oakman | ISC License | https://chessboardjs.com/v2 */
 
+:root {
+  --min-viewport: min(100vw, 100vh);
+  /* Calculate the minimum of viewport width and height */
+  --font-size-factor:39 ;
+  /* Adjust this factor to control font size */
+}
+
 .chessboard-21da3 {
   touch-action: manipulation;
 }
@@ -51,67 +58,75 @@
 .white-3b784 {
   background-color: #bfcfdd;
   color: #64707a;
-  
+
 }
 
-.square-4b72b{
+.square-4b72b {
   display: grid;
-  grid-template-columns: 1fr 1fr; /* Creates a grid with 2 columns */
-  grid-template-rows: 1fr 1fr; /* Creates a grid with 2 rows */
+  grid-template-columns: 1fr 1fr;
+  /* Creates a grid with 2 columns */
+  grid-template-rows: 1fr 1fr;
+  /* Creates a grid with 2 rows */
   gap: 0;
-  
+
 }
 
-.square-4b72b > span{
+.square-4b72b>span {
   font-weight: 600;
-  font-size:1.2em;
-  padding-left:1%;
+  font-size: calc(var(--min-viewport) / var(--font-size-factor));
+  padding-left: 1vw;
   overflow: hidden;
 }
 
-.orientation-white-4de03 > div:nth-child(1) >div:nth-child(1) span:nth-child(1){
-  visibility: visible;
-}
-.orientation-white-4de03 .square-4b72b:nth-child(8) span{
-  visibility: hidden;
-}
-
-.orientation-white-4de03 > div:nth-child(8) >div:nth-child(8) span:nth-child(2){
-  visibility:  visible;
-}
-
-.orientation-white-4de03 > div:nth-child(1) span{
-  visibility: hidden;
-}
-
-
-
-.orientation-black-a8276 > div:nth-child(8) >div:nth-child(8) span:nth-child(1){
-  visibility: visible;
-}
-.orientation-black-a8276 > div:nth-child(8) span{
-  visibility: hidden;
-}
-
-.orientation-black-a8276 > div:nth-child(1) >div:nth-child(1) span:nth-child(2){
+.orientation-white-4de03>div:nth-child(1)>div:nth-child(1) span:nth-child(1) {
   visibility: visible;
 }
 
-
-.orientation-black-a8276 .square-4b72b:nth-child(1) span{
+.orientation-white-4de03 .square-4b72b:nth-child(8) span {
   visibility: hidden;
 }
 
-.square-4b72b > span:nth-child(1){
-  grid-row: 1 / 2; /* Place it in the first row */
+.orientation-white-4de03>div:nth-child(8)>div:nth-child(8) span:nth-child(2) {
+  visibility: visible;
+}
+
+.orientation-white-4de03>div:nth-child(1) span {
+  visibility: hidden;
+}
+
+
+
+.orientation-black-a8276>div:nth-child(8)>div:nth-child(8) span:nth-child(1) {
+  visibility: visible;
+}
+
+.orientation-black-a8276>div:nth-child(8) span {
+  visibility: hidden;
+}
+
+.orientation-black-a8276>div:nth-child(1)>div:nth-child(1) span:nth-child(2) {
+  visibility: visible;
+}
+
+
+.orientation-black-a8276 .square-4b72b:nth-child(1) span {
+  visibility: hidden;
+}
+
+.square-4b72b>span:nth-child(1) {
+  grid-row: 1 / 2;
+  /* Place it in the first row */
   grid-column: 1 / 2;
 }
 
-.square-4b72b > span:nth-child(2){
-  grid-row: 2 / 3; /* Place it in the second row */
-  grid-column: 2 / 3; 
-  display: flex; /* Use flexbox for centering */
-  justify-content: flex-end; /* Align to the right */
+.square-4b72b>span:nth-child(2) {
+  grid-row: 2 / 3;
+  /* Place it in the second row */
+  grid-column: 2 / 3;
+  display: flex;
+  /* Use flexbox for centering */
+  justify-content: flex-end;
+  /* Align to the right */
   align-items: flex-end;
 }
 

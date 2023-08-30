@@ -52,7 +52,10 @@ class GuiHandler {
     this.chessboardHandler = new ChessboardHandler();
     this.sidebar = sidebar;
     this.boardOrientation = "white";
+    this.boardSetup();
+  }
 
+  public boardSetup(){
     var boardRanks = document.getElementsByClassName("squares-2dea6")[0];
     var i = 8;
     console.log("board ranks", boardRanks)
@@ -104,8 +107,6 @@ class GuiHandler {
       i += 1
     }
     console.log("GUI HANDLER INITATED NIGGA", topRank)
-
-
   }
   public getSidebar(): Sidebar {
     return this.sidebar;
@@ -151,6 +152,7 @@ class GuiHandler {
     } else {
       this.boardOrientation = "white"
     }
+    this.flipGlyphs();
     this.sidebar.setCounterOrientation(this.boardOrientation)
     this.chessboardHandler.flipBoard();
 
@@ -181,34 +183,55 @@ class GuiHandler {
     }
 
   }
-  private createGlyph(xOffsetPercent, yOffsetPercent) {
+
+  private createGlyph(row, column) {
 
     // Create an SVG element (you can replace this with your desired glyph)
-    const svg = document.createElementNS("http://www.w3.org/2000/svg", "svg");
-    svg.setAttribute("width", "300"); // Set a larger width for better visibility
-    svg.setAttribute("height", "300"); // Set a larger height for better visibility
+    const svg = document.createElementNS("http://www.w3.org/2000/svg", "svg"); // Set a larger height for better visibility
     svg.setAttribute("viewBox", "-20 -20 140 140");  // Set the viewBox for scaling
     svg.style.position = "absolute";
-
+    svg.style.width = "12.5%"
+    svg.style.height = "12.5%"
     const svgContent=glyphToSvg['??'];
     svg.innerHTML = svgContent;
-    svg.style.left = `${xOffsetPercent}%`;
-    svg.style.bottom = `${yOffsetPercent}%`;
+    if(this.boardOrientation=="black"){
+      svg.style.left = `${(7-column)*12.5}%`;
+      svg.style.bottom = `${(7-row)*12.5}%`;
+    }else{
+      svg.style.left = `${column*12.5}%`;
+      svg.style.bottom = `${row*12.5}%`;
+    }
+    
 
     return svg;
   }
+  private flipGlyphs(){
+    const board=document.getElementsByClassName("squares-2dea6")[0]
+    const glyphs=board.querySelectorAll("svg");
+    glyphs.forEach(svg => {
+      // Get the left and top style values as percentages
+      const leftPercentage = svg.style.left || '0%';
+      const topPercentage = svg.style.top || '0%';
+  
+      // Convert percentages to absolute values
+      const leftAbsolute = Math.abs(112.5 - parseFloat(leftPercentage));
+      const topAbsolute = Math.abs(112.5 - parseFloat(topPercentage));
+  
+      // Update the style properties
+      svg.style.left = `${leftAbsolute}%`;
+      svg.style.top = `${topAbsolute}%`;
+    });
+
+  }
+
   private addGlyphForMove(square, moveIndex) {
     this.deactivateGlyphs();
-
-    const indexRow = 8 - parseInt(square[1]);
+    const indexRow = parseInt(square[1])-1;
     const indexColumn = square[0].charCodeAt(0) - "a".charCodeAt(0);
-
-    const myGlyph=this.createGlyph(10, 20);
+    console.log(`${square}, row ${indexRow} column ${indexColumn}`)
+    const myGlyph=this.createGlyph(indexRow, indexColumn);
     const board=document.getElementsByClassName("squares-2dea6")[0]
     board.appendChild(myGlyph);
-
-
-
   }
   private deactivateGlyphs() {
     //deactivate glyps

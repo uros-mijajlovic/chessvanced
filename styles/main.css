@@ -187,10 +187,9 @@ input:checked + .toggle-slider:before {
 }
 
 .popup {
+  aspect-ratio: 1/1;
+  height: 100%;
   position: absolute;
-  height: 0;
-  width: 100%;
-  padding-bottom: 100%;
   visibility: hidden;
 }
 
@@ -478,8 +477,9 @@ body {
     aspect-ratio: 1/1.5;
   }
   #chessgroundParentDiv {
-    aspect-ratio: 1/1;
+    width: 80vh;
     height: 100%;
+    position: relative;
   }
   #buttonContainer {
     position: absolute;

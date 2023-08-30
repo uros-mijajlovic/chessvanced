@@ -232,8 +232,9 @@ body {
   }
   #chessgroundParentDiv {
     
-    aspect-ratio : 1 / 1;
-    height:100%;
+    width:80vh;
+    height: 100%;
+    position:relative;
     
   }
   #buttonContainer{
