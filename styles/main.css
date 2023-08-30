@@ -4,12 +4,19 @@
   height: 100px;
   width: 100%;
   align-items: center;
+  justify-content: space-between;
+  display: flex;
 }
 
 /* Style the links inside the navigation bar */
+.topnav > * {
+  padding: 1% 0 1% 1%;
+}
+
 .topnav a {
   float: left;
   color: #f2f2f2;
+  cursor: pointer;
   text-align: center;
   padding: 14px 16px;
   text-decoration: none;
