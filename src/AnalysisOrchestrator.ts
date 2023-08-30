@@ -96,18 +96,21 @@ class AnalysisOrchestrator {
       return "good"
     }
 
+    if (afterMoveCpDiscrepancy < -300) {
+      return "blunder";
+    }
+
     if (afterMoveCpDiscrepancy < -200) {
       return "mistake";
     }
+    
+    if (afterMoveCpDiscrepancy < -100) {
+      return "inaccuracy";
+    }
 
+    
 
-
-    // if(afterMoveCpDiscrepancy)
-
-
-
-
-
+    
 
     return "gray";
   }

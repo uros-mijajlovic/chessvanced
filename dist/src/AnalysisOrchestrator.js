@@ -63,10 +63,15 @@ class AnalysisOrchestrator {
         if (playersMove == beforeMoveAnalysis[1]["move"] && Math.abs((Math.abs(beforeMoveAnalysis[0]["CP"]) - Math.abs(beforeMoveAnalysis[1]["CP"]))) < 100) {
             return "good";
         }
+        if (afterMoveCpDiscrepancy < -300) {
+            return "blunder";
+        }
         if (afterMoveCpDiscrepancy < -200) {
             return "mistake";
         }
-        // if(afterMoveCpDiscrepancy)
+        if (afterMoveCpDiscrepancy < -100) {
+            return "inaccuracy";
+        }
         return "gray";
     }
     sendEval(dataFromStockfish) {

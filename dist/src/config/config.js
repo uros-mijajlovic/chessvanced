@@ -46,7 +46,9 @@ export var Config;
         "best": "gray",
         "good": "gray",
         "gray": "gray",
-        "mistake": "red",
+        "inaccuracy": "gray",
+        "mistake": "yellow",
+        "blunder": "red",
     };
     Config.CssDictForTiles = {
         "brilliant": "brilliant_tile",
@@ -54,7 +56,9 @@ export var Config;
         "best": "yellow_tile",
         "good": "yellow_tile",
         "gray": "yellow_tile",
+        "inaccuracy": "yellow_tile",
         "mistake": "mistake_tile",
+        "blunder": "mistake_tile",
     };
     Config.pointSizes = {
         "brilliant": 3,
@@ -63,6 +67,8 @@ export var Config;
         "good": 1,
         "gray": 1,
         "mistake": 1,
+        "inaccuracy": 1,
+        "blunder": 1,
     };
     let PROMOTION;
     (function (PROMOTION) {

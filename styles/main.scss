@@ -4,6 +4,9 @@
 @use 'board';
 @use 'importPgn';
 
+html{
+  font-size: 62.5%;
+}
 body {
   background-color: #33353f;
   color: #fff;
@@ -58,7 +61,11 @@ body {
 
 
 
-
+#chartContainer h4{
+  font-size:1.8rem;
+  cursor:pointer;
+  
+}
 .moveOverview {
   display: flex;
   justify-content: space-between;
@@ -72,7 +79,7 @@ body {
 
 .moveOverview * {
   font-weight: bolder;
-  font-size:0.9rem;
+  font-size:1.4rem;
 }
 
 .moveOverview span {
@@ -141,7 +148,8 @@ body {
   grid-template-columns: repeat(3, 0.5fr);
   justify-items:start;
   grid-gap: 10px;
-  padding:2%;
+  padding:0.5rem 1rem 0.5rem 1rem;
+  font-size:1.6rem;
 }
 
 #liveEvaluationContainer {
