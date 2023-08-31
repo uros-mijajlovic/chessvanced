@@ -60,6 +60,10 @@
   font-size: 14px;
 }
 
+#liveEvaluationContainer div {
+  font-size: 1.6rem;
+}
+
 .liveBestMove {
   font-family: "chessFont";
   padding-left: 2%;
@@ -277,7 +281,7 @@ body {
 .parentOfEverything {
   display: flex;
   flex-direction: column;
-  height: 90vh;
+  height: 95vh;
   overflow: hidden;
 }
 
@@ -287,6 +291,7 @@ body {
 }
 
 #chartContainer {
+  height: 100vh;
   background-color: #222227;
   border-radius: 2%;
 }
@@ -300,12 +305,14 @@ body {
 
 #sidebarComponent {
   width: 100%;
+  height: 500px;
   max-height: 100 vh;
   padding-top: 5px;
 }
 
 #sidebar::-webkit-scrollbar {
-  width: 8px; /* Adjust the width as needed */
+  width: 8px;
+  /* Adjust the width as needed */
 }
 
 #sidebar::-webkit-scrollbar-track {
@@ -344,7 +351,7 @@ body {
 }
 
 .brilliant-color * {
-  color: #7c20c3;
+  color: #20bec3;
 }
 
 .great-color * {
@@ -372,7 +379,7 @@ body {
 }
 
 .mistake-color * {
-  color: rgb(197, 126, 33);
+  color: rgb(226, 65, 65);
 }
 
 .miss-color * {
@@ -469,14 +476,15 @@ body {
     display: flex;
     flex-direction: column;
     height: 80vh;
+    min-width: 35vw;
     aspect-ratio: 1/1.5;
   }
   #chessgroundParentDiv {
-    width: 80vh;
     height: 90%;
     position: relative;
   }
   #chessground {
+    max-width: 60vw;
     height: 100%;
     aspect-ratio: 1/1;
   }
@@ -494,8 +502,7 @@ body {
     aspect-ratio: 1/1.5;
   }
   #chessgroundParentDiv {
-    width: 80vh;
-    height: 100%;
+    height: 95%;
     position: relative;
   }
   #buttonContainer {

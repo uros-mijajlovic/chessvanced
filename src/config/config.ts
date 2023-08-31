@@ -17,22 +17,29 @@ export namespace Config{
         BOTH
     }
     export const MOVE_NAMES=[
-        "Brilliant", "Great Move", "Best Move"
+        "Brilliant", "Great Move", "Best Move", "Mistake", "Blunder"
     ]
     export const MOVE_TO_ID_NAME={
         "Brilliant":"brilliant-color",
         "Great Move":"great-color",
-        "Best Move":"best-color"
+        "Best Move":"best-color",
+        "Mistake":"mistake-color",
+        "Blunder":"blunder-color"
     }
     export const ID_NAME_TO_MOVE_RATING = {
         "brilliant-color": "brilliant",
         "great-color": "great",
-        "best-color": "best"
+        "best-color": "best",
+        "mistake-color":"mistake",
+        "blunder-color":"blunder"
     };
     export const MOVE_RATING_TO_ID_NAME = {
         "brilliant": "brilliant-color",
         "great": "great-color",
-        "best": "best-color"
+        "best": "best-color",
+        "mistake":"mistake-color",
+        "blunder":"blunder-color",
+
     };
     
     export const Colors = {

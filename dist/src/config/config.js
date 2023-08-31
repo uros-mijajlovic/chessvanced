@@ -23,22 +23,28 @@ export var Config;
         ANALYSIS_FOR[ANALYSIS_FOR["BOTH"] = 2] = "BOTH";
     })(ANALYSIS_FOR = Config.ANALYSIS_FOR || (Config.ANALYSIS_FOR = {}));
     Config.MOVE_NAMES = [
-        "Brilliant", "Great Move", "Best Move"
+        "Brilliant", "Great Move", "Best Move", "Mistake", "Blunder"
     ];
     Config.MOVE_TO_ID_NAME = {
         "Brilliant": "brilliant-color",
         "Great Move": "great-color",
-        "Best Move": "best-color"
+        "Best Move": "best-color",
+        "Mistake": "mistake-color",
+        "Blunder": "blunder-color"
     };
     Config.ID_NAME_TO_MOVE_RATING = {
         "brilliant-color": "brilliant",
         "great-color": "great",
-        "best-color": "best"
+        "best-color": "best",
+        "mistake-color": "mistake",
+        "blunder-color": "blunder"
     };
     Config.MOVE_RATING_TO_ID_NAME = {
         "brilliant": "brilliant-color",
         "great": "great-color",
-        "best": "best-color"
+        "best": "best-color",
+        "mistake": "mistake-color",
+        "blunder": "blunder-color",
     };
     Config.Colors = {
         "brilliant": "rgba(15, 255, 243, 1)",

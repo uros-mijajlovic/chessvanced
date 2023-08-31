@@ -4,9 +4,10 @@
 @use 'board';
 @use 'importPgn';
 
-html{
+html {
   font-size: 62.5%;
 }
+
 body {
   background-color: #33353f;
   color: #fff;
@@ -18,35 +19,41 @@ body {
 .parentOfEverything {
   display: flex;
   flex-direction: column;
-  height: 90vh;
+  height: 95vh;
   overflow: hidden;
 }
 
 
 #analysisAll {
-  height:100%;
+  height: 100%;
   gap: 20px;
 
 }
+
 #chartContainer {
+  height: 100vh;
   background-color: #222227;
   border-radius: 2%;
 }
-#sidebar{
-  overflow:auto;
-  height:100%;
+
+#sidebar {
+  overflow: auto;
+  height: 100%;
   scrollbar-width: thin;
   scrollbar-color: black;
 }
+
 #sidebarComponent {
   width: 100%;
-  max-height:100 vh;
+  height: 500px;
+  max-height: 100 vh;
   padding-top: 5px;
-  
+
 }
 
 #sidebar::-webkit-scrollbar {
-  width: 8px; /* Adjust the width as needed */
+  width: 8px;
+  /* Adjust the width as needed */
 }
 
 #sidebar::-webkit-scrollbar-track {
@@ -61,33 +68,34 @@ body {
 
 
 
-#chartContainer h4{
-  font-size:1.8rem;
-  cursor:pointer;
-  
+#chartContainer h4 {
+  font-size: 1.8rem;
+  cursor: pointer;
+
 }
+
 .moveOverview {
   display: flex;
   justify-content: space-between;
-  padding-left:20%;
-  padding-right:20%;
+  padding-left: 20%;
+  padding-right: 20%;
 }
 
-#moveOverviewDiv.reversed > div{
+#moveOverviewDiv.reversed>div {
   flex-direction: row-reverse;
 }
 
 .moveOverview * {
   font-weight: bolder;
-  font-size:1.4rem;
+  font-size: 1.4rem;
 }
 
 .moveOverview span {
-  cursor:pointer;
+  cursor: pointer;
 }
 
 .brilliant-color * {
-  color: #7c20c3;
+  color: #20bec3;
 }
 
 .great-color * {
@@ -115,7 +123,7 @@ body {
 }
 
 .mistake-color * {
-  color: rgb(197, 126, 33);
+  color: rgb(226, 65, 65);
 }
 
 .miss-color * {
@@ -146,27 +154,28 @@ body {
 .move-element {
   display: grid;
   grid-template-columns: repeat(3, 0.5fr);
-  justify-items:start;
+  justify-items: start;
   grid-gap: 10px;
-  padding:0.5rem 1rem 0.5rem 1rem;
-  font-size:1.6rem;
+  padding: 0.5rem 1rem 0.5rem 1rem;
+  font-size: 1.6rem;
 }
 
 #liveEvaluationContainer {
-  
-  padding:2%;
+
+  padding: 2%;
 }
 
-.liveEvaluation{
+.liveEvaluation {
   background-color: #d9d9d9;
-  padding:1%;
+  padding: 1%;
   border-radius: 10%;
-  color:#222227;
+  color: #222227;
   font-weight: bold;
 }
-.liveEvaluationLine{
+
+.liveEvaluationLine {
   display: flex;
-  
+
   align-items: center;
 }
 
@@ -178,6 +187,7 @@ body {
 .move-element:nth-child(odd) {
   background-color: #222227;
 }
+
 
 @media (max-width: 700px) {
   body{
@@ -206,60 +216,73 @@ body {
     height:100%;
   }
 }
+
 @media (min-width: 701px) and (max-width: 1280px) {
   #analysisAll {
     display: flex;
   }
+
   #chartContainer {
     display: flex;
     flex-direction: column;
     height: 80vh;
+    min-width: 35vw;
     aspect-ratio: 1/1.5;
   }
+
   #chessgroundParentDiv {
-    width:80vh;
+
+
     height: 90%;
-    position:relative;
+    position: relative;
   }
+
   #chessground {
-    height:100%;
-    aspect-ratio:1/1;
+    max-width: 60vw;
+    height: 100%;
+    aspect-ratio: 1/1;
   }
 }
+
 @media (min-width: 1281px) and (max-width: 3000px) {
   #analysisAll {
-    flex:1;
+    flex: 1;
     display: flex;
     width: 1280px;
   }
+
   #chartContainer {
     display: flex;
     flex-direction: column;
     height: 80vh;
     aspect-ratio: 1/1.5;
   }
+
   #chessgroundParentDiv {
-    
-    width:80vh;
-    height: 100%;
-    position:relative;
-    
+
+
+    height: 95%;
+    position: relative;
+
   }
-  #buttonContainer{
-    position:absolute;
+
+  #buttonContainer {
+    position: absolute;
     top: 0;
     left: 0;
-    
+
     z-index: 2;
   }
+
   #myChart {
-    
+
     height: 100px;
   }
+
   #chessground {
-    aspect-ratio : 1 / 1;
-    height:100%;
-    
+    aspect-ratio: 1 / 1;
+    height: 100%;
+
   }
 }
 

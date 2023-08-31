@@ -38,7 +38,8 @@ class PlayerController {
             nextMove = (nextMove + 2);
         }
         console.log(this.guiHandler.getGameAnalysis());
-        while (nextMove != startingPoint) {
+        while (nextMove != startingPoint && nextMove != startingPoint + 1) {
+            console.log(nextMove, "nextmove");
             if (this.guiHandler.getGameAnalysis()[nextMove]["moveRating"] == moveType) {
                 this.gotoMove(nextMove);
                 return;
