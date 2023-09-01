@@ -41,7 +41,15 @@ const glyphToSvg = {
  <text fill="#ffffff" font-family="Fantasy" font-size="24" id="svg_8" letter-spacing="2" opacity="NaN" stroke-width="0" text-anchor="middle" transform="matrix(2.98604 -0.00493582 0.00534736 3.06578 -467.792 -36.8071)" x="241.41" xml:space="preserve" y="35.73">!</text>
 </g>
 </g>
-`
+`,
+'great':`<g class="layer">
+<title>Layer 1</title>
+<g id="svg_1" transform="matrix(0.55 0 0 0.55 0 0)">
+ <circle cx="240.91" cy="40.91" fill="#4242a3" id="svg_2" r="50"/>
+ <text fill="#000000" font-family="Fantasy" font-size="24" id="svg_10" letter-spacing="2" opacity="0.55" stroke-width="0" text-anchor="middle" transform="matrix(1 0 0 1 0 0) matrix(3.5161 -0.00597026 0.00557864 3.28546 -536.922 -42.881)" x="221.91" xml:space="preserve" y="36.15">!</text>
+ <text fill="#ffffff" font-family="Fantasy" font-size="24" id="svg_8" letter-spacing="2" opacity="NaN" stroke-width="0" style="cursor: move;" text-anchor="middle" transform="matrix(1 0 0 1 0 0) matrix(2.98604 -0.00493582 0.00534736 3.06578 -478.305 -36.5507)" x="241.41" xml:space="preserve" y="35.73">!</text>
+</g>
+</g>`
 };
 
 const sleep = (ms) => new Promise(r => setTimeout(r, ms));
@@ -259,16 +267,22 @@ class GuiHandler {
 
     //deactivate glyps
   }
-  public async setBoardAndMove(fenString: string, from: string, to: string, moveIndex: number, moveType: Config.MOVE_TYPE = Config.MOVE_TYPE.MOVE_NONE) {
-
-    //this.soundHandler.playSound(this.soundHandler.SOUND_TYPE.SOUND_MOVE);
+  public async setBoardAndMove(fenString: string, from: string, to: string, moveIndex: number, moveType: Config.MOVE_TYPE = Config.MOVE_TYPE.MOVE_NONE, isAlternativeMove=false) {
 
     this.soundHandler.playSound(moveType);
     this.evaluationGraph.updateGraphSelectedMove(moveIndex);
     this.chessboardHandler.getChessboard().position(fenString, false);
-
-    this.colorTilesForMove(from, to, moveIndex);
-    this.addGlyphForMove(to, moveIndex);
+    if(isAlternativeMove){
+      this.deactivateGlyphs();
+      this.deactivateTiles();
+      this.colorTile(from, Config.TILE_COLORS.ACTIVE, "yellow_tile");
+      this.colorTile(to, Config.TILE_COLORS.ACTIVE, "yellow_tile");
+    }else{
+      this.colorTilesForMove(from, to, moveIndex);
+      this.addGlyphForMove(to, moveIndex);
+    }
+    
+    
 
   }
   public updateGraph(gameAnalysis) {

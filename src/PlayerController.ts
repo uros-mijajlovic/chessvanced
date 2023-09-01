@@ -145,9 +145,9 @@ class PlayerController {
   public startAnalysis() {
     this.analysisOrchestrator.analyzePgnGame(this.currentFenArray, this.currentMoveArray, this.playerSide, this.analysisData, this.analyzedFens);
   }
-  private updateBoardGUI(newFen, from, to, currentMove, MOVE_TYPE) {
+  private updateBoardGUI(newFen, from, to, currentMoveIndex, MOVE_TYPE, isAlternativeMove=false) {
 
-    this.guiHandler.setBoardAndMove(newFen, from, to, currentMove, MOVE_TYPE);
+    this.guiHandler.setBoardAndMove(newFen, from, to, currentMoveIndex, MOVE_TYPE, isAlternativeMove);
     this.liveBoardEvaluation.evaulateNewBoard(newFen);
 
   }
@@ -164,9 +164,8 @@ class PlayerController {
     console.log(moveCheck, moveString, this.alternativeChessObject.fen());
     if (moveCheck) {
       const currentFen = this.alternativeChessObject.fen();
-
       this.inAlternativePath = true;
-      this.updateBoardGUI(currentFen, from, to, this.currentMove, Config.MOVE_TYPE.MOVE_REGULAR);
+      this.updateBoardGUI(currentFen, from, to, this.currentMove, Config.MOVE_TYPE.MOVE_REGULAR, true);
       this.alternativeStackLeft.push([moveString, promotionPiece]);
     } else {
       return "snapback";
