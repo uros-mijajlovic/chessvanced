@@ -41,11 +41,11 @@ class AnalysisOrchestrator {
         //console.log("CALCULATING BRILLIANCE", beforeMoveAnalysis, playersMove);
         //console.log(`i think the move ${this.moveArray[moveIndex-1].fromto}, ${moveIndex-1}`)
         //console.log(dataForFen);
-        const afterMoveCpDiscrepancy = (afterMoveAnalysis[0]["CP"] - beforeMoveAnalysis[0]["CP"]) * (isWhiteMove ? 1 : -1);
+        const afterMoveCpDiscrepancy = (afterMoveAnalysis[0]["CPreal"] - beforeMoveAnalysis[0]["CPreal"]) * (isWhiteMove ? 1 : -1);
         if (this.analysisArray.length > 2) {
             const afterLastMoveAnalysis = this.analysisArray[this.analysisArray.length - 3];
             if (afterMoveCpDiscrepancy > -75) {
-                if ((isWhiteMove == 1 && afterMoveAnalysis[0]["CP"] > 0) || (isWhiteMove == 0 && afterMoveAnalysis[0]["CP"] < 0)) {
+                if (Math.abs(afterMoveAnalysis[0]["CPreal"]) < 75 || (isWhiteMove == 1 && afterMoveAnalysis[0]["CPreal"] > 0) || (isWhiteMove == 0 && afterMoveAnalysis[0]["CPreal"] < 0)) {
                     if (sacrifice.didSacrificeIncrease(afterLastMoveAnalysis[0]["FEN"], beforeMoveAnalysis[0]["FEN"], afterMoveAnalysis[0]["FEN"], playersMove)) {
                         return "brilliant";
                     }
@@ -53,14 +53,14 @@ class AnalysisOrchestrator {
             }
         }
         if (playersMove == beforeMoveAnalysis[0]["move"]) {
-            if (Math.abs((Math.abs(beforeMoveAnalysis[0]["CP"]) - Math.abs(beforeMoveAnalysis[1]["CP"]))) > 100) {
+            if (Math.abs((Math.abs(beforeMoveAnalysis[0]["CPreal"]) - Math.abs(beforeMoveAnalysis[1]["CPreal"]))) > 100) {
                 return "great";
             }
             else {
                 return "best";
             }
         }
-        if (playersMove == beforeMoveAnalysis[1]["move"] && Math.abs((Math.abs(beforeMoveAnalysis[0]["CP"]) - Math.abs(beforeMoveAnalysis[1]["CP"]))) < 100) {
+        if (playersMove == beforeMoveAnalysis[1]["move"] && Math.abs((Math.abs(beforeMoveAnalysis[0]["CPreal"]) - Math.abs(beforeMoveAnalysis[1]["CPreal"]))) < 100) {
             return "good";
         }
         if (afterMoveCpDiscrepancy < -300) {
@@ -91,6 +91,7 @@ class AnalysisOrchestrator {
             if (dataForFen[0]["isCheckmated"] == true) {
                 moveAnalysis["CP"] = "M0";
                 moveAnalysis["evaluation"] = -centipawns * 49;
+                dataForFen[0]["CPreal"] = -centipawns * 2000;
             }
             else {
                 console.log(centipawns);
@@ -98,9 +99,11 @@ class AnalysisOrchestrator {
                 const mateForOpposite = (centipawns > 0) ? 1 : -1;
                 moveAnalysis["CP"] = "M" + centipawns.toString();
                 moveAnalysis["evaluation"] = mateForOpposite * 49;
+                dataForFen[0]["CPreal"] = mateForOpposite * 2000;
             }
         }
         else {
+            dataForFen[0]["CPreal"] = centipawns;
             var evalScoreForGraph = 50 * (2 / (1 + Math.exp(-0.004 * centipawns)) - 1);
             moveAnalysis["evaluation"] = evalScoreForGraph;
             moveAnalysis["CP"] = centipawns;

@@ -1,7 +1,7 @@
 #!/bin/bash
 
 # Define an array of files and directories to exclude
-declare -a exclude=("cleanup.sh" "index.html" "distWebpack" "dependencies" "assets" "img" "styles" "favicon.ico")
+declare -a exclude=("cleanup.sh" "index.html" "distWebpack" "dependencies" "assets" "img" "styles" "favicon.png")
 
 # Loop through all items in the current directory
 for item in *; do

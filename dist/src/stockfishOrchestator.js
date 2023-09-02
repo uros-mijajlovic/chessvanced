@@ -26,7 +26,13 @@ class stockfishOrchestrator {
         this.currentFEN = null;
         this.analysisOrchestrator = null;
         this.whiteMove = true;
-        this.stockfishWorker.postMessage(`setoption name Hash value 512`);
+        if (/Android|iPhone/i.test(navigator.userAgent)) {
+            console.log("THIS IS MOBILE");
+            this.moveTimeLengthMs = 500;
+        }
+        else {
+            this.stockfishWorker.postMessage(`setoption name Hash value 256`);
+        }
         this.stockfishWorker.postMessage(`setoption name Threads value 1`);
         this.stockfishWorker.postMessage(`setoption name MultiPV value 2`);
         self.onmessage = this.handleMainMessage.bind(this);
@@ -111,7 +117,7 @@ class stockfishOrchestrator {
         const from = message.from;
         const text = message.message;
         //console.log(text);
-        if (text.startsWith('bestmove')) {
+        if (text && text.startsWith('bestmove')) {
             this.whiteMove = !this.whiteMove;
             const currentEval = this.stockfishParser.getAllData();
             //console.log(currentEval);

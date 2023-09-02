@@ -126,7 +126,7 @@ class GuiHandler {
       childSquare.appendChild(spanChild);
       i += 1
     }
-    console.log("GUI HANDLER INITATED NIGGA", topRank)
+    
   }
   public getSidebar(): Sidebar {
     return this.sidebar;
