@@ -11,7 +11,7 @@ export class SoundHandler{
 
     constructor(){
 
-        this.audioArray=Array(4).fill(undefined);
+        this.audioArray=Array(5).fill(undefined);
         createBlobFromAudioFile('/assets/audio/standard/Move.mp3').then((blob: Blob) => {
             this.audioArray[Config.MOVE_TYPE.MOVE_REGULAR]=URL.createObjectURL(blob);
         })
@@ -24,6 +24,9 @@ export class SoundHandler{
         createBlobFromAudioFile('/assets/audio/standard/Victory.mp3').then((blob: Blob) => {
             this.audioArray[Config.MOVE_TYPE.MOVE_MATE]=URL.createObjectURL(blob);
         })
+        createBlobFromAudioFile('/assets/audio/standard/THEROOK.mp3').then((blob: Blob) => {
+            this.audioArray[Config.MOVE_TYPE.LEVY_THEROOK]=URL.createObjectURL(blob);
+        })
 
 
 
@@ -35,6 +38,7 @@ export class SoundHandler{
         this.enabled=false;
     }
     public playSound(soundType:Config.MOVE_TYPE){
+        
         if(soundType!=Config.MOVE_TYPE.MOVE_NONE){
             let audio=new Audio(this.audioArray[soundType]);
             audio.volume=0.5;

@@ -1,7 +1,9 @@
 import { boardConfig, getRowFromTile } from "./utils/ChessboardUtils.js";
 import { Config } from "./config/config.js";
+import { Chess } from "../dependencies/chess.js";
 export default class ChessboardHandler {
     constructor() {
+        this.chessObject = Chess();
         this.activeTiles = [];
         this.chessBoard = Chessboard2('chessground', boardConfig);
     }
@@ -18,6 +20,13 @@ export default class ChessboardHandler {
         const smer = from + '-' + to;
         //console.log(`NACRTAJ MI STRELICU OD ${smer} DA TI NE BIH JEBAO MAMU`)
         this.chessBoard.addArrow(smer, 'small');
+    }
+    setPosition(fen, somebool) {
+        this.chessObject.load(fen);
+        this.chessBoard.position(fen, somebool);
+    }
+    getPieceAtSquare(square) {
+        return this.chessObject.get(square);
     }
     getChessboard() {
         return this.chessBoard;

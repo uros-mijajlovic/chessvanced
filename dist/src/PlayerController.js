@@ -159,7 +159,7 @@ class PlayerController {
             const from = lastMoveString[0].substring(0, 2);
             const to = lastMoveString[0].substring(2, 4);
             this.alternativeChessObject.undo();
-            this.guiHandler.setBoardAndMove(this.alternativeChessObject.fen(), from, to, this.currentMove, Config.MOVE_TYPE.MOVE_REGULAR);
+            this.guiHandler.setBoardAndMove(this.alternativeChessObject.fen(), from, to, this.currentMove, Config.MOVE_TYPE.MOVE_REGULAR, false);
             if (this.alternativeChessObject.fen() == this.mainChessObject.fen()) {
                 this.inAlternativePath = false;
             }

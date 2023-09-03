@@ -15,6 +15,12 @@ export function algebraicToSEN(algebraicMoves, FENstring) {
     }
     return sanArray;
 }
+export function getPieceAtSquare(FENstring, square) {
+    const chessObject = Chess();
+    chessObject.load(FENstring);
+    console.log(chessObject.get(square));
+    return chessObject.get(square);
+}
 export function isGameFinished(FENstring) {
     const chessObject = Chess();
     chessObject.load(FENstring);

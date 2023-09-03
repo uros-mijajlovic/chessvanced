@@ -5,7 +5,9 @@ export namespace Config{
         MOVE_CAPTURE,
         MOVE_CHECK,
         MOVE_MATE,
+        LEVY_THEROOK,
         MOVE_NONE,
+        
     };
     export enum TILE_COLORS {
         ACTIVE,

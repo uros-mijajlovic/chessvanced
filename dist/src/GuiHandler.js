@@ -1,5 +1,6 @@
 import { SoundHandler } from "./SoundHandler.js";
 import { Config } from "./config/config.js";
+import { getPieceAtSquare } from "./utils/ChessboardUtils.js";
 import ChessboardHandler from "./ChessboardHandler.js";
 const glyphToSvg = {
     // Inaccuracy
@@ -157,6 +158,7 @@ class GuiHandler {
     colorTilesForMove(from, to, moveIndex) {
         this.deactivateTiles();
         if (from != "" && to != "") {
+            console.log(this.gameAnalysis);
             const moveRating = this.gameAnalysis[moveIndex]["moveRating"];
             const cssForTile = Config.CssDictForTiles[moveRating];
             this.colorTile(from, Config.TILE_COLORS.ACTIVE, cssForTile);
@@ -218,9 +220,13 @@ class GuiHandler {
         //deactivate glyps
     }
     async setBoardAndMove(fenString, from, to, moveIndex, moveType = Config.MOVE_TYPE.MOVE_NONE, isAlternativeMove = false) {
+        var _a;
+        if (this.gameAnalysis[moveIndex] && this.gameAnalysis[moveIndex]["moveRating"] == "brilliant" && ((_a = getPieceAtSquare(fenString, to)) === null || _a === void 0 ? void 0 : _a.type) == "r") {
+            moveType = Config.MOVE_TYPE.LEVY_THEROOK;
+        }
         this.soundHandler.playSound(moveType);
         this.evaluationGraph.updateGraphSelectedMove(moveIndex);
-        this.chessboardHandler.getChessboard().position(fenString, false);
+        this.chessboardHandler.setPosition(fenString, false);
         if (isAlternativeMove) {
             this.deactivateGlyphs();
             this.deactivateTiles();
