@@ -21,7 +21,7 @@ export class LiveBoardEvaluation {
         this.stockfishOrchestrator.setCallback((data) => { this.evaluationGetCallback(data) });
         this.div = divForEvaluation;
         this.enabled = false;
-        this.lastFen = "";
+        this.lastFen = "rnbqkbnr/pppppppp/8/8/8/8/PPPPPPPP/RNBQKBNR w KQkq - 0 1";
 
         const toggleSwitch = document.getElementById("toggleSwitch");
         toggleSwitch.addEventListener("change", this.toggleSwitched.bind(this));
@@ -38,8 +38,8 @@ export class LiveBoardEvaluation {
     toggleSwitched() {
         this.enabled = !this.enabled;
         if (this.enabled) {
-            console.log("LBE enabled");
             this.evaulateNewBoard(this.lastFen);
+
         } else {
             this.disableAllLines();
             this.guiHandler.clearArrows();
@@ -50,7 +50,7 @@ export class LiveBoardEvaluation {
         if (this.enabled) {
             var evaluationLineDivs = this.div.children;
             let i = 0;
-            console.log(data);
+            
             const bestMove = data[0]["move"];
             this.guiHandler.addBestMoveArrow(bestMove);
 
@@ -62,8 +62,9 @@ export class LiveBoardEvaluation {
                 if (isLineInvisible) {
                     evaluationLine.style.display = 'flex';
                 }
-                console.log(data[i]);
-                evaluationLine.querySelector(".liveBestMove").textContent = algebraicToSEN(data[i]["move"], data[i]["FEN"]);
+                console.log(data[i]["allMoves"]);
+                const senArray=algebraicToSEN(data[i]["allMoves"], data[i]["FEN"])
+                evaluationLine.querySelector(".liveBestMove").textContent = senArray.slice(0, 8).join(", ");
 
                 if (data[i]["cpOrMate"] == "cp") {
                     const isPositiveEvaluation = (parseFloat(data[i]["CP"]) / 100) > 0;
@@ -80,6 +81,7 @@ export class LiveBoardEvaluation {
     }
     evaulateNewBoard(fen) {
         this.lastFen=fen;
+        
         if (this.enabled && fen != "") {
             this.stockfishOrchestrator.stopAndStartNewAnalysis(fen);
         }

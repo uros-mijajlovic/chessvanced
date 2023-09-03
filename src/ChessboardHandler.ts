@@ -21,7 +21,7 @@ export default class ChessboardHandler{
   }
   public addArrowToBoard(from, to){
     const smer=from+'-'+to;
-    console.log(`NACRTAJ MI STRELICU OD ${smer} DA TI NE BIH JEBAO MAMU`)
+    //console.log(`NACRTAJ MI STRELICU OD ${smer} DA TI NE BIH JEBAO MAMU`)
     this.chessBoard.addArrow(smer, 'small');
   }
 

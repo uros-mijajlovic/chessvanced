@@ -54,6 +54,16 @@ function getIsWhiteMoveFromFen(fenString) {
         return false;
     }
 }
+function getAllMovesFromString(message) {
+    const pvPattern = / pv (.*)/;
+    const match = message.match(pvPattern);
+    if (match) {
+        const pvMoves = match[1].trim().split(/\s+/);
+        return pvMoves;
+    }
+    else {
+    }
+}
 export class StockfishParser {
     constructor() {
         this.data = {};
@@ -92,9 +102,10 @@ export class StockfishParser {
             const evaulationDepth = getDepthFromString(message);
             const moveOrder = getMultiPVvalueFromString(message);
             const bestMove = getBestMoveFromString(message);
+            const allMoves = getAllMovesFromString(message);
             if (bestMove) {
                 const score = getScorevalueFromString(message, isWhiteMove);
-                this.data[moveOrder - 1] = { "move": bestMove, "CP": score["value"] * (isWhiteMove ? 1 : -1), "cpOrMate": score["cpOrMate"] };
+                this.data[moveOrder - 1] = { "move": bestMove, "CP": score["value"] * (isWhiteMove ? 1 : -1), "cpOrMate": score["cpOrMate"], "allMoves": allMoves };
                 this.data[moveOrder - 1]["FEN"] = currentFEN;
                 this.data[moveOrder - 1]["depth"] = evaulationDepth;
             }
