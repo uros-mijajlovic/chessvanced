@@ -15,6 +15,16 @@ export function algebraicToSEN(algebraicMoves, FENstring) {
     }
     return sanArray;
 }
+export function isGameFinished(FENstring) {
+    const chessObject = Chess();
+    chessObject.load(FENstring);
+    if (chessObject.in_checkmate()) {
+        return true;
+    }
+    else {
+        return false;
+    }
+}
 export const boardConfig = {
     draggable: true,
     position: "start",

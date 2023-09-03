@@ -6,7 +6,7 @@
 
 import { GuiHandler } from "./GuiHandler.js";
 import { stockfishOrchestrator } from "./stockfishOrchestator.js";
-import { algebraicToSEN } from "./utils/ChessboardUtils.js";
+import { algebraicToSEN, isGameFinished } from "./utils/ChessboardUtils.js";
 
 export class LiveBoardEvaluation {
     private stockfishOrchestrator: stockfishOrchestrator
@@ -47,7 +47,7 @@ export class LiveBoardEvaluation {
     }
     evaluationGetCallback(stockfishData) {
         var data=stockfishData["positionEvaluation"];
-        if (this.enabled) {
+        if (this.enabled && this.lastFen) {
             var evaluationLineDivs = this.div.children;
             let i = 0;
             
@@ -62,7 +62,6 @@ export class LiveBoardEvaluation {
                 if (isLineInvisible) {
                     evaluationLine.style.display = 'flex';
                 }
-                console.log(data[i]["allMoves"]);
                 const senArray=algebraicToSEN(data[i]["allMoves"], data[i]["FEN"])
                 evaluationLine.querySelector(".liveBestMove").textContent = senArray.slice(0, 8).join(", ");
 
@@ -83,7 +82,13 @@ export class LiveBoardEvaluation {
         this.lastFen=fen;
         
         if (this.enabled && fen != "") {
-            this.stockfishOrchestrator.stopAndStartNewAnalysis(fen);
+            if(isGameFinished(fen)){
+                this.lastFen="";
+                this.disableAllLines();
+                this.guiHandler.clearArrows();
+            }else{
+                this.stockfishOrchestrator.stopAndStartNewAnalysis(fen);
+            }
         }
     }
 

@@ -3,7 +3,7 @@
 //prima novi fen, salje to SO-u
 //so ima callback nakon svakog depth-a
 //i crtace sta je potrebno nacrtati
-import { algebraicToSEN } from "./utils/ChessboardUtils.js";
+import { algebraicToSEN, isGameFinished } from "./utils/ChessboardUtils.js";
 export class LiveBoardEvaluation {
     constructor(stockfishOrchestratorInst, guiHandler, divForEvaluation) {
         this.stockfishOrchestrator = stockfishOrchestratorInst;
@@ -35,7 +35,7 @@ export class LiveBoardEvaluation {
     }
     evaluationGetCallback(stockfishData) {
         var data = stockfishData["positionEvaluation"];
-        if (this.enabled) {
+        if (this.enabled && this.lastFen) {
             var evaluationLineDivs = this.div.children;
             let i = 0;
             const bestMove = data[0]["move"];
@@ -46,7 +46,6 @@ export class LiveBoardEvaluation {
                 if (isLineInvisible) {
                     evaluationLine.style.display = 'flex';
                 }
-                console.log(data[i]["allMoves"]);
                 const senArray = algebraicToSEN(data[i]["allMoves"], data[i]["FEN"]);
                 evaluationLine.querySelector(".liveBestMove").textContent = senArray.slice(0, 8).join(", ");
                 if (data[i]["cpOrMate"] == "cp") {
@@ -64,7 +63,14 @@ export class LiveBoardEvaluation {
     evaulateNewBoard(fen) {
         this.lastFen = fen;
         if (this.enabled && fen != "") {
-            this.stockfishOrchestrator.stopAndStartNewAnalysis(fen);
+            if (isGameFinished(fen)) {
+                this.lastFen = "";
+                this.disableAllLines();
+                this.guiHandler.clearArrows();
+            }
+            else {
+                this.stockfishOrchestrator.stopAndStartNewAnalysis(fen);
+            }
         }
     }
 }
