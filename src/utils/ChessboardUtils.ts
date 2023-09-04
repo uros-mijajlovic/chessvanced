@@ -1,6 +1,9 @@
 import { playerControllerInst, guiHandlerInst } from "../connectStockfish.js"
 import { Chess } from "../../dependencies/chess.js";
 
+export function getWinPercentFromCP(cp){
+    return 50 + 50 * (2 / (1 + Math.exp(-0.00368208 * cp)) - 1)
+}
 export function algebraicToSEN(algebraicMoves : [string], FENstring){
     const chessObject=Chess();
     chessObject.load(FENstring);

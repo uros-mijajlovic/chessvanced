@@ -1,4 +1,5 @@
 import { Chess } from '../dependencies/chess.js';
+import { getWinPercentFromCP } from './utils/ChessboardUtils.js';
 import { createStockfishOrchestrator } from './stockfishOrchestator.js';
 import * as sacrifice from './sacrifice.js';
 // ti za potez treba da gledas info od prethodnog, a ne od trenutnog !!!
@@ -35,6 +36,8 @@ class AnalysisOrchestrator {
         const isWhiteMove = moveIndex % 2;
         const beforeMoveAnalysis = this.analysisArray[this.analysisArray.length - 2];
         const afterMoveAnalysis = this.analysisArray[this.analysisArray.length - 1];
+        const beforeMoveWinPercent = getWinPercentFromCP(afterMoveAnalysis[0]["CPreal"]);
+        const afterMoveWinPercent = getWinPercentFromCP(beforeMoveAnalysis[0]["CPreal"]);
         if (!(1 in beforeMoveAnalysis)) {
             return "gray";
         }
@@ -63,13 +66,15 @@ class AnalysisOrchestrator {
         if (playersMove == beforeMoveAnalysis[1]["move"] && Math.abs((Math.abs(beforeMoveAnalysis[0]["CPreal"]) - Math.abs(beforeMoveAnalysis[1]["CPreal"]))) < 100) {
             return "good";
         }
-        if (afterMoveCpDiscrepancy < -300) {
+        const winPercentDiscrepancy = (afterMoveWinPercent - beforeMoveWinPercent) * (isWhiteMove ? -1 : 1);
+        console.log("discrepancy", winPercentDiscrepancy);
+        if (winPercentDiscrepancy < -30) {
             return "blunder";
         }
-        if (afterMoveCpDiscrepancy < -200) {
+        if (winPercentDiscrepancy < -20) {
             return "mistake";
         }
-        if (afterMoveCpDiscrepancy < -100) {
+        if (winPercentDiscrepancy < -10) {
             return "inaccuracy";
         }
         return "gray";
@@ -110,8 +115,17 @@ class AnalysisOrchestrator {
         }
         moveAnalysis["moveRating"] = this.calculateMoveBrilliance(regularMove, moveIndex);
         this.gameAnalysis.push(moveAnalysis);
-        console.log("gameAnalysis", JSON.stringify(this.gameAnalysis), "analsisArray", JSON.stringify(this.analysisArray), "moveArray", JSON.stringify(this.moveArray), "fenarray", JSON.stringify(this.fenArray));
+        //console.log("gameAnalysis", JSON.stringify(this.gameAnalysis), "analsisArray", JSON.stringify(this.analysisArray), "moveArray", JSON.stringify(this.moveArray), "fenarray", JSON.stringify(this.fenArray))
         this.guiHandler.updateGraph(this.gameAnalysis);
+        this.checkIfAnalysisFinalized(moveIndex + 1);
+    }
+    checkIfAnalysisFinalized(analyzedMoveCount) {
+        if (analyzedMoveCount == this.moveArray.length) {
+            console.log("analysis finalized");
+        }
+        else {
+            console.log("analysis is not yet done", analyzedMoveCount, this.moveArray.length);
+        }
     }
     async stopAnalysis() {
         if (this.running == false) {
@@ -156,6 +170,7 @@ class AnalysisOrchestrator {
         else {
             alreadyAnalyzedMoveCount = 0;
         }
+        this.checkIfAnalysisFinalized(alreadyAnalyzedMoveCount - 1);
         this.guiHandler.updateGraph(this.gameAnalysis);
         for (let i = alreadyAnalyzedMoveCount; i < fenMoves.length; i++) {
             const fenMove = fenMoves[i];

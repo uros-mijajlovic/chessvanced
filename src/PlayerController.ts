@@ -86,15 +86,15 @@ class PlayerController {
     var chessjs=Chess()
     for (const move of moveArray){
 
-      console.log(move.san)
+      //console.log(move.san)
       chessjs.move(move.san);
     }
-    console.log(chessjs.pgn())
+    //console.log(chessjs.pgn())
     return chessjs.pgn();
   }
 
   public setGameFromExtension(currentFenArray, currentMoveArray, analysisData, analyzedFens, playerSide, initialSet=false) {
-    console.log("injector tried to call me", this.ready, currentFenArray, currentMoveArray);
+    //console.log("injector tried to call me", this.ready, currentFenArray, currentMoveArray);
     if(initialSet || this.ready){
       this.currentFenArray=currentFenArray;
       this.currentMoveArray=currentMoveArray;

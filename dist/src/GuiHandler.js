@@ -2,6 +2,7 @@ import { SoundHandler } from "./SoundHandler.js";
 import { Config } from "./config/config.js";
 import { getPieceAtSquare } from "./utils/ChessboardUtils.js";
 import ChessboardHandler from "./ChessboardHandler.js";
+import { EloEstimator } from "./EloEstimator.js";
 const glyphToSvg = {
     // Inaccuracy
     'inaccuracy': `
@@ -51,6 +52,7 @@ class GuiHandler {
         this.soundHandler = new SoundHandler();
         this.evaluationGraph = evaluationGraphInst;
         this.chessboardHandler = new ChessboardHandler();
+        this.eloEstimator = new EloEstimator();
         this.sidebar = sidebar;
         this.boardOrientation = "white";
         this.boardSetup();

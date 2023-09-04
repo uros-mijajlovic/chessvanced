@@ -4,6 +4,7 @@ import { SoundHandler } from "./SoundHandler.js";
 import { Config } from "./config/config.js"
 import { boardConfig, getRowFromTile, getPieceAtSquare } from "./utils/ChessboardUtils.js";
 import ChessboardHandler from "./ChessboardHandler.js";
+import { EloEstimator } from "./EloEstimator.js";
 declare var Chessboard2: any;
 
 const glyphToSvg = {
@@ -66,12 +67,15 @@ class GuiHandler {
   private gameAnalysis: any[];
   private chessboardHandler: ChessboardHandler;
   private boardOrientation: string;
+  private eloEstimator:EloEstimator
   constructor(evaluationGraphInst: EvaluationGraph, sidebar: Sidebar) {
     this.soundHandler = new SoundHandler();
     this.evaluationGraph = evaluationGraphInst;
     this.chessboardHandler = new ChessboardHandler();
+    this.eloEstimator=new EloEstimator();
     this.sidebar = sidebar;
     this.boardOrientation = "white";
+
     this.boardSetup();
   }
 

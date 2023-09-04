@@ -81,7 +81,7 @@ export class Sidebar{
     public addSpecialMove(moveRating, moveSide){
         
         const idName = Config.MOVE_RATING_TO_ID_NAME[moveRating];
-        console.log("wanna add special move ", moveRating, moveSide+"-"+idName)
+        //console.log("wanna add special move ", moveRating, moveSide+"-"+idName)
         const spamCounterElement=document.getElementById(moveSide+"-"+idName)
         if(spamCounterElement){
             spamCounterElement.textContent=(parseInt(spamCounterElement.textContent)+1).toString();

@@ -294,6 +294,7 @@ body {
   height: 100vh;
   background-color: #222227;
   border-radius: 2%;
+  justify-content: center;
 }
 
 #sidebar {
