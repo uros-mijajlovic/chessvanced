@@ -75,8 +75,10 @@ class GuiHandler {
     this.eloEstimator=new EloEstimator();
     this.sidebar = sidebar;
     this.boardOrientation = "white";
-
     this.boardSetup();
+  }
+  public getEloEstimator(){
+    return this.eloEstimator;
   }
 
   public boardSetup(){

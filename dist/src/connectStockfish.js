@@ -39,9 +39,9 @@ if (window.location.href == "https://www.chessvanced.com/") {
 else if (window.location.href == "https://chessvanced.com/") {
     playerControllerInst.setGameFromExtension(urke_fen_array, urke_move_array, urke_game_analysis, urke_analysis_array, "black", true);
 }
-else if (window.location.href == "http://localhost:8000/") {
-    playerControllerInst.setGameFromExtension(urke_fen_array, urke_move_array, urke_game_analysis, urke_analysis_array, "black", true);
-}
+// else if(window.location.href=="http://localhost:8000/"){
+//   playerControllerInst.setGameFromExtension(urke_fen_array, urke_move_array, urke_game_analysis, urke_analysis_array, "black", true);
+// }
 playerControllerInst.ready = true;
 console.log("successfully finished connectStockfish", window.location.href);
 export { playerControllerInst, guiHandlerInst, evaluationGraphInst };

@@ -57,6 +57,9 @@ class GuiHandler {
         this.boardOrientation = "white";
         this.boardSetup();
     }
+    getEloEstimator() {
+        return this.eloEstimator;
+    }
     boardSetup() {
         var boardRanks = document.getElementsByClassName("squares-2dea6")[0];
         var i = 8;

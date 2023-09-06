@@ -267,6 +267,61 @@ input:checked + .toggle-slider:before {
   cursor: pointer;
 }
 
+#EloEstimator .row-space-between {
+  font-size: 1.3rem;
+  font-weight: 700;
+  color: #f7f7f7;
+  padding-bottom: 2%;
+}
+
+.row-space-between {
+  width: 100%;
+  display: flex;
+  flex-direction: row;
+  justify-content: space-evenly;
+}
+
+.elo-estimator {
+  width: 15rem;
+  aspect-ratio: 2.3/1;
+  display: flex;
+  border: 2px solid white;
+}
+
+.left {
+  aspect-ratio: 1/1;
+  height: 100%;
+}
+
+.left img {
+  width: 100%;
+  height: 100%;
+  -o-object-fit: cover;
+     object-fit: cover;
+}
+
+.right {
+  background-color: #222227;
+  width: 100%;
+  height: 100%;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+}
+
+.text-elo {
+  text-align: center;
+  font-weight: 700;
+  color: white;
+  font-size: 1.9rem;
+  font-family: Arial, sans-serif;
+}
+
+.small {
+  font-size: 1.2rem;
+}
+
 html {
   font-size: 62.5%;
 }
@@ -454,7 +509,7 @@ body {
   }
   #chartContainer {
     width: 100%;
-    height: 60vh; /* Set the width to 50% of the viewport width */ /* Position the canvas absolutely inside the div */
+    height: 100vh; /* Set the width to 50% of the viewport width */ /* Position the canvas absolutely inside the div */
     display: flex;
     flex-direction: column;
   }

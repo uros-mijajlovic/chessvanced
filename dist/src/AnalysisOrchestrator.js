@@ -1,5 +1,5 @@
 import { Chess } from '../dependencies/chess.js';
-import { getWinPercentFromCP } from './utils/ChessboardUtils.js';
+import { getWinPercentFromCP, parseFenDataFromStockfish } from './utils/ChessboardUtils.js';
 import { createStockfishOrchestrator } from './stockfishOrchestator.js';
 import * as sacrifice from './sacrifice.js';
 // ti za potez treba da gledas info od prethodnog, a ne od trenutnog !!!
@@ -20,33 +20,33 @@ class AnalysisOrchestrator {
         this.stockfishOrchestrator = null;
         this.gameAnalysis = [];
         this.guiHandler = guiHandler;
-        this.analysisArray = [];
+        this.allDataAnalysisArray = [];
         this.stopped = false;
         this.running = false;
         //var myself=this;
     }
     clearData() {
         this.gameAnalysis = [];
-        this.analysisArray = [];
+        this.allDataAnalysisArray = [];
     }
     calculateMoveBrilliance(playersMove, moveIndex) {
         if (moveIndex == 0) {
             return "gray";
         }
-        const isWhiteMove = moveIndex % 2;
-        const beforeMoveAnalysis = this.analysisArray[this.analysisArray.length - 2];
-        const afterMoveAnalysis = this.analysisArray[this.analysisArray.length - 1];
+        const isWhiteMove = (moveIndex) % 2;
+        const beforeMoveAnalysis = this.allDataAnalysisArray[moveIndex - 1];
+        const afterMoveAnalysis = this.allDataAnalysisArray[moveIndex];
         const beforeMoveWinPercent = getWinPercentFromCP(afterMoveAnalysis[0]["CPreal"]);
         const afterMoveWinPercent = getWinPercentFromCP(beforeMoveAnalysis[0]["CPreal"]);
         if (!(1 in beforeMoveAnalysis)) {
             return "gray";
         }
-        //console.log("CALCULATING BRILLIANCE", beforeMoveAnalysis, playersMove);
         //console.log(`i think the move ${this.moveArray[moveIndex-1].fromto}, ${moveIndex-1}`)
         //console.log(dataForFen);
         const afterMoveCpDiscrepancy = (afterMoveAnalysis[0]["CPreal"] - beforeMoveAnalysis[0]["CPreal"]) * (isWhiteMove ? 1 : -1);
-        if (this.analysisArray.length > 2) {
-            const afterLastMoveAnalysis = this.analysisArray[this.analysisArray.length - 3];
+        //console.log("After move cp discrepancy", afterMoveCpDiscrepancy)
+        if (moveIndex >= 2) {
+            const afterLastMoveAnalysis = this.allDataAnalysisArray[moveIndex - 2];
             if (afterMoveCpDiscrepancy > -75) {
                 if (Math.abs(afterMoveAnalysis[0]["CPreal"]) < 75 || (isWhiteMove == 1 && afterMoveAnalysis[0]["CPreal"] > 0) || (isWhiteMove == 0 && afterMoveAnalysis[0]["CPreal"] < 0)) {
                     if (sacrifice.didSacrificeIncrease(afterLastMoveAnalysis[0]["FEN"], beforeMoveAnalysis[0]["FEN"], afterMoveAnalysis[0]["FEN"], playersMove)) {
@@ -67,7 +67,7 @@ class AnalysisOrchestrator {
             return "good";
         }
         const winPercentDiscrepancy = (afterMoveWinPercent - beforeMoveWinPercent) * (isWhiteMove ? -1 : 1);
-        console.log("discrepancy", winPercentDiscrepancy);
+        //console.log("discrepancy", winPercentDiscrepancy);
         if (winPercentDiscrepancy < -30) {
             return "blunder";
         }
@@ -88,31 +88,8 @@ class AnalysisOrchestrator {
         var regularMove = dataFromStockfish["regularMove"];
         var moveIndex = dataFromStockfish["moveIndex"];
         //console.log("my analysisArray is", this.analysisArray, "and dataFromStockfish Is", dataFromStockfish)
-        this.analysisArray.push(dataForFen);
-        const moveAnalysis = {};
-        const centipawns = dataForFen[0]["CP"];
-        //console.log(FENstring, centipawns, dataForFen);
-        if (dataForFen[0]["cpOrMate"] == "mate") {
-            if (dataForFen[0]["isCheckmated"] == true) {
-                moveAnalysis["CP"] = "M0";
-                moveAnalysis["evaluation"] = -centipawns * 49;
-                dataForFen[0]["CPreal"] = -centipawns * 2000;
-            }
-            else {
-                console.log(centipawns);
-                console.log(dataForFen);
-                const mateForOpposite = (centipawns > 0) ? 1 : -1;
-                moveAnalysis["CP"] = "M" + centipawns.toString();
-                moveAnalysis["evaluation"] = mateForOpposite * 49;
-                dataForFen[0]["CPreal"] = mateForOpposite * 2000;
-            }
-        }
-        else {
-            dataForFen[0]["CPreal"] = centipawns;
-            var evalScoreForGraph = 50 * (2 / (1 + Math.exp(-0.004 * centipawns)) - 1);
-            moveAnalysis["evaluation"] = evalScoreForGraph;
-            moveAnalysis["CP"] = centipawns;
-        }
+        this.allDataAnalysisArray.push(dataForFen);
+        const moveAnalysis = parseFenDataFromStockfish(dataForFen);
         moveAnalysis["moveRating"] = this.calculateMoveBrilliance(regularMove, moveIndex);
         this.gameAnalysis.push(moveAnalysis);
         //console.log("gameAnalysis", JSON.stringify(this.gameAnalysis), "analsisArray", JSON.stringify(this.analysisArray), "moveArray", JSON.stringify(this.moveArray), "fenarray", JSON.stringify(this.fenArray))
@@ -121,10 +98,7 @@ class AnalysisOrchestrator {
     }
     checkIfAnalysisFinalized(analyzedMoveCount) {
         if (analyzedMoveCount == this.moveArray.length) {
-            console.log("analysis finalized");
-        }
-        else {
-            console.log("analysis is not yet done", analyzedMoveCount, this.moveArray.length);
+            this.guiHandler.getEloEstimator().calculateElo(this.gameAnalysis, this.fromPerspective);
         }
     }
     async stopAnalysis() {
@@ -142,16 +116,29 @@ class AnalysisOrchestrator {
     }
     async analyzePgnGame(fenMoves, moveArray, fromPerspective, alreadyAnalyzed = [], analyzedFens = []) {
         await this.stopAnalysis();
-        if (alreadyAnalyzed) {
-            this.gameAnalysis = alreadyAnalyzed;
-        }
+        this.gameAnalysis = [];
         if (analyzedFens) {
-            this.analysisArray = analyzedFens;
+            this.allDataAnalysisArray = analyzedFens;
         }
-        console.log("he alredy analyzed", alreadyAnalyzed, analyzedFens);
-        console.log("KURAC");
-        console.log("fenMoves", fenMoves);
-        console.log("moveArray", moveArray);
+        for (let i = 0; i < this.allDataAnalysisArray.length; i++) {
+            const data = this.allDataAnalysisArray[i];
+            var moveAnalysis = {};
+            if (i == 0) {
+                moveAnalysis = parseFenDataFromStockfish(data);
+                moveAnalysis["moveRating"] = "gray";
+            }
+            else {
+                const regularMove = moveArray[i - 1].fromto;
+                const moveIndex = i;
+                moveAnalysis = parseFenDataFromStockfish(data);
+                moveAnalysis["moveRating"] = this.calculateMoveBrilliance(regularMove, moveIndex);
+            }
+            this.gameAnalysis.push(moveAnalysis);
+        }
+        //console.log("he alredy analyzed", alreadyAnalyzed, this.gameAnalysis);
+        //console.log("KURAC")
+        //console.log("fenMoves", fenMoves);
+        //console.log("moveArray", moveArray);
         if (this.stockfishOrchestrator) {
             this.stockfishOrchestrator.deleteWorker();
         }

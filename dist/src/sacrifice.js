@@ -150,6 +150,7 @@ function isForced(fenString) {
     return false;
 }
 export function didSacrificeIncrease(fenAfterLast, fenBetween, fenAfter, lastMove) {
+    console.log("SAC", fenAfterLast, fenBetween, fenAfter, lastMove);
     if (isForced(fenBetween)) {
         return false;
     }
