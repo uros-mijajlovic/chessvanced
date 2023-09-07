@@ -1,6 +1,5 @@
 import { SoundHandler } from "./SoundHandler.js";
 import { Config } from "./config/config.js";
-import { getPieceAtSquare } from "./utils/ChessboardUtils.js";
 import ChessboardHandler from "./ChessboardHandler.js";
 import { EloEstimator } from "./EloEstimator.js";
 const glyphToSvg = {
@@ -225,10 +224,9 @@ class GuiHandler {
         //deactivate glyps
     }
     async setBoardAndMove(fenString, from, to, moveIndex, moveType = Config.MOVE_TYPE.MOVE_NONE, isAlternativeMove = false) {
-        var _a;
-        if (this.gameAnalysis[moveIndex] && this.gameAnalysis[moveIndex]["moveRating"] == "brilliant" && ((_a = getPieceAtSquare(fenString, to)) === null || _a === void 0 ? void 0 : _a.type) == "r") {
-            moveType = Config.MOVE_TYPE.LEVY_THEROOK;
-        }
+        // if(this.gameAnalysis[moveIndex] && this.gameAnalysis[moveIndex]["moveRating"]=="brilliant" && getPieceAtSquare(fenString, to)?.type=="r"){
+        //   moveType=Config.MOVE_TYPE.LEVY_THEROOK;
+        // }
         this.soundHandler.playSound(moveType);
         this.evaluationGraph.updateGraphSelectedMove(moveIndex);
         this.chessboardHandler.setPosition(fenString, false);

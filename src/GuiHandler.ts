@@ -275,9 +275,9 @@ class GuiHandler {
     //deactivate glyps
   }
   public async setBoardAndMove(fenString: string, from: string, to: string, moveIndex: number, moveType: Config.MOVE_TYPE = Config.MOVE_TYPE.MOVE_NONE, isAlternativeMove=false) {
-    if(this.gameAnalysis[moveIndex] && this.gameAnalysis[moveIndex]["moveRating"]=="brilliant" && getPieceAtSquare(fenString, to)?.type=="r"){
-      moveType=Config.MOVE_TYPE.LEVY_THEROOK;
-    }
+    // if(this.gameAnalysis[moveIndex] && this.gameAnalysis[moveIndex]["moveRating"]=="brilliant" && getPieceAtSquare(fenString, to)?.type=="r"){
+    //   moveType=Config.MOVE_TYPE.LEVY_THEROOK;
+    // }
     this.soundHandler.playSound(moveType);
     this.evaluationGraph.updateGraphSelectedMove(moveIndex);
     this.chessboardHandler.setPosition(fenString, false);
