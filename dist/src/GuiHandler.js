@@ -163,7 +163,14 @@ class GuiHandler {
         this.deactivateTiles();
         if (from != "" && to != "") {
             console.log(this.gameAnalysis);
-            const moveRating = this.gameAnalysis[moveIndex]["moveRating"];
+            const moveAnalysis = this.gameAnalysis[moveIndex];
+            var moveRating;
+            if (moveAnalysis) {
+                moveRating = this.gameAnalysis[moveIndex]["moveRating"];
+            }
+            else {
+                moveRating = "gray";
+            }
             const cssForTile = Config.CssDictForTiles[moveRating];
             this.colorTile(from, Config.TILE_COLORS.ACTIVE, cssForTile);
             this.colorTile(to, Config.TILE_COLORS.ACTIVE, cssForTile);

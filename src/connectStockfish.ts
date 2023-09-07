@@ -41,17 +41,6 @@ sidebarInst.playerController = playerControllerInst;
 sidebarInst.guiHandler = guiHandlerInst;
 console.log("playerControllerSet");
 
-document.addEventListener('keydown', function (event) {
-  if (event.keyCode === 37) {
-    // Left arrow key is pressed
-    playerControllerInst.goBackwards();
-    // Your code for left cursor event handling goes here
-  } else if (event.keyCode === 39) {
-    // Right arrow key is pressed
-    playerControllerInst.goForwards();
-    // Your code for right cursor event handling goes here
-  }
-});
 
 
 evaluationGraphInst.playerControllerInst = playerControllerInst;

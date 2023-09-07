@@ -68,13 +68,13 @@ class AnalysisOrchestrator {
         }
         const winPercentDiscrepancy = (afterMoveWinPercent - beforeMoveWinPercent) * (isWhiteMove ? -1 : 1);
         //console.log("discrepancy", winPercentDiscrepancy);
-        if (winPercentDiscrepancy < -30) {
+        if (winPercentDiscrepancy < -20) {
             return "blunder";
         }
-        if (winPercentDiscrepancy < -20) {
+        if (winPercentDiscrepancy < -13) {
             return "mistake";
         }
-        if (winPercentDiscrepancy < -10) {
+        if (winPercentDiscrepancy < -7) {
             return "inaccuracy";
         }
         return "gray";

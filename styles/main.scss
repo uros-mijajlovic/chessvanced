@@ -4,6 +4,7 @@
 @use 'board';
 @use 'importPgn';
 @use 'elo_estimator';
+@use '_navigation';
 
 html {
   font-size: 62.5%;
@@ -194,6 +195,9 @@ body {
 
 
 @media (max-width: 700px) {
+  .button-container{
+    display:flex;
+  }
   body{
     overflow:visible;
   }

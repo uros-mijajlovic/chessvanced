@@ -18,6 +18,26 @@ class PlayerController {
         this.analysisData = [];
         this.analyzedFens = [];
         this.ready = false;
+        this.bindNavigation();
+    }
+    bindNavigation() {
+        var pc = this;
+        document.getElementById("btn-forward").addEventListener('click', () => pc.goForwards());
+        document.getElementById("btn-backward").addEventListener('click', () => pc.goBackwards());
+        console.log(document.getElementById("btn-backward"));
+        console.log("RAH");
+        document.addEventListener('keydown', function (event) {
+            if (event.keyCode === 37) {
+                // Left arrow key is pressed
+                pc.goBackwards();
+                // Your code for left cursor event handling goes here
+            }
+            else if (event.keyCode === 39) {
+                // Right arrow key is pressed
+                pc.goForwards();
+                // Your code for right cursor event handling goes here
+            }
+        });
     }
     getMoveType(flag) {
         if (flag == "c") {
