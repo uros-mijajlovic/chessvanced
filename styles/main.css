@@ -242,8 +242,8 @@ input:checked + .toggle-slider:before {
   visibility: hidden;
 }
 
-#import_popup * {
-  margin-top: 2vh;
+#import_popup > * {
+  margin-top: 1vh;
 }
 
 #pgn_textarea {
@@ -355,6 +355,35 @@ input:checked + .toggle-slider:before {
 
 .button-right i {
   right: 10px;
+}
+
+.text-center {
+  text-align: center;
+}
+
+body {
+  background-color: #161719;
+  font-family: "Roboto", sans-serif;
+  color: #9fa2a7;
+}
+body .speechbubble-wrapper {
+  margin: 0 auto;
+}
+body .speechbubble-wrapper .speechbubble {
+  background-color: #26272b;
+  color: #9fa2a7;
+  font-size: 1.3rem;
+  line-height: 1.75;
+  padding: 15px 15px;
+  cursor: default;
+}
+body .speechbubble-wrapper .speechbubble:nth-child(2n) {
+  border-left: 5px solid;
+  border-color: #8321f3;
+}
+body .speechbubble-wrapper .speechbubble:nth-child(2n+1) {
+  border-right: 5px solid;
+  border-color: #8321f3;
 }
 
 html {

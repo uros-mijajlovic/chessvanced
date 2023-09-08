@@ -4,7 +4,9 @@
 <head>
 
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <!-- Google tag (gtag.js) -->
+
+  <meta name="description"
+    content="Free online game review chess tool. Import your games and see your brilliant moves and blunders.">
   <script async src="https://www.googletagmanager.com/gtag/js?id=G-1KNYY06MWS"></script>
   <script>
     window.dataLayer = window.dataLayer || [];
@@ -49,7 +51,18 @@
 
     <div id="analysisAll">
       <div id="import_popup">
-        <h2>Import game</h2>
+        <h1>Import game</h2>
+        <div class='speechbubble-wrapper'>
+          <div class='speechbubble'>
+            <p>
+              If you import game without the chrome extension, you will have to wait 60+ seconds, in comparison, with <a
+                target="_blank"
+                href="https://chrome.google.com/webstore/detail/chessvanced/ammcjghngpnnpibfnojlnmeghcmcgdib">the
+                extension</a> that time is reduced to 0 seconds, due to the extension analyzing the game while you play
+              it
+            </p>
+          </div>
+        </div>
         <textarea id="pgn_textarea"></textarea>
         <div style="display: flex; flex-direction: row;">
           <button id="import-button" class="popup_button">Import game</button>
@@ -72,8 +85,9 @@
 
       <div id="chartContainer">
         <div class="button-container">
-          <button id="btn-backward" class="button button-left clickable"><</button>
-          <button id="btn-forward" class="button button-right clickable">></button>
+          <button id="btn-backward" class="button button-left clickable">
+            < </button>
+              <button id="btn-forward" class="button button-right clickable">></button>
         </div>
         <div style="display:flex; justify-content: space-around;">
           <h4 id="loadpgnButton" style="text-align: center;">Load PGN</h4>

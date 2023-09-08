@@ -1,0 +1,41 @@
+$color1 :     #161719;
+$color2 :     #26272b;
+$text :       #9fa2a7;
+$highlight1 : #56b273;
+
+.text-center {
+	text-align: center;
+}
+
+
+
+
+body {
+	background-color: $color1;
+  font-family: 'Roboto', sans-serif;
+  color: $text;
+	.speechbubble-wrapper {
+		margin: 0 auto;
+		.speechbubble {
+			background-color: $color2;
+			color: $text;
+			font-size: 1.3rem;
+			line-height: 1.75;
+			padding: 15px 15px;
+            cursor: default;
+			&:nth-child(2n) {
+				border-left: 5px solid;
+                border-color: #8321f3;
+			}
+			//  Border and arrow right
+			&:nth-child(2n+1) {
+				border-right: 5px solid;
+                border-color: #8321f3;
+			}
+
+
+			// Randomize every 4th bubble's border color
+			
+		}
+	}
+}
