@@ -38,6 +38,7 @@ class AnalysisOrchestrator {
         const afterMoveAnalysis = this.allDataAnalysisArray[moveIndex];
         const beforeMoveWinPercent = getWinPercentFromCP(afterMoveAnalysis[0]["CPreal"]);
         const afterMoveWinPercent = getWinPercentFromCP(beforeMoveAnalysis[0]["CPreal"]);
+        const winPercentForThePlayer = ((isWhiteMove ? 0 : 100) - (afterMoveWinPercent) * (isWhiteMove ? -1 : 1));
         if (!(1 in beforeMoveAnalysis)) {
             return "gray";
         }
@@ -47,7 +48,8 @@ class AnalysisOrchestrator {
         //console.log("After move cp discrepancy", afterMoveCpDiscrepancy)
         if (moveIndex >= 2) {
             const afterLastMoveAnalysis = this.allDataAnalysisArray[moveIndex - 2];
-            if (afterMoveCpDiscrepancy > -75) {
+            console.log("WP FOR PLAYER", winPercentForThePlayer, afterMoveWinPercent, isWhiteMove);
+            if (afterMoveCpDiscrepancy > -75 && winPercentForThePlayer < 90) {
                 if (Math.abs(afterMoveAnalysis[0]["CPreal"]) < 75 || (isWhiteMove == 1 && afterMoveAnalysis[0]["CPreal"] > 0) || (isWhiteMove == 0 && afterMoveAnalysis[0]["CPreal"] < 0)) {
                     if (sacrifice.didSacrificeIncrease(afterLastMoveAnalysis[0]["FEN"], beforeMoveAnalysis[0]["FEN"], afterMoveAnalysis[0]["FEN"], playersMove)) {
                         return "brilliant";
@@ -55,15 +57,18 @@ class AnalysisOrchestrator {
                 }
             }
         }
+        const firstVsSecondBestMoveCP = Math.abs((Math.abs(beforeMoveAnalysis[0]["CPreal"]) - Math.abs(beforeMoveAnalysis[1]["CPreal"])));
         if (playersMove == beforeMoveAnalysis[0]["move"]) {
-            if (Math.abs((Math.abs(beforeMoveAnalysis[0]["CPreal"]) - Math.abs(beforeMoveAnalysis[1]["CPreal"]))) > 100) {
+            console.log(beforeMoveAnalysis[0]["CPreal"], beforeMoveAnalysis[1]["CPreal"]);
+            console.log(playersMove, beforeMoveAnalysis[0]["move"], firstVsSecondBestMoveCP);
+            if (firstVsSecondBestMoveCP > 100) {
                 return "great";
             }
             else {
                 return "best";
             }
         }
-        if (playersMove == beforeMoveAnalysis[1]["move"] && Math.abs((Math.abs(beforeMoveAnalysis[0]["CPreal"]) - Math.abs(beforeMoveAnalysis[1]["CPreal"]))) < 100) {
+        if (playersMove == beforeMoveAnalysis[1]["move"] && firstVsSecondBestMoveCP < 100) {
             return "good";
         }
         const winPercentDiscrepancy = (afterMoveWinPercent - beforeMoveWinPercent) * (isWhiteMove ? -1 : 1);

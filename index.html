@@ -37,7 +37,8 @@
       <div style="display:flex;height:100%; justify-content: center; align-items: center;">
         <img style="width: auto; /* Set the width of the image to auto */
       height: 80%;" src="/assets/images/icon128.png" alt="Description of the image">
-        <h1>ChessVanced</h1>
+        <h1><a href="/">
+            ChessVanced</a></h1>
       </div>
       <div>
         <a target="_blank"
@@ -52,22 +53,23 @@
     <div id="analysisAll">
       <div id="import_popup">
         <h1>Import game</h2>
-        <div class='speechbubble-wrapper'>
-          <div class='speechbubble'>
-            <p>
-              If you import game without the chrome extension, you will have to wait 60+ seconds, in comparison, with <a
-                target="_blank"
-                href="https://chrome.google.com/webstore/detail/chessvanced/ammcjghngpnnpibfnojlnmeghcmcgdib">the
-                extension</a> that time is reduced to 0 seconds, due to the extension analyzing the game while you play
-              it
-            </p>
+          <div class='speechbubble-wrapper'>
+            <div class='speechbubble'>
+              <p>
+                If you import game without the chrome extension, you will have to wait 60+ seconds for the analysis to
+                finish, in comparison, with <a target="_blank"
+                  href="https://chrome.google.com/webstore/detail/chessvanced/ammcjghngpnnpibfnojlnmeghcmcgdib">the
+                  extension</a> that time is reduced to 0 seconds, due to the extension analyzing the game while you
+                play
+                it
+              </p>
+            </div>
           </div>
-        </div>
-        <textarea id="pgn_textarea"></textarea>
-        <div style="display: flex; flex-direction: row;">
-          <button id="import-button" class="popup_button">Import game</button>
-          <button id="close-import-button" class="popup_button">Close</button>
-        </div>
+          <textarea id="pgn_textarea"></textarea>
+          <div style="display: flex; flex-direction: row;">
+            <button id="import-button" class="popup_button">Import game</button>
+            <button id="close-import-button" class="popup_button">Close</button>
+          </div>
 
       </div>
 

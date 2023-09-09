@@ -32,31 +32,41 @@ export function getAccuracyFromWinPercent(before, after, color) {
         }
     }
 }
-
+function addCPrealToDataForFen(dataForFen) {
+    for (let i = 0; i < 2; i++) {
+        if (dataForFen[i]) {
+            if (dataForFen[i]["cpOrMate"] == "mate") {
+                if (dataForFen[i]["isCheckmated"] == true) {
+                    dataForFen[i]["CPreal"] = -dataForFen[i]["CP"] * 2000;
+                } else {
+                    const mateForOpposite = (dataForFen[i]["CP"] > 0) ? 1 : -1;
+                    dataForFen[i]["CPreal"] = mateForOpposite * 2000;
+                }
+            } else {
+                dataForFen[i]["CPreal"] = dataForFen[i]["CP"];
+            }
+        }
+    }
+}
 export function parseFenDataFromStockfish(dataForFen) {
+    addCPrealToDataForFen(dataForFen)
     const centipawns = dataForFen[0]["CP"];
-
+    console.log(dataForFen);
     var moveAnalysis = {};
-
     if (dataForFen[0]["cpOrMate"] == "mate") {
         if (dataForFen[0]["isCheckmated"] == true) {
             moveAnalysis["CP"] = "M0";
             moveAnalysis["evaluation"] = -centipawns * 49;
-            dataForFen[0]["CPreal"] = -centipawns * 2000;
         } else {
             const mateForOpposite = (centipawns > 0) ? 1 : -1;
             moveAnalysis["CP"] = "M" + centipawns.toString();
             moveAnalysis["evaluation"] = mateForOpposite * 49;
-            dataForFen[0]["CPreal"] = mateForOpposite * 2000;
-
         }
 
     } else {
-        dataForFen[0]["CPreal"] = centipawns;
         var evalScoreForGraph = 50 * (2 / (1 + Math.exp(-0.004 * centipawns)) - 1)
         moveAnalysis["evaluation"] = evalScoreForGraph;
         moveAnalysis["CP"] = centipawns;
-
     }
     moveAnalysis["CPreal"] = dataForFen[0]["CPreal"]
     return moveAnalysis;

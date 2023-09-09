@@ -8,5 +8,13 @@ class CORSRequestHandler (SimpleHTTPRequestHandler):
         self.send_header('Cross-Origin-Embedder-Policy', 'require-corp')
         SimpleHTTPRequestHandler.end_headers(self)
 
+    def do_GET(self):
+        # Check if the URL is /about
+        if self.path == '/about':
+            # Serve the about.html page
+            self.path = '/about.html'
+        # Continue handling other URLs
+        return super().do_GET()
+
 if __name__ == '__main__':
     test(CORSRequestHandler, HTTPServer, port=int(sys.argv[1]) if len(sys.argv) > 1 else 8000)
