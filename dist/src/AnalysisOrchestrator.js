@@ -64,10 +64,13 @@ class AnalysisOrchestrator {
             }
         }
         const firstVsSecondBestMoveCP = Math.abs((Math.abs(beforeMoveAnalysis[0]["CPreal"]) - Math.abs(beforeMoveAnalysis[1]["CPreal"])));
+        const firstBest = getWinPercentFromCP(beforeMoveAnalysis[0]["CPreal"]);
+        const secondBest = getWinPercentFromCP(beforeMoveAnalysis[1]["CPreal"]);
+        const firstVsSecondBestMoveWP = ((isWhiteMove ? 0 : 100) - (firstBest) * (isWhiteMove ? -1 : 1)) - ((isWhiteMove ? 0 : 100) - (secondBest) * (isWhiteMove ? -1 : 1));
         if (playersMove == beforeMoveAnalysis[0]["move"]) {
             console.log(beforeMoveAnalysis[0]["CPreal"], beforeMoveAnalysis[1]["CPreal"]);
             console.log(playersMove, beforeMoveAnalysis[0]["move"], firstVsSecondBestMoveCP);
-            if (firstVsSecondBestMoveCP > 100) {
+            if (firstVsSecondBestMoveWP > 15) {
                 return "great";
             }
             else {
