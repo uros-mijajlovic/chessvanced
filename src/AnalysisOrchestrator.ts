@@ -77,11 +77,16 @@ class AnalysisOrchestrator {
     if (moveIndex >= 2) {
       const afterLastMoveAnalysis = this.allDataAnalysisArray[moveIndex-2];
       console.log("WP FOR PLAYER", winPercentForThePlayer, afterMoveWinPercent, isWhiteMove)
-      if (afterMoveCpDiscrepancy > -75 && winPercentForThePlayer<90) {
+      if (afterMoveCpDiscrepancy > -75) {
         if (Math.abs(afterMoveAnalysis[0]["CPreal"]) < 75 || (isWhiteMove == 1 && afterMoveAnalysis[0]["CPreal"] > 0) || (isWhiteMove == 0 && afterMoveAnalysis[0]["CPreal"] < 0)) {
-          
-          if (sacrifice.didSacrificeIncrease(afterLastMoveAnalysis[0]["FEN"], beforeMoveAnalysis[0]["FEN"], afterMoveAnalysis[0]["FEN"], playersMove)) {
-            return "brilliant";
+          var [didSacrificeIncrease, didPlayerMoveSacrificedFigure] = sacrifice.didSacrificeIncrease(afterLastMoveAnalysis[0]["FEN"], beforeMoveAnalysis[0]["FEN"], afterMoveAnalysis[0]["FEN"], playersMove)
+          console.log("SACLOG", didSacrificeIncrease, didPlayerMoveSacrificedFigure)
+          if (didSacrificeIncrease) {
+            if(winPercentForThePlayer>90 && didPlayerMoveSacrificedFigure==false){
+              
+            }else{
+              return "brilliant";
+            }
           }
         }
       }

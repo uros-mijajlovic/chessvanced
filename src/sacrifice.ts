@@ -188,10 +188,10 @@ function isForced(fenString){
 
 
 
-export function didSacrificeIncrease(fenAfterLast: string,fenBetween:string, fenAfter: string, lastMove) {
+export function didSacrificeIncrease(fenAfterLast: string,fenBetween:string, fenAfter: string, lastMove) : boolean[] {
   console.log("SAC", fenAfterLast, fenBetween, fenAfter, lastMove)
   if(isForced(fenBetween)){
-    return false;
+    return [false, false];
   }
   const turn = getSideFromFen(fenAfterLast);
   const materialWon = calculateSidesMaterial(fenAfterLast, turn) - calculateSidesMaterial(fenAfter, turn);
@@ -205,11 +205,11 @@ export function didSacrificeIncrease(fenAfterLast: string,fenBetween:string, fen
   //console.log(materialWon)
   //console.log(materialLossAfter, materialLossBefore)
   if(materialLossOriginSquare+1+materialWon < materialLossTargetSquare){
-    return true;
+    return [true, true];
   }
   if (materialWon) {
-    return 0 < materialLossAfter - materialLossBefore - materialWon;
+    return [0 < materialLossAfter - materialLossBefore - materialWon, false];
   } else {
-    return 1 < materialLossAfter - materialLossBefore - materialWon;
+    return [1 < materialLossAfter - materialLossBefore - materialWon, false];
   }
 }
