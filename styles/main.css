@@ -616,7 +616,7 @@ p {
     aspect-ratio: 1/1;
   }
 }
-@media (min-width: 1281px) and (max-width: 3000px) {
+@media (min-width: 1281px) {
   #analysisAll {
     flex: 1;
     display: flex;
