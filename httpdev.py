@@ -13,7 +13,10 @@ class CORSRequestHandler (SimpleHTTPRequestHandler):
         if self.path == '/about':
             # Serve the about.html page
             self.path = '/about.html'
-        # Continue handling other URLs
+        elif self.path=="/":
+            self.path='/indexdev.html'
+
+        
         return super().do_GET()
 
 if __name__ == '__main__':

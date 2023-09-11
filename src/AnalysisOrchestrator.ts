@@ -32,6 +32,7 @@ class AnalysisOrchestrator {
   private allDataAnalysisArray: Record<number, any>[];
   private stopped: boolean;
   private running: boolean;
+  private playerElos:number[];
 
   constructor(guiHandler) {
     this.stockfishOrchestrator = null;
@@ -154,7 +155,7 @@ class AnalysisOrchestrator {
 
   private checkIfAnalysisFinalized(analyzedMoveCount){
     if(analyzedMoveCount==this.moveArray.length){
-      this.guiHandler.getEloEstimator().calculateElo(this.gameAnalysis, this.fromPerspective);
+      this.guiHandler.getEloEstimator().calculateElo(this.gameAnalysis, this.fromPerspective, this.playerElos);
     }
   }
 
@@ -173,12 +174,11 @@ class AnalysisOrchestrator {
     console.log("stopped and started new")
     //continue
   }
-  async analyzePgnGame(fenMoves, moveArray, fromPerspective, alreadyAnalyzed = [], analyzedFens = []) {
+  async analyzePgnGame(fenMoves, moveArray, fromPerspective, alreadyAnalyzed = [], analyzedFens = [], playerElos=[]) {
 
+    this.playerElos=playerElos;
     await this.stopAnalysis();
     this.gameAnalysis=[]
-
-    
     if (analyzedFens) {
       this.allDataAnalysisArray = analyzedFens;
     }

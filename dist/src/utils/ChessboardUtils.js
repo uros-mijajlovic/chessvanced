@@ -11,6 +11,7 @@ export function extractCPreal(gameAnalysis) {
     return cps;
 }
 export function getAccuracyFromWinPercent(before, after, color) {
+    console.log("getAccuracyFromWinPercent", before, after, color);
     if (color) {
         if (before <= after) {
             return 100.0;
@@ -18,6 +19,7 @@ export function getAccuracyFromWinPercent(before, after, color) {
         else {
             const win_diff = before - after;
             const raw = 103.1668100711649 * Math.exp(-0.04354415386753951 * win_diff) + -3.166924740191411;
+            console.log("getAccuracyFromWinPercentRESULT", Math.max(Math.min(raw + 1, 100), 0));
             return Math.max(Math.min(raw + 1, 100), 0);
         }
     }
@@ -28,6 +30,7 @@ export function getAccuracyFromWinPercent(before, after, color) {
         else {
             const win_diff = after - before;
             const raw = 103.1668100711649 * Math.exp(-0.04354415386753951 * win_diff) + -3.166924740191411;
+            console.log("getAccuracyFromWinPercentRESULT", Math.max(Math.min(raw + 1, 100), 0));
             return Math.max(Math.min(raw + 1, 100), 0);
         }
     }

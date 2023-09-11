@@ -5,6 +5,7 @@ import { Chess } from "../dependencies/chess.js";
 import { Config } from "./config/config.js";
 import { LiveBoardEvaluation } from "./LiveBoardEvaluation";
 import { clampAndBound } from "./utils/ChessboardUtils.js";
+import { Validation } from "./utils/Validation.js";
 
 //import { PgnToFenArr, PgnToMoveArr } from "./sacrifice";
 
@@ -27,6 +28,7 @@ class PlayerController {
   private playerSide:any;
   public ready:boolean;
   private analyzedFens:any;
+  private playerElos:number[];
   constructor(guiHandler: GuiHandler, analysisOrchestratorInst: AnalysisOrchestrator, liveBoardEvaluationInst: LiveBoardEvaluation) {
     this.liveBoardEvaluation = liveBoardEvaluationInst;
     this.currentPgn = null;
@@ -111,15 +113,26 @@ class PlayerController {
     //console.log(chessjs.pgn())
     return chessjs.pgn();
   }
+  private validateData(data){
+    
+    if(!Validation.isTwoNumberArray(data["playerElos"])){
+      data["playerElos"]=[-1, -1]
+    }
+    return data;
+  }
 
-  public setGameFromExtension(currentFenArray, currentMoveArray, analysisData, analyzedFens, playerSide, initialSet=false) {
-    //console.log("injector tried to call me", this.ready, currentFenArray, currentMoveArray);
-    if(initialSet || this.ready){
+
+  public setGameFromExtension(currentFenArray, currentMoveArray, analysisData, analyzedFens, playerSide, data={}) {
+    data=this.validateData(data);
+
+    if(this.ready){
+    
       this.currentFenArray=currentFenArray;
       this.currentMoveArray=currentMoveArray;
       this.analysisData=analysisData;
       this.analyzedFens=analyzedFens;
       this.playerSide=playerSide;
+      this.playerElos=data["playerElos"]
 
       const pgnString = this.moveArrayToPgn(currentMoveArray);
       
@@ -136,6 +149,7 @@ class PlayerController {
   public setPgn(pgnString:string) {
     this.analysisData=[];
     this.analyzedFens=[];
+    this.playerElos=[-1, -1];
     this.currentPgn = pgnString;
     this.currentFenArray = PgnToFenArr(this.currentPgn);
     this.currentMoveArray = PgnToMoveArr(this.currentPgn);
@@ -162,7 +176,7 @@ class PlayerController {
     return this.inAlternativePath;
   }
   public startAnalysis() {
-    this.analysisOrchestrator.analyzePgnGame(this.currentFenArray, this.currentMoveArray, this.playerSide, this.analysisData, this.analyzedFens);
+    this.analysisOrchestrator.analyzePgnGame(this.currentFenArray, this.currentMoveArray, this.playerSide, this.analysisData, this.analyzedFens, this.playerElos);
   }
   private updateBoardGUI(newFen, from, to, currentMoveIndex, MOVE_TYPE, isAlternativeMove=false) {
 

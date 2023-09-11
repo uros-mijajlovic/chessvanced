@@ -72,7 +72,6 @@ class stockfishOrchestrator {
   }
 
   private async getLichessData(fenPosition: string) {
-    return [false];
     try {
       const apiUrl = `https://lichess.org/api/cloud-eval?fen=${encodeURIComponent(fenPosition)}&multiPv=2`;
       const response = await axios.get(apiUrl);

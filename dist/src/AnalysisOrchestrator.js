@@ -112,7 +112,7 @@ class AnalysisOrchestrator {
     }
     checkIfAnalysisFinalized(analyzedMoveCount) {
         if (analyzedMoveCount == this.moveArray.length) {
-            this.guiHandler.getEloEstimator().calculateElo(this.gameAnalysis, this.fromPerspective);
+            this.guiHandler.getEloEstimator().calculateElo(this.gameAnalysis, this.fromPerspective, this.playerElos);
         }
     }
     async stopAnalysis() {
@@ -128,7 +128,8 @@ class AnalysisOrchestrator {
         console.log("stopped and started new");
         //continue
     }
-    async analyzePgnGame(fenMoves, moveArray, fromPerspective, alreadyAnalyzed = [], analyzedFens = []) {
+    async analyzePgnGame(fenMoves, moveArray, fromPerspective, alreadyAnalyzed = [], analyzedFens = [], playerElos = []) {
+        this.playerElos = playerElos;
         await this.stopAnalysis();
         this.gameAnalysis = [];
         if (analyzedFens) {

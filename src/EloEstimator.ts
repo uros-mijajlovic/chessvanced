@@ -2,18 +2,54 @@ import { extractCPreal, getAccuracyFromWinPercent, getWinPercentFromCP } from ".
 
 export class EloEstimator {
 
-    private writeAccuracies(whiteAccuracy, blackAccuracy){
+    private writeAccuracies(whiteAccuracy, blackAccuracy, isEloEstimate){
+        
         document.getElementById("elo-estimator-white").textContent = whiteAccuracy.toString();
         document.getElementById("elo-estimator-black").textContent = blackAccuracy.toString();
+        var elo_or_accuracy_text_fields=document.getElementsByClassName("elo-or-accuracy-text")
+        if(isEloEstimate){
+            for(const textField of elo_or_accuracy_text_fields){
+                textField.textContent="ELO"
+            }
+        }else{
+            for(const textField of elo_or_accuracy_text_fields){
+                textField.textContent="Accuracy"
+            }
+
+        }
 
     }
-    public calculateElo(gameAnalysis, fromPerspective: string) {
-        var cps=extractCPreal(gameAnalysis);
+    public calculateElo(gameAnalysis, fromPerspective: string, playerElos) {
+        console.log("OK THIS MAH GAME ANALYSIS", gameAnalysis, playerElos);
+        if(playerElos[0]<0){
+            var cps=extractCPreal(gameAnalysis);
+            console.log("cprealarr", cps)
+            const blackAccuracy=this.getTotalAccuracy(cps, "black").toFixed(1);
+            const whiteAccuracy=this.getTotalAccuracy(cps, "white").toFixed(1);
+            this.writeAccuracies(whiteAccuracy, blackAccuracy, false);
+            console.log("black, white accuracy", blackAccuracy, whiteAccuracy);
+        }else{
+            var enemyAccuracy;
+            var yourAccuracy;
+            var yourElo=playerElos[0];
+            var enemyElo=playerElos[1];
+            var cps=extractCPreal(gameAnalysis);
+            const blackAccuracy=this.getTotalAccuracy(cps, "black").toFixed(1);
+            const whiteAccuracy=this.getTotalAccuracy(cps, "white").toFixed(1);
+            if(fromPerspective=="white"){
+                yourAccuracy=whiteAccuracy;
+                enemyAccuracy=blackAccuracy
+                
+            }else{
+                yourAccuracy=blackAccuracy
+                enemyAccuracy=whiteAccuracy;
+            }
+            
+            enemyElo=((100-80+parseFloat(enemyAccuracy))/100)*parseFloat(enemyElo)
+            yourElo=((100+parseFloat(yourAccuracy)-parseFloat(enemyAccuracy))/100)*parseFloat(enemyElo)
 
-        const blackAccuracy=this.getTotalAccuracy(cps, "black").toFixed(1);
-        const whiteAccuracy=this.getTotalAccuracy(cps, "white").toFixed(1);
-        this.writeAccuracies(whiteAccuracy, blackAccuracy);
-        console.log("black, white accuracy", blackAccuracy, whiteAccuracy);
+            this.writeAccuracies(enemyElo.toFixed(0), yourElo.toFixed(0), true);
+        }
     }
     private standardDeviation(arr: number[]): number {
         const n = arr.length;
@@ -75,8 +111,14 @@ export class EloEstimator {
             return 0.0;
         }
 
-        const weighted_sum = data.reduce((sum, [accuracy, weight]) => sum + accuracy * weight, 0);
-        const weight_sum = data.reduce((sum, [, weight]) => sum + weight, 0);
+        var weighted_sum = 0
+        for (const element of data){
+            weighted_sum+=element[0]*element[1];
+        }
+        var weight_sum = 0
+        for (const element of data){
+            weight_sum+=element[1];
+        }
 
         if (weight_sum === 0) {
             return 0.0;
@@ -89,6 +131,7 @@ export class EloEstimator {
     public getTotalAccuracy(cps, fromPerspective) {
         const forWhite = fromPerspective == "white"
         const allWeighedAccuracies = this.getWeighedAccuraciesForCps(cps);
+        console.log("awA", allWeighedAccuracies);
         const filteredWeightedAccuracies=[]
         for (let i = 0; i<allWeighedAccuracies.length; i++){
             if (allWeighedAccuracies[i][1]===forWhite){
