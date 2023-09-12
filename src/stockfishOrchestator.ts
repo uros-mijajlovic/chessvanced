@@ -29,12 +29,12 @@ class stockfishOrchestrator {
   private currentRegularMove: string;
   private moveIndex: number;
   private callbackFunction;
-  private sendEvalAfterEveryMove: boolean;
+  private isLiveBoardEvaluation: boolean;
 
 
 
   constructor(stockfishWorkerArg, sendEvalAfterEveryMove) {
-    this.sendEvalAfterEveryMove = sendEvalAfterEveryMove;
+    this.isLiveBoardEvaluation = sendEvalAfterEveryMove;
     this.stockfishWorker = stockfishWorkerArg;
     this.stockfishParser = new StockfishParser();
 
@@ -128,12 +128,13 @@ class stockfishOrchestrator {
     this.currentFEN = fenPosition;
     this.currentRegularMove = regularMove;
     this.moveIndex = moveIndex;
-
-    const cachedResponse = await this.checkCache(fenPosition);
-    if (cachedResponse[0] == true) {
-      this.callbackFunction(this.fillRestOfDataForAnalysisOrchestrator(cachedResponse[1]));
-      this.isCurrentlyWorking = false;
-      return;
+    if (!this.isLiveBoardEvaluation) {
+      const cachedResponse = await this.checkCache(fenPosition);
+      if (cachedResponse[0] == true) {
+        this.callbackFunction(this.fillRestOfDataForAnalysisOrchestrator(cachedResponse[1]));
+        this.isCurrentlyWorking = false;
+        return;
+      }
     }
     //console.log(`position fen ${fenPosition}`);
 
@@ -168,7 +169,7 @@ class stockfishOrchestrator {
       var dataFromStockfish = this.fillRestOfDataForAnalysisOrchestrator(currentEval)
 
       this.stockfishParser.clearData();
-      if (!this.sendEvalAfterEveryMove) {
+      if (!this.isLiveBoardEvaluation) {
         this.callbackFunction(dataFromStockfish);
       }
 
@@ -180,7 +181,7 @@ class stockfishOrchestrator {
 
       const currentEval = this.stockfishParser.getAllData();
 
-      if (this.sendEvalAfterEveryMove) {
+      if (this.isLiveBoardEvaluation) {
         this.callbackFunction(this.fillRestOfDataForAnalysisOrchestrator(currentEval));
       }
 

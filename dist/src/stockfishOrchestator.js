@@ -13,7 +13,7 @@ export async function createStockfishOrchestrator(sendEvalAfterEveryMove) {
 }
 class stockfishOrchestrator {
     constructor(stockfishWorkerArg, sendEvalAfterEveryMove) {
-        this.sendEvalAfterEveryMove = sendEvalAfterEveryMove;
+        this.isLiveBoardEvaluation = sendEvalAfterEveryMove;
         this.stockfishWorker = stockfishWorkerArg;
         this.stockfishParser = new StockfishParser();
         if (sendEvalAfterEveryMove) {
@@ -91,11 +91,13 @@ class stockfishOrchestrator {
         this.currentFEN = fenPosition;
         this.currentRegularMove = regularMove;
         this.moveIndex = moveIndex;
-        const cachedResponse = await this.checkCache(fenPosition);
-        if (cachedResponse[0] == true) {
-            this.callbackFunction(this.fillRestOfDataForAnalysisOrchestrator(cachedResponse[1]));
-            this.isCurrentlyWorking = false;
-            return;
+        if (!this.isLiveBoardEvaluation) {
+            const cachedResponse = await this.checkCache(fenPosition);
+            if (cachedResponse[0] == true) {
+                this.callbackFunction(this.fillRestOfDataForAnalysisOrchestrator(cachedResponse[1]));
+                this.isCurrentlyWorking = false;
+                return;
+            }
         }
         //console.log(`position fen ${fenPosition}`);
         this.stockfishWorker.postMessage(`position fen ${fenPosition}`);
@@ -122,7 +124,7 @@ class stockfishOrchestrator {
             //console.log(currentEval);
             var dataFromStockfish = this.fillRestOfDataForAnalysisOrchestrator(currentEval);
             this.stockfishParser.clearData();
-            if (!this.sendEvalAfterEveryMove) {
+            if (!this.isLiveBoardEvaluation) {
                 this.callbackFunction(dataFromStockfish);
             }
             this.isCurrentlyWorking = false;
@@ -130,7 +132,7 @@ class stockfishOrchestrator {
         else {
             this.stockfishParser.sendMessage(text, this.currentFEN);
             const currentEval = this.stockfishParser.getAllData();
-            if (this.sendEvalAfterEveryMove) {
+            if (this.isLiveBoardEvaluation) {
                 this.callbackFunction(this.fillRestOfDataForAnalysisOrchestrator(currentEval));
             }
         }
