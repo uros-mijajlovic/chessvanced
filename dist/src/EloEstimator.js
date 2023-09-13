@@ -16,8 +16,9 @@ export class EloEstimator {
         }
     }
     calculateElo(gameAnalysis, fromPerspective, playerElos) {
+        var currentlyBlockedEloEstimation = true;
         console.log("OK THIS MAH GAME ANALYSIS", gameAnalysis, playerElos);
-        if (playerElos[0] < 0) {
+        if (currentlyBlockedEloEstimation || playerElos[0] < 0) {
             var cps = extractCPreal(gameAnalysis);
             console.log("cprealarr", cps);
             const blackAccuracy = this.getTotalAccuracy(cps, "black").toFixed(1);

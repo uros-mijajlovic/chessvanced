@@ -1,7 +1,7 @@
 /* Add a black background color to the top navigation */
 .topnav {
   background-color: #1d1d27;
-  min-height:100px;
+  height:80px;
   width: 100%;
   align-items: center;
   justify-content: space-between;
@@ -36,7 +36,7 @@
 
 @media (min-width: 1281px) and (max-width: 3000px) {
   .topnav {
-    height:100px;
+    height:80px;
     width: 100%;
   }
 
