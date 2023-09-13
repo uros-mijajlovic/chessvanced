@@ -461,7 +461,7 @@ p {
   padding-right: 20%;
 }
 
-#moveOverviewDiv.reversed > div {
+#chartContainer.reversed .reversable > div {
   flex-direction: row-reverse;
 }
 

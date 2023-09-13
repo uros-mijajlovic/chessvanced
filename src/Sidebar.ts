@@ -62,7 +62,7 @@ export class Sidebar{
     public setCounterOrientation(playerSide){
         if(this.playerSide!=playerSide){
             this.playerSide=playerSide;
-            const moveOverviewDiv = document.getElementById("moveOverviewDiv");
+            const moveOverviewDiv = document.getElementById("chartContainer");
             if (moveOverviewDiv.className=="reversed"){
                 moveOverviewDiv.className=""
             }else{
