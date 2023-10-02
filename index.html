@@ -94,10 +94,7 @@
             < </button>
               <button id="btn-forward" class="button button-right clickable">></button>
         </div>
-        <div style="display:flex; justify-content: space-around;">
-          <h4 id="loadpgnButton" style="text-align: center;">Load PGN</h4>
-          <h4 id="flipBoardButton" style="text-align: center; cursor: pointer; user-select: none;">Flip board</h4>
-        </div>
+       
         <div id="liveEvaluationMain">
           <div id="liveEvaluationTopBar">
             <div>Stockfish 15</div>
@@ -157,13 +154,18 @@
         </div>
         <div id="moveOverviewDiv" class="reversable">
         </div>
+        <div class="buttonStyled" style="display:flex; justify-content: space-around; font-size: 10px;">
+          <h4 id="loadpgnButton" style="text-align: center; font-size: 14px;">
+              Load PGN
+            </h4>
+          <h4 id="flipBoardButton" style="text-align: center; cursor: pointer; user-select: none; font-size: 14px;">Flip board</h4>
+        </div>
         <div id="sidebar">
           <div id="sidebarComponent"></div>
         </div>
-
       </div>
     </div>
-
+  
   </div>
 
   <script src="/dependencies/stockfish.js"></script>
