@@ -3,7 +3,7 @@
 :root {
   --min-viewport: min(100vw, 100vh);
   /* Calculate the minimum of viewport width and height */
-  --font-size-factor:39 ;
+  --font-size-factor: 39;
   /* Adjust this factor to control font size */
 }
 
@@ -22,6 +22,7 @@
 .board-container-41a68 {
   box-sizing: border-box;
   position: relative;
+  border: 2px solid #6c2394;
 }
 
 .squares-2dea6 {
@@ -56,9 +57,8 @@
 }
 
 .white-3b784 {
-  background-color: #bfcfdd;
-  color: #64707a;
-
+  background-color: #779954;
+  color: #edeed1;
 }
 
 .square-4b72b {
@@ -68,17 +68,19 @@
   grid-template-rows: 1fr 1fr;
   /* Creates a grid with 2 rows */
   gap: 0;
-
 }
 
-.square-4b72b>span {
+.square-4b72b > span {
   font-weight: 600;
   font-size: calc(var(--min-viewport) / var(--font-size-factor));
   padding-left: 1vw;
   overflow: hidden;
 }
 
-.orientation-white-4de03>div:nth-child(1)>div:nth-child(1) span:nth-child(1) {
+.orientation-white-4de03
+  > div:nth-child(1)
+  > div:nth-child(1)
+  span:nth-child(1) {
   visibility: visible;
 }
 
@@ -86,40 +88,46 @@
   visibility: hidden;
 }
 
-.orientation-white-4de03>div:nth-child(8)>div:nth-child(8) span:nth-child(2) {
+.orientation-white-4de03
+  > div:nth-child(8)
+  > div:nth-child(8)
+  span:nth-child(2) {
   visibility: visible;
 }
 
-.orientation-white-4de03>div:nth-child(1) span {
+.orientation-white-4de03 > div:nth-child(1) span {
   visibility: hidden;
 }
 
-
-
-.orientation-black-a8276>div:nth-child(8)>div:nth-child(8) span:nth-child(1) {
+.orientation-black-a8276
+  > div:nth-child(8)
+  > div:nth-child(8)
+  span:nth-child(1) {
   visibility: visible;
 }
 
-.orientation-black-a8276>div:nth-child(8) span {
+.orientation-black-a8276 > div:nth-child(8) span {
   visibility: hidden;
 }
 
-.orientation-black-a8276>div:nth-child(1)>div:nth-child(1) span:nth-child(2) {
+.orientation-black-a8276
+  > div:nth-child(1)
+  > div:nth-child(1)
+  span:nth-child(2) {
   visibility: visible;
 }
-
 
 .orientation-black-a8276 .square-4b72b:nth-child(1) span {
   visibility: hidden;
 }
 
-.square-4b72b>span:nth-child(1) {
+.square-4b72b > span:nth-child(1) {
   grid-row: 1 / 2;
   /* Place it in the first row */
   grid-column: 1 / 2;
 }
 
-.square-4b72b>span:nth-child(2) {
+.square-4b72b > span:nth-child(2) {
   grid-row: 2 / 3;
   /* Place it in the second row */
   grid-column: 2 / 3;
@@ -131,11 +139,9 @@
 }
 
 .black-b7cb6 {
-  background-color: #99a6b1;
-  color: #ccd9e4;
+  background-color: #e9edcc;
+  color: #779952;
 }
-
-
 
 .dragging-4a6c1 {
   align-items: center;
@@ -172,17 +178,23 @@
 .arrow-head-38dfa {
   height: 100%;
   clip-path: polygon(0 0, 0 100%, 100% 50%);
+  background-color: #6c239467 !important;
   margin-left: -1px;
 }
 
 .arrow-line-a8dce {
   border-bottom-left-radius: 9999px;
   border-top-left-radius: 9999px;
+  background-color: #6c239467 !important;
   height: 33.33%;
 }
 
 .circle-a0266 {
   border-radius: 100%;
+  width: 1px;
+  height: 1px;
+  opacity: 0.1 !important;
+  background-color: black !important;
 }
 
 .hide-notation-cbe71 .notation-files-c3c0a {
