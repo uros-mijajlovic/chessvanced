@@ -1,8 +1,9 @@
 import { Chess } from '../dependencies/chess.js';
 import { Config } from './config/config.js';
-function getMovesFromFen(fenString) {
+function getMovesFromFen(pgnString) {
+    console.log("PGNN", pgnString);
     const chess = Chess();
-    chess.load_pgn(fenString);
+    chess.load_pgn(pgnString);
     const moves = chess.history();
     var senMoves = [];
     moves.forEach((move, index) => {
@@ -12,6 +13,7 @@ function getMovesFromFen(fenString) {
 }
 export class Sidebar {
     constructor(divForTheSidebar) {
+        this.gameAnalysis = [];
         this.div = divForTheSidebar;
         this.playerSide = "white";
         document.getElementById("flipBoardButton").addEventListener('click', () => { this.guiHandler.flipBoard(); });
@@ -37,6 +39,26 @@ export class Sidebar {
             div.append(moveOverviewOpponent);
             moveOverviewDiv.append(div);
         });
+    }
+    updateWithNewAnalysis(gameAnalysis) {
+        this.gameAnalysis = gameAnalysis;
+        var i = 0;
+        const moveNotations = document.getElementsByClassName("move-notation");
+        for (const moveData of this.gameAnalysis) {
+            if (i != 0) {
+                const moveRating = moveData["moveRating"];
+                if (Config.glyphToSvg.hasOwnProperty(moveRating)) {
+                    const svg = document.createElementNS("http://www.w3.org/2000/svg", "svg");
+                    svg.setAttribute("viewBox", "0 0 300 100"); // Set the viewBox for scaling
+                    svg.style.width = "80%";
+                    svg.style.height = "80%";
+                    svg.innerHTML = Config.glyphToSvgSidebar[moveRating];
+                    moveNotations[i - 1].appendChild(svg);
+                }
+                //moveNotations[i-1].textContent=moveData["moveRating"]
+            }
+            i++;
+        }
     }
     setCounterOrientation(playerSide) {
         if (this.playerSide != playerSide) {
@@ -75,8 +97,8 @@ export class Sidebar {
         this.guiHandler.hideImportPopup();
         this.playerController.setPgn(text);
     }
-    setAnalysisData(gameAnalysis) {
-        console.log("SETUP");
+    setAnalysisData(pngString) {
+        console.log("SETUP", pngString);
         //document.getElementById("import").addEventListener('click', () => {this.playerController.setPgn()});
         const handleClick = (event) => {
             this.playerController.gotoMove(parseInt(event.target.id) + 1);
@@ -105,7 +127,7 @@ export class Sidebar {
         while (this.div.firstChild) {
             this.div.removeChild(this.div.firstChild);
         }
-        const moves = getMovesFromFen(gameAnalysis);
+        const moves = getMovesFromFen(pngString);
         var moveTuple = [];
         moves.forEach((move, index) => {
             moveTuple.push(move);

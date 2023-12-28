@@ -98,6 +98,7 @@ class PlayerController {
             this.playerSide = playerSide;
             this.playerElos = data["playerElos"];
             const pgnString = this.moveArrayToPgn(currentMoveArray);
+            console.log("PGN2024", pgnString);
             this.guiHandler.setBoardOrientation(playerSide);
             this.guiHandler.updateSidebar(pgnString);
             this.startAnalysis();

@@ -151,6 +151,9 @@ p {
   padding-top: 5px;
   padding-bottom: 5px;
   font-weight: bold;
+  display: flex;
+  justify-content: center;
+  align-items: center;
 }
 
 .clickable {
@@ -164,6 +167,7 @@ p {
 
 .move-element {
   display: grid;
+  height:3rem;
   grid-template-columns: repeat(3, 0.5fr);
   justify-items: start;
   grid-gap: 10px;

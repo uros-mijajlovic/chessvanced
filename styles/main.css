@@ -271,8 +271,7 @@ input:checked + .toggle-slider:before {
 .promotion-figure-button img {
   width: 100%;
   height: 100%;
-  -o-object-fit: cover;
-     object-fit: cover;
+  object-fit: cover;
   /* Images will maintain their aspect ratio and cover the entire wrapper */
 }
 
@@ -375,8 +374,7 @@ input:checked + .toggle-slider:before {
 .left img {
   width: 100%;
   height: 100%;
-  -o-object-fit: cover;
-     object-fit: cover;
+  object-fit: cover;
 }
 
 .right {
@@ -599,6 +597,9 @@ p {
   padding-top: 5px;
   padding-bottom: 5px;
   font-weight: bold;
+  display: flex;
+  justify-content: center;
+  align-items: center;
 }
 
 .clickable {
@@ -612,6 +613,7 @@ p {
 
 .move-element {
   display: grid;
+  height: 3rem;
   grid-template-columns: repeat(3, 0.5fr);
   justify-items: start;
   grid-gap: 10px;
@@ -737,3 +739,5 @@ cg-board {
   top: 0;
   left: 0;
 }
+
+/*# sourceMappingURL=main.css.map */
