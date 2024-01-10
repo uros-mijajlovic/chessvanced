@@ -41,17 +41,25 @@ export class Sidebar {
         });
     }
     updateWithNewAnalysis(gameAnalysis) {
+        function hasSvgChild(element) {
+            // Use querySelector to find the first child that is an SVG element
+            const svgChild = element.querySelector('svg');
+            // Check if the SVG child exists
+            return svgChild !== null;
+        }
         this.gameAnalysis = gameAnalysis;
         var i = 0;
         const moveNotations = document.getElementsByClassName("move-notation");
         for (const moveData of this.gameAnalysis) {
             if (i != 0) {
                 const moveRating = moveData["moveRating"];
-                if (Config.glyphToSvg.hasOwnProperty(moveRating)) {
+                if (Config.glyphToSvg.hasOwnProperty(moveRating) && !hasSvgChild(moveNotations[i - 1])) {
                     const svg = document.createElementNS("http://www.w3.org/2000/svg", "svg");
                     svg.setAttribute("viewBox", "0 0 300 100"); // Set the viewBox for scaling
-                    svg.style.width = "80%";
-                    svg.style.height = "80%";
+                    svg.style.height = "75%";
+                    svg.style.overflow = "hidden";
+                    svg.style.paddingLeft = "5px";
+                    svg.style.pointerEvents = "none";
                     svg.innerHTML = Config.glyphToSvgSidebar[moveRating];
                     moveNotations[i - 1].appendChild(svg);
                 }
