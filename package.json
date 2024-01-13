@@ -15,5 +15,5 @@
     "webpack-cli": "^5.1.4",
     "webpack-dev-server": "^4.15.1"
   },
-  "scripts": {"webpack":"npx webpack", "runserver":"python httpprod.py"}
+  "scripts": {"webpack":"npx webpack", "runserver":"python httpprod.py", "sass":"sass styles/main.scss styles/main.css --watch"}
 }

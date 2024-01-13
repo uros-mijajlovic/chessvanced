@@ -150,6 +150,7 @@ p {
   padding-right: 10px;
   padding-top: 5px;
   padding-bottom: 5px;
+  height:20px;
   font-weight: bold;
   display: flex;
   justify-content: center;
@@ -167,10 +168,10 @@ p {
 
 .move-element {
   display: grid;
-  height:3rem;
-  grid-template-columns: repeat(3, 0.5fr);
+  height:35px;
+  grid-template-columns: repeat(3, 1fr);
   justify-items: start;
-  grid-gap: 10px;
+  overflow:hidden;
   padding: 0.5rem 1rem 0.5rem 1rem;
   font-size: 1.6rem;
 }
