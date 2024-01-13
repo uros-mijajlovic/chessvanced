@@ -5,6 +5,7 @@ import { EvaluationGraph } from './EvaluationGraph.js';
 import { stockfishOrchestrator } from './stockfishOrchestator.js';
 import { createStockfishOrchestrator } from './stockfishOrchestator.js';
 import * as sacrifice from './sacrifice.js';
+import { OpeningsBase } from './OpeningsBase.js';
 // ti za potez treba da gledas info od prethodnog, a ne od trenutnog !!!
 
 
@@ -33,6 +34,7 @@ class AnalysisOrchestrator {
   private stopped: boolean;
   private running: boolean;
   private playerElos:number[];
+  private openingsBase: OpeningsBase
 
   constructor(guiHandler) {
     this.stockfishOrchestrator = null;
@@ -41,19 +43,37 @@ class AnalysisOrchestrator {
     this.allDataAnalysisArray = [];
     this.stopped = false;
     this.running = false;
-    //var myself=this;
-
-
+    this.openingsBase = new OpeningsBase()
+    
   }
 
   public clearData() {
     this.gameAnalysis = []
     this.allDataAnalysisArray = []
   }
+
+  //moveIndex 0 is actually the board before anyone has played a move
+  public async loadOpeningsBase(){
+    await this.openingsBase.loadOpenings()
+  }
   private calculateMoveBrilliance(playersMove, moveIndex) {
     if (moveIndex == 0) {
       return "gray"
     }
+
+    var movesString=""
+    for(let i = 0; i < moveIndex; i++){
+      
+      try{
+        movesString+=this.moveArray[i]["san"]
+      }catch(error){
+        alert("Alou fejl "+this.moveArray[i])
+      }
+    }
+    if(this.openingsBase.isBookMove(movesString)){
+      return "book move"
+    }
+    
 
     const isWhiteMove = (moveIndex) % 2;
 
@@ -175,10 +195,10 @@ class AnalysisOrchestrator {
     //continue
   }
   async analyzePgnGame(fenMoves, moveArray, fromPerspective, alreadyAnalyzed = [], analyzedFens = [], playerElos=[]) {
-
     this.playerElos=playerElos;
     await this.stopAnalysis();
     this.gameAnalysis=[]
+    this.moveArray = moveArray;
     if (analyzedFens) {
       this.allDataAnalysisArray = analyzedFens;
     }
@@ -215,7 +235,7 @@ class AnalysisOrchestrator {
     console.log("Propusten dalje")
 
     this.running = true;
-    this.moveArray = moveArray;
+    
     this.fromPerspective = fromPerspective;
     this.fenArray = fenMoves;
 

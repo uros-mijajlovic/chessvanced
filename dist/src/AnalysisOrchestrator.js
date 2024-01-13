@@ -2,6 +2,7 @@ import { Chess } from '../dependencies/chess.js';
 import { getWinPercentFromCP, parseFenDataFromStockfish } from './utils/ChessboardUtils.js';
 import { createStockfishOrchestrator } from './stockfishOrchestator.js';
 import * as sacrifice from './sacrifice.js';
+import { OpeningsBase } from './OpeningsBase.js';
 // ti za potez treba da gledas info od prethodnog, a ne od trenutnog !!!
 function pgnToFenArr(pgnString) {
     const chessjs = Chess();
@@ -23,15 +24,31 @@ class AnalysisOrchestrator {
         this.allDataAnalysisArray = [];
         this.stopped = false;
         this.running = false;
-        //var myself=this;
+        this.openingsBase = new OpeningsBase();
     }
     clearData() {
         this.gameAnalysis = [];
         this.allDataAnalysisArray = [];
     }
+    //moveIndex 0 is actually the board before anyone has played a move
+    async loadOpeningsBase() {
+        await this.openingsBase.loadOpenings();
+    }
     calculateMoveBrilliance(playersMove, moveIndex) {
         if (moveIndex == 0) {
             return "gray";
+        }
+        var movesString = "";
+        for (let i = 0; i < moveIndex; i++) {
+            try {
+                movesString += this.moveArray[i]["san"];
+            }
+            catch (error) {
+                alert("Alou fejl " + this.moveArray[i]);
+            }
+        }
+        if (this.openingsBase.isBookMove(movesString)) {
+            return "book move";
         }
         const isWhiteMove = (moveIndex) % 2;
         const beforeMoveAnalysis = this.allDataAnalysisArray[moveIndex - 1];
@@ -132,6 +149,7 @@ class AnalysisOrchestrator {
         this.playerElos = playerElos;
         await this.stopAnalysis();
         this.gameAnalysis = [];
+        this.moveArray = moveArray;
         if (analyzedFens) {
             this.allDataAnalysisArray = analyzedFens;
         }
@@ -162,7 +180,6 @@ class AnalysisOrchestrator {
         this.stockfishOrchestrator.setCallback((data) => { this.sendEval(data); });
         console.log("Propusten dalje");
         this.running = true;
-        this.moveArray = moveArray;
         this.fromPerspective = fromPerspective;
         this.fenArray = fenMoves;
         var alreadyAnalyzedMoveCount;

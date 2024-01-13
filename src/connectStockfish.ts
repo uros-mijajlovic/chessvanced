@@ -7,6 +7,8 @@ import { PlayerController } from './PlayerController.js';
 import { Sidebar } from "./Sidebar.js"
 import { createStockfishOrchestrator } from './stockfishOrchestator.js';
 import { LiveBoardEvaluation } from './LiveBoardEvaluation.js';
+import { OpeningsBase } from './OpeningsBase.js';
+
 
 declare global {
   interface Window {
@@ -31,6 +33,9 @@ const stockfishOrchestratorForLiveEvaluation = await createStockfishOrchestrator
 const liveBoardEvaluationInst = new LiveBoardEvaluation(stockfishOrchestratorForLiveEvaluation, guiHandlerInst, document.getElementById("liveEvaluationContainer"));
 
 const playerControllerInst = new PlayerController(guiHandlerInst, analsysOrchestratorInst, liveBoardEvaluationInst);
+
+await analsysOrchestratorInst.loadOpeningsBase();
+
 
 
 

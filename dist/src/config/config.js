@@ -24,21 +24,23 @@ export var Config;
         ANALYSIS_FOR[ANALYSIS_FOR["BOTH"] = 2] = "BOTH";
     })(ANALYSIS_FOR = Config.ANALYSIS_FOR || (Config.ANALYSIS_FOR = {}));
     Config.MOVE_NAMES = [
-        "Brilliant", "Great Move", "Best Move", "Mistake", "Blunder"
+        "Brilliant", "Great Move", "Best Move", "Mistake", "Blunder", "Book Move"
     ];
     Config.MOVE_TO_ID_NAME = {
         "Brilliant": "brilliant-color",
         "Great Move": "great-color",
         "Best Move": "best-color",
         "Mistake": "mistake-color",
-        "Blunder": "blunder-color"
+        "Blunder": "blunder-color",
+        "Book Move": "book-color"
     };
     Config.ID_NAME_TO_MOVE_RATING = {
         "brilliant-color": "brilliant",
         "great-color": "great",
         "best-color": "best",
         "mistake-color": "mistake",
-        "blunder-color": "blunder"
+        "blunder-color": "blunder",
+        "book-color": "book move"
     };
     Config.MOVE_RATING_TO_ID_NAME = {
         "brilliant": "brilliant-color",
@@ -46,6 +48,7 @@ export var Config;
         "best": "best-color",
         "mistake": "mistake-color",
         "blunder": "blunder-color",
+        "book move": "book-color"
     };
     Config.Colors = {
         "brilliant": "rgba(15, 255, 243, 1)",
@@ -56,6 +59,7 @@ export var Config;
         "inaccuracy": "gray",
         "mistake": "yellow",
         "blunder": "red",
+        "book move": "rgba(234, 193, 170, 1)"
     };
     Config.CssDictForTiles = {
         "brilliant": "brilliant_tile",
@@ -66,6 +70,7 @@ export var Config;
         "inaccuracy": "yellow_tile",
         "mistake": "mistake_tile",
         "blunder": "mistake_tile",
+        "book move": "brown_tile"
     };
     Config.pointSizes = {
         "brilliant": 3,
@@ -76,6 +81,7 @@ export var Config;
         "mistake": 1,
         "inaccuracy": 1,
         "blunder": 1,
+        "book move": 0,
     };
     let PROMOTION;
     (function (PROMOTION) {
@@ -99,6 +105,23 @@ export var Config;
     };
     Config.glyphToSvgSidebar = {
         // Inaccuracy
+        'book move': `
+    <style type="text/css">
+    .st0{opacity:0.3;enable-background:new    ;}
+    .st1{fill:#A5815E;}
+    .st2{fill:#FFFFFF;}
+  </style>
+  <g id="book">
+    <path class="st0" d="M50.4,2.7C23,2.7,0.8,25,0.8,52.4S23,102,50.4,102S100,79.7,100,52.4S77.8,2.7,50.4,2.7z"/>
+    <path class="st1" d="M50.4,0C23,0,0.8,22.2,0.8,49.6S23,99.2,50.4,99.2S99.9,77,99.9,49.6S77.8,0,50.4,0z"/>
+    <g>
+      <path class="st0" d="M47.3,33.6c-5.5-4.2-13.8-6-26.6-6h-5.9v48h5.9c9.3-0.7,18.6,1.5,26.6,6.5V33.6z"/>
+      <path class="st0" d="M53.3,82c8-4.9,17.3-7.1,26.6-6.5h5.9v-48H80c-12.7,0-21,1.9-26.6,6V82z"/>
+      <path class="st2" d="M47.3,29.8c-5.5-4.2-13.8-6-26.6-6h-3.4v47.9h3.2c9.3-0.7,18.6,1.5,26.6,6.5L47.3,29.8z"/>
+      <path class="st2" d="M53.3,78.2c8-4.9,17.3-7.2,26.6-6.6h3.4V23.8h-3.2c-12.7,0-21,1.9-26.6,6L53.3,78.2z"/>
+    </g>
+  </g>
+        `,
         'inaccuracy': `
       <g transform="translate(0 0) scale(1)">
         <circle style="fill:#56b4e9" cx="50" cy="50" r="50" />
@@ -138,6 +161,23 @@ export var Config;
       </g>`
     };
     Config.glyphToSvg = {
+        'book move': `
+      <style type="text/css">
+	.st0{opacity:0.3;enable-background:new    ;}
+	.st1{fill:#A5815E;}
+	.st2{fill:#FFFFFF;}
+</style>
+      <g id="book">
+	<path class="st0" d="M132.4-3.6c-15.2,0-27.6,12.3-27.6,27.6s12.3,27.6,27.6,27.6S160,39.1,160,23.9S147.7-3.6,132.4-3.6z"/>
+	<path class="st1" d="M132.4-5.1c-15.2,0-27.6,12.3-27.6,27.6S117.2,50,132.4,50s27.5-12.3,27.5-27.6S147.7-5.1,132.4-5.1z"/>
+	<g>
+		<path class="st0" d="M130.7,13.5c-3-2.3-7.7-3.3-14.8-3.3h-3.3v26.6h3.3c5.2-0.4,10.3,0.9,14.8,3.6V13.5z"/>
+		<path class="st0" d="M134.1,40.4c4.4-2.7,9.6-4,14.8-3.6h3.3V10.2h-3.3c-7.1,0-11.7,1-14.8,3.3V40.4z"/>
+		<path class="st2" d="M130.7,11.4c-3-2.3-7.7-3.3-14.8-3.3h-1.9v26.6h1.8c5.2-0.4,10.3,0.9,14.8,3.6L130.7,11.4z"/>
+		<path class="st2" d="M134.1,38.3c4.4-2.7,9.6-4,14.8-3.6h1.9V8.1H149c-7.1,0-11.7,1-14.8,3.3L134.1,38.3z"/>
+	</g>
+</g>
+      `,
         // Inaccuracy
         'inaccuracy': `
       <g transform="translate(105 -5) scale(0.55)">

@@ -14,6 +14,7 @@ var analsysOrchestratorInst = new AnalysisOrchestrator(guiHandlerInst);
 const stockfishOrchestratorForLiveEvaluation = await createStockfishOrchestrator(true);
 const liveBoardEvaluationInst = new LiveBoardEvaluation(stockfishOrchestratorForLiveEvaluation, guiHandlerInst, document.getElementById("liveEvaluationContainer"));
 const playerControllerInst = new PlayerController(guiHandlerInst, analsysOrchestratorInst, liveBoardEvaluationInst);
+await analsysOrchestratorInst.loadOpeningsBase();
 sidebarInst.playerController = playerControllerInst;
 sidebarInst.guiHandler = guiHandlerInst;
 console.log("playerControllerSet");
